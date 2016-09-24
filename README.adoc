@@ -1,0 +1,67 @@
+= SIRA
+:hardbreaks:
+:imagesdir: ./
+
+== Requirements
+Python 2.7
+
+== Install work environment
+If virtualenv is not installed
+`pip install virtualenv`
+
+Create virtualenv
+`virtualenv venv`
+
+Install dependencies
+`pip install -r requirements.txt`
+
+[[activate-venv]]
+== Activate venv
+`source venv/bin/activate`
+
+== Launch locally
+Do <<activate-venv>>
+Ensure local_launch.sh has the execution rights
+`./local_launch.sh`
+
+Deployed on `http://127.0.0.1:8000/`
+Admin page accessible at `http://127.0.0.1:8000/admin/`
+
+== I18N
+Add I18N key and translations to `locale/fr/LC_MESSAGES/django.po`
+Once done, `python manage.py compilemessages -l fr`
+This is automatically done when using the Vagrant configuration
+
+== Updating the migration files
+`./manage.py dumpdata auth.user --natural-foreign --indent 2 > sira/fixtures/user.json`
+`./manage.py dumpdata wagtailimages.image --natural-foreign --indent 2 > sira/fixtures/images.json`
+`./manage.py dumpdata -e wagtailcore.groupcollectionpermission -e auth.permission -e contenttypes.contenttype -e wagtailimages.image -e sessions.session -e auth.group -e auth.user -e wagtailcore.grouppagepermission --natural-foreign --indent 2 > sira/fixtures/sira.json`
+
+[[aliases]]
+== Get aliases
+`source aliases.sh`
+
+[[build-image]]
+== Build SIRA dev docker image
+Do <<aliases>>
+`build_image dev 1.1` env followed by docker image version
+
+== Launch project
+Do <<build-image>> first
+```
+docker-compose stop
+docker-compose rm
+docker-compose build
+POSTGRES_USER="admin" POSTGRES_PASSWORD="changeme" DJANGO_SETTINGS_MODULE="sira.settings.dev" docker-compose up
+```
+`POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_SETTINGS_MODULE` env vars are mandatory
+
+image::doc/sira_archi_dev.png[alt="Dev archi", title="Dev architecture"]
+
+== Unset docker machine
+Do <<aliases>>
+`unset-machine`
+
+
+== Launch tests
+`./manage.py test`
