@@ -38,7 +38,7 @@ def search(request):
     except EmptyPage:
         search_results = paginator.page(paginator.num_pages)
 
-    return render(request, 'demo/search_results.html', {
+    return render(request, 'sira/search_results.html', {
         'search_query': search_query,
         'search_results': search_results,
         'search_picks': search_picks,

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'wagtail.wagtailsearch',
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
+    'wagtail.contrib.wagtailsearchpromotions',
+    'wagtail.contrib.wagtailapi',
 
     'compressor',
     'modelcluster',
@@ -107,6 +109,11 @@ DATABASES = {
     }
 }
 
+# django-compressor settings
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -158,10 +165,12 @@ BASE_URL = 'http://example.com'
 
 WAGTAILSEARCH_BACKENDS = {
     'default': {
-        'BACKEND': 'wagtail.wagtailsearch.backends.db',
+        'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch',
+        'URLS': ['http://localhost:9200'],
         'AUTO_UPDATE': True,
+        'INDEX': 'wagtail',
+        'TIMEOUT': 5,
     }
 }
 
 # Custom settings
-

@@ -98,7 +98,7 @@ db.sqlite3*
 .vagrant
 
 # Wagtail
-static
+/static
 
 # MacOS
 .DS_STORE
