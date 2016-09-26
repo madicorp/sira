@@ -165,11 +165,8 @@ BASE_URL = 'http://example.com'
 
 WAGTAILSEARCH_BACKENDS = {
     'default': {
-        'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch',
-        'URLS': ['http://localhost:9200'],
+        'BACKEND': 'wagtail.wagtailsearch.backends.db',
         'AUTO_UPDATE': True,
-        'INDEX': 'wagtail',
-        'TIMEOUT': 5,
     }
 }
 
