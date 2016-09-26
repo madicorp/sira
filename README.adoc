@@ -4,6 +4,7 @@
 
 == Requirements
 Python 2.7
+npm
 
 == Install work environment
 If virtualenv is not installed
@@ -11,6 +12,9 @@ If virtualenv is not installed
 
 Create virtualenv
 `virtualenv venv`
+
+Install pipeline dependencies
+`npm install -g node-sass postcss-cli autoprefixer`
 
 Install dependencies
 `pip install -r requirements.txt`

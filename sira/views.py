@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from taggit.models import Tag
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailsearch.models import Query
@@ -43,3 +46,17 @@ def search(request):
         'search_results': search_results,
         'search_picks': search_picks,
     })
+
+
+@api_view(['GET'])
+def tags_endpoint(request):
+    if 'GET' == request.method:
+        data = request.data
+        query = 'SELECT DISTINCT tag.* FROM taggit_tag AS tag ' \
+                'INNER JOIN taggit_taggeditem AS tti ON tag.id = tti.tag_id '
+        if 'type' in data:
+            query += 'INNER JOIN django_content_type AS ct on tti.content_type_id = ct.id AND ct.model=%s'
+            query_set = Tag.objects.raw(query, params=(data['type']))
+        else:
+            query_set = Tag.objects.raw(query)
+        return Response([tag.name for tag in query_set])

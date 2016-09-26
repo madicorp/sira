@@ -1,23 +1,16 @@
 {% extends "sira/base.html" %}
 {% load sira_tags compress static %}
 
-
-{% block heading %}
-    <div class="jumbotron">
-        <h1>Wagtail Demo</h1>
-        <p>A set of demo templates to show you what Wagtail can do.</p>
-        {% block search_box %}
-            {% include "sira/includes/search_box.html" only %}
-        {% endblock %}
-    </div>
-{% endblock %}
-
 {% block content %}
-    <div id="documents"></div>
+    <section id="documents">
+    </section>
 {% endblock %}
 
 {% block extra_js %}
     {% compress js %}
         <script src="{% static "sira/js/list.component.js" %}"></script>
     {% endcompress %}
+    <script type="application/javascript">
+        ListComponentInitialise("documents", "/api/v1/documents", "document");
+    </script>
 {% endblock %}

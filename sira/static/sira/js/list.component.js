@@ -1,25 +1,62 @@
-(function () {
+function ListComponentInitialise(containerId, baseListUrl, listItemType) {
+
+    var TagsComponent = {
+        controller: tagsController,
+        view: tagsView
+    };
 
     var ListComponent = {
         controller: listController,
         view: listView
     };
 
-    m.mount(document.getElementById("documents"), ListComponent);
+    var MainComponent = {
+        view: function () {
+            return m(".container", [
+                m(".row.list-component", [
+                    m(".col-md-9", ListComponent),
+                    m(".col-md-3", TagsComponent)
+                ])
+            ]);
+        }
+    };
+
+    m.mount(document.getElementById(containerId), MainComponent);
+
+    function tagsController() {
+        var vm = {
+            tags: m.prop([])
+        };
+        this.vm = vm;
+        m.request({method: "GET", url: "/api/v1/tags?type=" + listItemType})
+         .then(vm.tags);
+    }
+
+    function tagsView(ctrl) {
+        return m(".row.text-center",
+                 m("col-md-12", "Tags",
+                   m(".row", [
+                       ctrl.vm.tags().map(function (tag) {
+                           return tagItem(tag, 4);
+                       })
+                   ]))
+        );
+    }
+
+    function tagItem(tag, size) {
+        return m(".col-md-" + size, [m('span.badge', tag)]);
+    }
 
     function listView(ctrl) {
-        return [
-            m("section", [
-                  m(".container.list-component", [
-                      m(".row", filterRow()),
-                      m(".row", listItems()),
-                      m(".row", pagination())
-                  ])
-              ]
-            )
-        ];
+        var paginationComp = pagination();
+        return m(".row", [
+            m(".row", paginationComp),
+            m(".row", filterComp()),
+            m(".row", listItems()),
+            m(".row", paginationComp)
+        ]);
 
-        function filterRow() {
+        function filterComp() {
             return [
                 m(".col-md-4"),
                 m(".col-md-4", filterItem()),
@@ -30,7 +67,8 @@
         function filterItem() {
             return m("input.form-control[type=search][placeholder='Filter...']", {
                 oninput: function (e) {
-                    ctrl.filter(e.target.value || "");
+                    var query = e.target.value.split(" ").join("+");
+                    ctrl.filter(query || "");
                 }
             });
         }
@@ -43,7 +81,13 @@
         }
 
         function listItem(itemData) {
-            return m(".col-md-4", itemData.title);
+            return m(".col-md-4.text-center", itemData.title, [
+                m(".row", [
+                    itemData.tags.map(function (tag) {
+                        return tagItem(tag, 3);
+                    })
+                ])
+            ]);
         }
 
         function pagination() {
@@ -165,7 +209,7 @@
                 filterValue = vm.filterValue();
             }
             vm.filterValue(filterValue);
-            var url = "/api/v1/documents?limit=" + limit + "&offset=" + (page * limit);
+            var url = baseListUrl + "?fields=title,created_at,tags&limit=" + limit + "&offset=" + (page * limit);
             if (!!filterValue) {
                 url += "&search=" + filterValue;
             } else {
@@ -173,11 +217,10 @@
             }
             m.request({method: "GET", url: url})
              .then(function (resp) {
-                 console.log(resp);
                  vm.list(resp.documents);
                  vm.pageCount(_.round(resp.meta.total_count / limit, 0) + 1);
              });
             vm.currentPage(page);
         }
     }
-})();
+}

@@ -14,7 +14,7 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
-from sira import views as search_views
+from sira import views
 
 
 class DocumentExtraFieldsMetaField(DocumentMetaField):
@@ -39,6 +39,7 @@ v1.register_endpoint('images', ImagesAPIEndpoint)
 v1.register_endpoint('documents', DocumentsExtraFieldsAPIEndpoint)
 
 wagtail_api_urlpatterns = [
+    url(r'^v1/tags', views.tags_endpoint),
     url(r'^v1/', v1.urls),
 ]
 
@@ -50,7 +51,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     url(r'^django-admin/', include(admin.site.urls)),
     url(r'^admin/', include(wagtailadmin_urls)),
-    url(r'^search/$', search_views.search, name='search'),
+    url(r'^search/$', views.search, name='search'),
     url(r'^(?!api)', include(wagtail_urls)),
     prefix_default_language=True
 )
