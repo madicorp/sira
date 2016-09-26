@@ -163,14 +163,4 @@ WAGTAIL_SITE_NAME = "sira"
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://example.com'
 
-WAGTAILSEARCH_BACKENDS = {
-    'default': {
-        'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch',
-        'URLS': ['http://localhost:9200'],
-        'AUTO_UPDATE': True,
-        'INDEX': 'wagtail',
-        'TIMEOUT': 5,
-    }
-}
-
 # Custom settings

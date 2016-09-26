@@ -9,7 +9,11 @@ SECRET_KEY = '3ysrfps@vh1b1#g@k@rw6(%s=jv9%4ghp=8it_ydj&g6gn_268'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-try:
-    from .local import *
-except ImportError:
-    pass
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch',
+        'URLS': ['http://localhost:9200'],
+        'INDEX': 'wagtail',
+        'TIMEOUT': 5,
+    }
+}
