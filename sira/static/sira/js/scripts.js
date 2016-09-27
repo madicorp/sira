@@ -482,11 +482,6 @@ $(window).load(function(){
 	
 	// Blog Masonry
 	
-	$('.blog-masonry-container').isotope({
-	  itemSelector: '.blog-masonry-item',
-	  layoutMode: 'masonry'
-	});
-	
 	$('.blog-filters li').click(function() {
 	  var current = $(this);
 	  

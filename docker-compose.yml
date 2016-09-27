@@ -1,6 +1,6 @@
 sira:
   restart: always
-  image: ekougs/sira:0.1
+  image: ekougs/sira:0.2
   expose:
     - "8000"
   links:

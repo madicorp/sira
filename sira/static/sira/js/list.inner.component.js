@@ -55,10 +55,13 @@
         }
 
         function listItems() {
-            if (!ctrl.vm.list) {
+            var documents = ctrl.vm.list();
+            if (!documents) {
                 return [];
             }
-            return m(".blog-masonry-container", ctrl.vm.list().map(listItem));
+            var listItems = documents.map(listItem);
+            console.log(listItems);
+            return m(".blog-masonry-container", listItems);
         }
 
         function listItem(itemData) {
@@ -95,7 +98,7 @@
         }
 
         function paginationItems() {
-            if (!ctrl.vm.pageCount || ctrl.vm.pageCount() < 1) {
+            if (!ctrl.vm.pageCount() || ctrl.vm.pageCount() < 1) {
                 return [];
             }
             var paginationIndexItems = getPaginationIndices(ctrl.vm.pageCount()).map(paginationItem);

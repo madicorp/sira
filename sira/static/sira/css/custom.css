@@ -83,3 +83,7 @@
 .post-title h4 {
     height: 4em;
 }
+
+.disabled, .active {
+    pointer-events: none;
+}
