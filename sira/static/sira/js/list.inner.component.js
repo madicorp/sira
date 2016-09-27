@@ -9,15 +9,15 @@
 
     function listView(ctrl) {
         var paginationComp = pagination();
-        return m("",[
+        return m("", [
             filterComp(),
             paginationComp,
-            m(".container",[
-                m(".row",[
-                    m(".col-md-9",[
+            m(".container", [
+                m(".row", [
+                    m(".col-md-9", [
                         listItems()
                     ]),
-                    m(".col-sm-3",[
+                    m(".col-sm-3", [
                         m(listTagComponent, {listItemType: ctrl.tagArgs})
                     ])
                 ])
@@ -26,16 +26,15 @@
         ]);
 
 
-
         function filterComp() {
             return [
-                m(".container",[
-                    m(".row",[
-                        m(".col-sm-12.text-center",[
-                            m(".sidebar-widget",[
+                m(".container", [
+                    m(".row", [
+                        m(".col-sm-12.text-center", [
+                            m(".sidebar-widget", [
                                 m("h5.widget-title"),
-                                m("form.comment-form",[
-                                    m(".form-input",[
+                                m("form.comment-form", [
+                                    m(".form-input", [
                                         filterItem()
                                     ])
                                 ])
@@ -59,24 +58,22 @@
             if (!ctrl.vm.list) {
                 return [];
             }
-            return ctrl.vm.list().map(listItem);
+            return m(".blog-masonry-container", ctrl.vm.list().map(listItem));
         }
 
         function listItem(itemData) {
-            return m(".blog-masonry-container",[
-                m(".col-md-4.col-sm-4.blog-masonry-item.branding",[
-                    m(".item-inner",[
-                        m(pdfThumbnailComponent, {pdfUrl: itemData.meta.download_url}),
-                        m(".post-title",[
-                            m("h4",itemData.title),
-                            m(".sidebar-widget",[
-                                m("ul.tags",[
-                                     itemData.tags.map(function (tag) {
+            return m(".col-md-4.col-sm-4.blog-masonry-item.branding", [
+                m(".item-inner", [
+                    m(pdfThumbnailComponent, {pdfUrl: itemData.meta.download_url}),
+                    m(".post-title", [
+                        m("h4", itemData.title),
+                        m(".sidebar-widget", [
+                            m("ul.tags", [
+                                itemData.tags.map(function (tag) {
                                     return tagItem(tag, "#");
                                 })
-                                ])
-
                             ])
+
                         ])
                     ])
                 ])
@@ -85,10 +82,10 @@
 
         function pagination() {
             return [
-                m(".container",[
-                    m("row",[
-                        m(".col-sm-12.text-center",[
-                            m("ul.pagination.pagination-md",[
+                m(".container", [
+                    m("row", [
+                        m(".col-sm-12.text-center", [
+                            m("ul.pagination.pagination-md", [
                                 paginationItems()
                             ])
                         ])
@@ -113,12 +110,12 @@
                 nextItemElt += ".disabled";
             }
             return m(nextItemElt, {
-                    onclick: ctrl.prev
-                },
-                m("a[href='#']",[
-                        m("i.icon.arrow_left")
-                    ]
-                )
+                         onclick: ctrl.prev
+                     },
+                     m("a[href='#']", [
+                           m("i.icon.arrow_left")
+                       ]
+                     )
             );
         }
 
@@ -128,12 +125,12 @@
                 nextItemElt += ".disabled";
             }
             return m(nextItemElt, {
-                    onclick: ctrl.next
-                },
-                m("a[href='#']",[
-                        m("i.icon.arrow_right")
-                    ]
-                )
+                         onclick: ctrl.next
+                     },
+                     m("a[href='#']", [
+                           m("i.icon.arrow_right")
+                       ]
+                     )
             );
         }
 
@@ -147,11 +144,11 @@
                 paginationElt += ".active";
             }
             return m(paginationElt, {
-                    onclick: function () {
-                        ctrl.to(pageIdx);
-                    }
-                },
-                m("a[href='#']", "" + (pageIdx + 1))
+                         onclick: function () {
+                             ctrl.to(pageIdx);
+                         }
+                     },
+                     m("a[href='#']", "" + (pageIdx + 1))
             );
         }
     }
@@ -213,10 +210,10 @@
                 url += "&order=created_at"
             }
             m.request({method: "GET", url: url})
-                .then(function (resp) {
-                    vm.list(resp.documents);
-                    vm.pageCount(_.round(resp.meta.total_count / limit, 0) + 1);
-                });
+             .then(function (resp) {
+                 vm.list(resp.documents);
+                 vm.pageCount(_.round(resp.meta.total_count / limit, 0) + 1);
+             });
             vm.currentPage(page);
         }
     }
