@@ -19,16 +19,16 @@
     function tagsView(ctrl) {
         return m(".blog-sidebar",
                  m(".sidebar-widget",
-                     m("h2","Tags"),
-                     m("ul.tags", [
+                   m("h2", "Étiquettes"),
+                   m("ul.tags", [
                        ctrl.vm.tags().map(function (tag) {
-                           return tagItem(tag,'#');
+                           return tagItem(tag, '#');
                        })
                    ]))
         );
     }
 
     function tagItem(tag, link) {
-        return m("li", [m('a[href="'+link+'"]', tag)]);
+        return m("li", [m('a[href="' + link + '"]', tag)]);
     }
 })();

@@ -46,7 +46,7 @@
         }
 
         function filterItem() {
-            return m("input[type=text][placeholder='Filter...']", {
+            return m("input[type=text][placeholder='Recherche...']", {
                 oninput: function (e) {
                     var query = e.target.value.split(" ").join("+");
                     ctrl.filter(query || "");
