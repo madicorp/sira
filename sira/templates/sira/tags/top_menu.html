@@ -1,7 +1,45 @@
-{% load sira_tags wagtailcore_tags %}
+{% load sira_tags wagtailcore_tags static %}
 {% get_site_root as site_root %}
 
 {# Implementation of bootstrap theme dropdown menu - shows top level links and their children #}
+<div class="nav-container">
+    <nav class="top-bar nav-sticky">
+        <div class="container">
+
+            <div class="row nav-menu">
+                <div class="col-sm-3 col-md-2 columns">
+                    <a href="index.html">
+                        <img class="logo logo-light" alt="Logo" src="{% static "sira/images/logo-light.png" %}">
+                        <img class="logo logo-dark" alt="Logo" src="{% static "sira/images/logo-light.png" %}">
+                    </a>
+                </div>
+
+                <div class="col-sm-9 col-md-10 columns">
+                    <ul class="menu">
+                        <li><a href="blog-masonry-sidebar.html#">Home Pages</a>
+                        </li>
+                        <li><a href="blog-masonry-sidebar.html#">Pages</a>
+                        </li>
+                        <li><a  href="blog-masonry-sidebar.html#">Blog</a>
+                        </li>
+                        <li><a href="blog-masonry-sidebar.html#">Projects</a>
+                        </li>
+                        <li><a href="blog-masonry-sidebar.html#">Contact</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div><!--end of row-->
+
+            <div class="mobile-toggle">
+                <i class="icon icon_menu"></i>
+            </div>
+
+        </div><!--end of container-->
+    </nav>
+
+</div>
+<!--
 <div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -42,3 +80,4 @@
         </div>
     </div>
 </div>
+-->

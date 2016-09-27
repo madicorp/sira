@@ -17,17 +17,18 @@
     }
 
     function tagsView(ctrl) {
-        return m(".row.text-center",
-                 m("col-md-12", "Tags",
-                   m(".row", [
+        return m(".blog-sidebar",
+                 m(".sidebar-widget",
+                     m("h2","Tags"),
+                     m("ul.tags", [
                        ctrl.vm.tags().map(function (tag) {
-                           return tagItem(tag, 4);
+                           return tagItem(tag,'#');
                        })
                    ]))
         );
     }
 
-    function tagItem(tag, size) {
-        return m(".col-md-" + size, [m('span.badge', tag)]);
+    function tagItem(tag, link) {
+        return m("li", [m('a[href="'+link+'"]', tag)]);
     }
 })();
