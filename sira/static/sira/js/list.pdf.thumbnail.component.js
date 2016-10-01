@@ -12,14 +12,14 @@
         this.vm = vm;
         vm.pdfUrl(componentArgs.pdfUrl);
         PDFJS.getDocument(componentArgs.pdfUrl)
-            .then(function (pdf) {
-                return pdf.getPage(1);
-            })
-            .then(function (page) {
-                m.startComputation();
-                vm.page(page);
-                m.endComputation();
-            });
+             .then(function (pdf) {
+                 return pdf.getPage(1);
+             })
+             .then(function (page) {
+                 m.startComputation();
+                 vm.page(page);
+                 m.endComputation();
+             });
     }
 
     function pdfThumbnailView(ctrl) {

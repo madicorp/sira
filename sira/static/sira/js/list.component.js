@@ -5,7 +5,7 @@
     function ListComponentInitialise(containerId, baseListUrl, listItemType) {
         var MainComponent = {
             view: function () {
-                return m(innerComponent, {baseListUrl: baseListUrl,listItemType: listItemType});
+                return m(innerComponent, {baseListUrl: baseListUrl, listItemType: listItemType});
             }
         };
 
