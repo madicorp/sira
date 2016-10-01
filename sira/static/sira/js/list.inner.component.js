@@ -60,7 +60,6 @@
                 return [];
             }
             var listItems = documents.map(listItem);
-            console.log(listItems);
             return m(".blog-masonry-container", listItems);
         }
 
@@ -113,7 +112,7 @@
                 nextItemElt += ".disabled";
             }
             return m(nextItemElt, {
-                         onclick: ctrl.prev
+                         onclick: noScrollAnchorCurry(ctrl.prev)
                      },
                      m("a[href='#']", [
                            m("i.icon.arrow_left")
@@ -128,7 +127,7 @@
                 nextItemElt += ".disabled";
             }
             return m(nextItemElt, {
-                         onclick: ctrl.next
+                         onclick: noScrollAnchorCurry(ctrl.next)
                      },
                      m("a[href='#']", [
                            m("i.icon.arrow_right")
@@ -147,12 +146,19 @@
                 paginationElt += ".active";
             }
             return m(paginationElt, {
-                         onclick: function () {
+                         onclick: noScrollAnchorCurry(function () {
                              ctrl.to(pageIdx);
-                         }
+                         })
                      },
                      m("a[href='#']", "" + (pageIdx + 1))
             );
+        }
+
+        function noScrollAnchorCurry(fn) {
+            return function (evt) {
+                fn(evt);
+                evt.preventDefault();
+            }
         }
     }
 
@@ -215,7 +221,7 @@
             m.request({method: "GET", url: url})
              .then(function (resp) {
                  vm.list(resp.documents);
-                 vm.pageCount(_.round(resp.meta.total_count / limit, 0) + 1);
+                 vm.pageCount(_.round(resp.meta.total_count / limit, 0));
              });
             vm.currentPage(page);
         }
