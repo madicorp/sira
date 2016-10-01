@@ -16,5 +16,5 @@ RUN python ./manage.py collectstatic -v0 --no-input
 RUN DJANGO_SETTINGS_MODULE="$DJANGO_SETTINGS_MODULE" python ./manage.py compress
 
 # Generating locale messages
-RUN apt-get update && apt-get install -y --force-yes gettext
-RUN python ./manage.py compilemessages -l fr
+# RUN apt-get update && apt-get install -y --force-yes gettext
+# RUN python ./manage.py compilemessages -l fr

@@ -2,15 +2,19 @@
 {% load sira_tags compress static %}
 
 {% block content %}
-    <section id="documents">
+    <section class="blog-masonry bg-muted" id="documents">
     </section>
 {% endblock %}
 
 {% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.4.201/pdf.js"></script>
     {% compress js %}
+        <script src="{% static "sira/js/list.pdf.thumbnail.component.js" %}"></script>
+        <script src="{% static "sira/js/list.tags.component.js" %}"></script>
+        <script src="{% static "sira/js/list.inner.component.js" %}"></script>
         <script src="{% static "sira/js/list.component.js" %}"></script>
     {% endcompress %}
     <script type="application/javascript">
-        ListComponentInitialise("documents", "/api/v1/documents", "document");
+        _package("com.botilab.components.list").listComponentInit("documents", "/api/v1/documents", "document");
     </script>
 {% endblock %}
