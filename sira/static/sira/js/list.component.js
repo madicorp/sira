@@ -2,10 +2,11 @@
     var innerComponent = _package("com.botilab.components.list").InnerComponent;
     _package("com.botilab.components.list").listComponentInit = ListComponentInitialise;
 
-    function ListComponentInitialise(containerId, baseListUrl, listItemType) {
+    function ListComponentInitialise(containerId, baseListUrl, listItemType, itemsKeyInResponse) {
         var MainComponent = {
             view: function () {
-                return m(innerComponent, {baseListUrl: baseListUrl, listItemType: listItemType});
+                return m(innerComponent,
+                         {baseListUrl: baseListUrl, listItemType: listItemType, itemsKeyInResponse: itemsKeyInResponse});
             }
         };
 

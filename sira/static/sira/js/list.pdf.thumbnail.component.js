@@ -11,10 +11,8 @@
         };
         this.vm = vm;
         vm.pdfUrl(componentArgs.pdfUrl);
-        console.log('beginning download', vm.pdfUrl());
         PDFJS.getDocument(componentArgs.pdfUrl)
              .then(function (pdf) {
-                 console.log('getting page', vm.pdfUrl());
                  return pdf.getPage(1);
              })
              .then(function (page) {
