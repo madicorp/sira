@@ -143,6 +143,7 @@
         function _updateItemsAndTagsStates(apiQueryUrl) {
             m.request({method: "GET", url: apiQueryUrl})
              .then(function (resp) {
+                 console
                  var items = resp[itemsKeyInResponse];
                  vm.items(items);
                  var tagsActiveStates = _getTagsStates(items);

@@ -75,7 +75,7 @@
 
         function listItems() {
             var items = ctrl.vm.items();
-            if (!items) {
+           if (!items) {
                 return [];
             }
             var listItems = items.map(listItem);
@@ -104,10 +104,10 @@
 
         function pagination() {
             return [
-                m(".container", [
-                    m("row", [
-                        m(".col-sm-12.text-center", [
-                            m("ul.pagination.pagination-md", [
+                m(".container",[
+                    m(".row",[
+                        m(".col-sm-12.text-center",[
+                            m("ul.pagination.pagination-md",[
                                 paginationItems()
                             ])
                         ])
