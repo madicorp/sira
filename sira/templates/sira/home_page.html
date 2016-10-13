@@ -1,5 +1,5 @@
 {% extends "sira/base.html" %}
-{% load sira_tags static %}
+{% load sira_tags static compress %}
 
 {% block content %}
 <section class="hero-slider">
@@ -97,4 +97,16 @@
 
     </ul>
 </section>
+{% endblock %}
+{% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.4.201/pdf.js"></script>
+    {% compress js %}
+        <script src="{% static "sira/js/list.pdf.thumbnail.component.js" %}"></script>
+        <script src="{% static "sira/js/list.tags.component.js" %}"></script>
+        <script src="{% static "sira/js/list.documents.component.js" %}"></script>
+        <script src="{% static "sira/js/list.homePage.component.js" %}"></script>
+    {% endcompress %}
+    <script type="application/javascript">
+        _package("com.botilab.components.list").listComponentInit("block-document", "/api/v1/documents", "document", "documents");
+    </script>
 {% endblock %}

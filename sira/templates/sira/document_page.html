@@ -11,9 +11,10 @@
     {% compress js %}
         <script src="{% static "sira/js/list.pdf.thumbnail.component.js" %}"></script>
         <script src="{% static "sira/js/list.tags.component.js" %}"></script>
+        <script src="{% static "sira/js/list.documents.component.js" %}"></script>
         <script src="{% static "sira/js/list.inner.controller.js" %}"></script>
         <script src="{% static "sira/js/list.inner.component.js" %}"></script>
-        <script src="{% static "sira/js/list.component.js" %}"></script>
+        <script src="{% static "sira/js/list.documentPage.component.js" %}"></script>
     {% endcompress %}
     <script type="application/javascript">
         _package("com.botilab.components.list").listComponentInit("documents", "/api/v1/documents", "document", "documents");
