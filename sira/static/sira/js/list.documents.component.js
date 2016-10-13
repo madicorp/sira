@@ -1,6 +1,3 @@
-/**
- * Created by a621217 on 12/10/2016.
- */
 (function () {
     var pdfThumbnailComponent = _package("com.botilab.components.list").pdfThumbnailComponent;
     var tagItem = _package("com.botilab.components.list").TagItem;
@@ -10,11 +7,9 @@
     };
 
     function documentsController(componentArgs) {
-        var vm = {
+        this.vm = {
             items: componentArgs.items
         };
-
-        this.vm = vm;
         this.getTagState = componentArgs.getTagState
     }
 
@@ -36,7 +31,7 @@
                         m(".sidebar-widget", [
                             m("ul.tags", [
                                 itemData.tags.map(function (tagName) {
-                                    var tagActive = (ctrl.getTagState != null) ? ctrl.getTagState(tagName) : false;
+                                    var tagActive = ctrl.getTagState(tagName);
                                     return tagItem(tagName, "#", tagActive);
                                 })
                             ])
