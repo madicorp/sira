@@ -69,3 +69,14 @@ Do <<aliases>>
 
 == Launch tests
 `./manage.py test`
+
+
+== Deploy
+Install the deployment environment
+`fab init_tools:pwd=changeme -H sudo_user@deployment_host_ip:deployment_host_ssh_port`
+
+Install the images
+`fab install_docker_images -H devops@deployment_host_ip:deployment_host_ssh_port`
+
+Deploy and launch
+`fab deploy:version=0.2,postgres_user=admin,postgres_password=changeme,env=dev,include_media=True -H devops@deployment_host_ip:deployment_host_ssh_port`
