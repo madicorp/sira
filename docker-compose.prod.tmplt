@@ -1,6 +1,6 @@
 sira:
   restart: always
-  image: ekougs/sira:0.2
+  image: ekougs/sira:$VERSION
   expose:
     - "8000"
   links:
@@ -23,7 +23,8 @@ nginx:
   ports:
     - "80:80"
   volumes:
-    - /www/static
+    - ${STATIC_DIR}:/www/static
+    - ${MEDIA_DIR}:/www/media
     - /var/run/docker.sock:/tmp/docker.sock:ro
   volumes_from:
     - sira

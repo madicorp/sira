@@ -107,3 +107,4 @@ pip_cache
 
 # It is generated
 Dockerfile
+docker-compose.yml

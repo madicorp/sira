@@ -100,7 +100,7 @@ Vagrantfile
 vagrant
 
 # Wagtail
-static/CACHE
+media
 
 # MacOS
 .DS_Store
@@ -110,6 +110,16 @@ Dockerfile
 # git
 .git
 .gitignore
+
+# Templates
+*.tmplt
+
+deploy/
+docker-compose.yml
+local_launch.sh
+aliases.sh
+fabfile.py
+
 
 # Documentation
 README.adoc
