@@ -62,3 +62,27 @@ def breadcrumbs(context):
         'ancestors': ancestors,
         'request': context['request'],
     }
+
+
+@register.inclusion_tag('sira/tags/news_block_homepage.html', takes_context=True)
+def news_block_homepage(context):
+    self = context.get('self')
+    return {
+        'request': context['request']
+    }
+
+
+@register.inclusion_tag('sira/tags/images_gallery_block_homepage.html', takes_context=True)
+def images_gallery_block_homepage(context):
+    self = context.get('self')
+    return {
+        'request': context['request']
+    }
+
+
+@register.inclusion_tag('sira/tags/documents_block_homepage.html', takes_context=True)
+def documents_block_homepage(context):
+    self = context.get('self')
+    return {
+        'request': context['request']
+    }

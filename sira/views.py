@@ -51,12 +51,12 @@ def search(request):
 @api_view(['GET'])
 def tags_endpoint(request):
     if 'GET' == request.method:
-        data = request.data
         query = 'SELECT DISTINCT tag.* FROM taggit_tag AS tag ' \
                 'INNER JOIN taggit_taggeditem AS tti ON tag.id = tti.tag_id '
-        if 'type' in data:
+        params = request.query_params
+        if 'type' in params:
             query += 'INNER JOIN django_content_type AS ct on tti.content_type_id = ct.id AND ct.model=%s'
-            query_set = Tag.objects.raw(query, params=(data['type']))
+            query_set = Tag.objects.raw(query, params=(params['type'],))
         else:
             query_set = Tag.objects.raw(query)
         return Response([tag.name for tag in query_set])

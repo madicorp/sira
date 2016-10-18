@@ -1,7 +1,7 @@
 (function () {
     _package("com.botilab.components.list").pdfThumbnailComponent = {
         controller: pdfThumbnailController,
-        view: pdfThumbnailView,
+        view: pdfThumbnailView
     };
 
     function pdfThumbnailController(componentArgs) {
@@ -58,7 +58,6 @@
                     var dataUrl = canvas.toDataURL();
                     image = divContainer.appendChild(document.createElement('img'));
                     image.src = dataUrl;
-
                 });
 
             }

@@ -1,21 +1,34 @@
 (function () {
-    var pdfThumbnailComponent = _package("com.botilab.components.list").pdfThumbnailComponent;
     var listTagComponent = _package("com.botilab.components.list").ListTagComponent;
-    var tagItem = _package("com.botilab.components.list").TagItem;
+    var listDocumentComponent = _package("com.botilab.components.list").ListDocumentComponent;
+    var noScrollAnchorCurry = _package("com.botilab.components").noScrollAnchorCurry;
+    var listController = _package("com.botilab.components.list").InnerController;
+
+
     _package("com.botilab.components.list").InnerComponent = {
         controller: listController,
         view: listView
     };
 
+    var isTagStateListenerInit = false;
+
     function listView(ctrl) {
         var paginationComp = pagination();
+
+        if (!isTagStateListenerInit) {
+            document.addEventListener('tagTogglesEvent', function toggleTagVMState(tagToggleEvent) {
+                ctrl.setTagState(tagToggleEvent.detail.tagName, tagToggleEvent.detail.active);
+            });
+            isTagStateListenerInit = true;
+        }
+
         return m("", [
             filterComp(),
             paginationComp,
             m(".container", [
                 m(".row", [
                     m(".col-md-9", [
-                        listItems()
+                        m(listDocumentComponent, {items:  ctrl.vm.items, getTagState:  ctrl.getTagState})
                     ]),
                     m(".col-sm-3", [
                         m(listTagComponent, {listItemType: ctrl.tagArgs})
@@ -46,7 +59,12 @@
         }
 
         function filterItem() {
-            return m("input[type=text][placeholder='Recherche...']", {
+            var filterInputSelector = "input[type=text][placeholder='Recherche...']";
+            var filterValue = ctrl.vm.filterValue();
+            if (!ctrl.nullNorUndefined(filterValue)) {
+                filterInputSelector += "[value='" + filterValue + "']";
+            }
+            return m(filterInputSelector, {
                 oninput: function (e) {
                     var query = e.target.value.split(" ").join("+");
                     ctrl.filter(query || "");
@@ -54,41 +72,13 @@
             });
         }
 
-        function listItems() {
-            var documents = ctrl.vm.list();
-            if (!documents) {
-                return [];
-            }
-            var listItems = documents.map(listItem);
-            console.log(listItems);
-            return m(".blog-masonry-container", listItems);
-        }
-
-        function listItem(itemData) {
-            return m(".col-md-4.col-sm-4.blog-masonry-item.branding", [
-                m(".item-inner", [
-                    m(pdfThumbnailComponent, {pdfUrl: itemData.meta.download_url}),
-                    m(".post-title", [
-                        m("h4", itemData.title),
-                        m(".sidebar-widget", [
-                            m("ul.tags", [
-                                itemData.tags.map(function (tag) {
-                                    return tagItem(tag, "#");
-                                })
-                            ])
-
-                        ])
-                    ])
-                ])
-            ]);
-        }
 
         function pagination() {
             return [
-                m(".container", [
-                    m("row", [
-                        m(".col-sm-12.text-center", [
-                            m("ul.pagination.pagination-md", [
+                m(".container",[
+                    m(".row",[
+                        m(".col-sm-12.text-center",[
+                            m("ul.pagination.pagination-md",[
                                 paginationItems()
                             ])
                         ])
@@ -113,7 +103,7 @@
                 nextItemElt += ".disabled";
             }
             return m(nextItemElt, {
-                         onclick: ctrl.prev
+                         onclick: noScrollAnchorCurry(ctrl.prev)
                      },
                      m("a[href='#']", [
                            m("i.icon.arrow_left")
@@ -128,7 +118,7 @@
                 nextItemElt += ".disabled";
             }
             return m(nextItemElt, {
-                         onclick: ctrl.next
+                         onclick: noScrollAnchorCurry(ctrl.next)
                      },
                      m("a[href='#']", [
                            m("i.icon.arrow_right")
@@ -147,77 +137,12 @@
                 paginationElt += ".active";
             }
             return m(paginationElt, {
-                         onclick: function () {
+                         onclick: noScrollAnchorCurry(function () {
                              ctrl.to(pageIdx);
-                         }
+                         })
                      },
                      m("a[href='#']", "" + (pageIdx + 1))
             );
-        }
-    }
-
-    function listController(componentArgs) {
-        var baseListUrl = componentArgs.baseListUrl;
-        var limit = 15;
-        var vm = {
-            list: m.prop([]),
-            currentPage: m.prop(0),
-            pageCount: m.prop(-1),
-            filterValue: m.prop()
-        };
-        this.vm = vm;
-        this.hasPrev = hasPrev;
-        this.hasNext = hasNext;
-        this.next = next;
-        this.prev = prev;
-        this.filter = filter;
-        this.to = to;
-        this.tagArgs = componentArgs.listItemType;
-        to(vm.currentPage());
-
-        function hasPrev() {
-            return vm.currentPage() > 0;
-        }
-
-        function hasNext() {
-            return vm.currentPage() < (vm.pageCount() - 1);
-        }
-
-        function next() {
-            if (!hasNext()) {
-                return;
-            }
-            to(vm.currentPage() + 1)
-        }
-
-        function prev() {
-            if (!hasPrev()) {
-                return;
-            }
-            to(vm.currentPage() - 1)
-        }
-
-        function filter(value) {
-            to(0, value);
-        }
-
-        function to(page, filterValue) {
-            if (filterValue === null || filterValue === undefined) {
-                filterValue = vm.filterValue();
-            }
-            vm.filterValue(filterValue);
-            var url = baseListUrl + "?fields=title,created_at,tags&limit=" + limit + "&offset=" + (page * limit);
-            if (!!filterValue) {
-                url += "&search=" + filterValue;
-            } else {
-                url += "&order=created_at"
-            }
-            m.request({method: "GET", url: url})
-             .then(function (resp) {
-                 vm.list(resp.documents);
-                 vm.pageCount(_.round(resp.meta.total_count / limit, 0) + 1);
-             });
-            vm.currentPage(page);
         }
     }
 })();
