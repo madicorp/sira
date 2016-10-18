@@ -22,7 +22,6 @@
         return m(".blog-masonry-container", listItems);
 
         function listItem(itemData) {
-            console.log(itemData);
             return m(".col-md-4.col-sm-4.blog-masonry-item.branding", [
                 m(".item-inner", [
                     m(pdfThumbnailComponent, {pdfUrl: itemData.meta.download_url}),

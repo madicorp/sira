@@ -1,14 +1,19 @@
 import atexit
+import time
 
+import urllib3
 from fabric.context_managers import shell_env, settings, hide
 from fabric.contrib.files import exists
 from fabric.operations import put, local, run, sudo
 from fabric.utils import puts, error
+from urllib3.exceptions import RequestError
 
 _devops_user = 'devops'
 _remote_app_dir = '/var/apps/'
 _remote_sira_app_dir = '{}sira/'.format(_remote_app_dir)
 _original_branch = None
+_docker_compose_filename = 'docker-compose.yml'
+_docker_file_name = 'dockerfile'
 
 
 def _create_devops_user_and_group(pwd):
@@ -127,6 +132,7 @@ def _upload_static(env):
     with shell_env(DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
         # build static
         puts('Compressing with settings {}'.format(_get_django_settings_module(env)))
+        local('rm -rf static')
         local('python ./manage.py collectstatic -v0 --no-input')
         local('python ./manage.py compress')
     # upload
@@ -150,10 +156,12 @@ def _get_sira_docker_image_filename(version):
     return 'sira.{}.docker'.format(version)
 
 
-def _push_sira_docker_image(version, env, force_image_build):
-    image_id = 'ekougs/sira:{}'.format(version)
-    sira_docker_image_filename = _get_sira_docker_image_filename(version)
-    docker_file_name = 'dockerfile'
+def _get_sira_image_id(version):
+    return 'ekougs/sira:{}'.format(version)
+
+
+def _build_sira_image(version, env, force_image_build=False):
+    image_id = _get_sira_image_id(version)
 
     with settings(hide('warnings', 'running', 'stdout', 'stderr')):
         image_exists = local('docker images -q {} 2> /dev/null'.format(image_id), capture=True)
@@ -162,17 +170,24 @@ def _push_sira_docker_image(version, env, force_image_build):
     else:
         with shell_env(VERSION=version, ENV=env, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
             # generate dockerfile from template
-            local('cat dockerfile.tmplt | envsubst > {}'.format(docker_file_name))
+            local('cat dockerfile.tmplt | envsubst > {}'.format(_docker_file_name))
             local('docker build -t {} .'.format(image_id))
-            local('rm -f {}'.format(docker_file_name))
+            local('rm -f {}'.format(_docker_file_name))
 
-    local('docker save -o {} {}'.format(sira_docker_image_filename, image_id))
+
+def _push_sira_docker_image(version, env, force_image_build):
+    _build_sira_image(version, env, force_image_build)
+
+    sira_docker_image_filename = _get_sira_docker_image_filename(version)
+    run('docker rmi {}'.format(_get_sira_image_id(version)))
+    local('docker save -o {} {}'.format(sira_docker_image_filename, _get_sira_image_id(version)))
     put(sira_docker_image_filename, _remote_sira_app_dir)
     local('rm {}'.format(sira_docker_image_filename))
 
 
-def push_docker_compose(version, env):
-    _push_docker_compose(version, env)
+def _build_docker_compose_file(version, env):
+    with shell_env(VERSION=version, STATIC_DIR='/var/apps/sira/static', MEDIA_DIR='/var/apps/sira/media'):
+        local('cat docker-compose.{}.tmplt | envsubst > {}'.format(env, _docker_compose_filename))
 
 
 def _push_docker_compose(version, env):
@@ -182,13 +197,10 @@ def _push_docker_compose(version, env):
     :param env: the env settings to deploy
     :return:
     """
-    docker_compose_filename = 'docker-compose.yml'
+    _build_docker_compose_file(version, env)
 
-    with shell_env(VERSION=version, STATIC_DIR='/var/apps/sira/static', MEDIA_DIR='/var/apps/sira/media'):
-        local('cat docker-compose.{}.tmplt | envsubst > {}'.format(env, docker_compose_filename))
-
-    put(docker_compose_filename, _remote_sira_app_dir)
-    local('rm {}'.format(docker_compose_filename))
+    put(_docker_compose_filename, _remote_sira_app_dir)
+    local('rm {}'.format(_docker_compose_filename))
     puts('sira docker-compose file uploaded')
 
 
@@ -218,7 +230,7 @@ def _launch_app(version, postgres_user, postgres_password, env):
                    DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
         load_sira_img_cmd = 'docker load -i {}'.format(_get_sira_docker_image_filename(version))
         build_app_cmd = 'docker-compose build'
-        launch_app_cmd = 'docker-compose up -d'.format(version)
+        launch_app_cmd = 'docker-compose up -d'
         run('(cd {} && {} && {} && {})'.format(_remote_sira_app_dir, load_sira_img_cmd, build_app_cmd, launch_app_cmd))
     puts('sira app {} launched'.format(version))
 
@@ -278,6 +290,52 @@ def deploy(version, postgres_user, postgres_password, env='prod', force_image_bu
     _launch_app(version, postgres_user, postgres_password, env)
 
 
+def local_docker_compose(version, env='dev'):
+    """
+    Launch a docker-compose with current sources on the provided environment. Useful to simulate before deployment
+    :param version: the version to
+    :param env: the environment to launch locally ; default is 'dev'
+    """
+    _build_sira_image(version, env, True)
+
+    _build_docker_compose_file(version, env)
+
+    stop_app_cmd = 'docker-compose stop'
+    remove_app_containers_cmd = 'docker-compose rm -f'
+    build_app_cmd = 'docker-compose build'
+    launch_app_cmd = 'docker-compose up -d'
+    local('{} && {} && {} && {}'.format(stop_app_cmd, remove_app_containers_cmd, build_app_cmd, launch_app_cmd))
+
+
+def _wait_for(host, port):
+    time_to_wait = 5
+    http_address = 'http://{}:{}'.format(host, port)
+    while time_to_wait < 60:
+        try:
+            urllib3.connection_from_url(http_address).request('GET', '/')
+            return
+        except RequestError:
+            puts('Waiting {}s for {}'.format(time_to_wait, http_address))
+            time.sleep(time_to_wait)
+            time_to_wait *= 2
+    error('Failed to wait for {}'.format(http_address))
+
+
+def local_launch():
+    """
+    Directly launch the server without container. Useful for hot reload in DEV mode
+    """
+    # If elasticsearch launch fails, it is already launched and doesn't need to be relaunched
+    with settings(hide('warnings', 'running', 'stdout', 'stderr'), warn_only=True):
+        puts('Removing elasticsearch container')
+        local('docker rm sira_elasticsearch_1')
+        puts('Running elasticsearch container')
+        has_run = local('docker run -d --name sira_elasticsearch_1 -p 9200:9200 elasticsearch:1.7.5')
+        if not has_run.failed:
+            _wait_for('localhost', 9200)
+    local('./local_launch.sh')
+
+
 # always invoked before fab task completely exits even when error
 @atexit.register
 def _reset_local_repo_to_initial_state():
@@ -286,7 +344,7 @@ def _reset_local_repo_to_initial_state():
     """
     if _original_branch is None:
         return
-    with settings(hide('warnings', 'running', 'stdout', 'stderr')):
+    with settings(hide('warnings', 'running', 'stdout', 'stderr'), warn_only=True):
         local('git checkout {}'.format(_original_branch))
         local('git stash pop')
     puts('initial repo state restored. original branch "{}" checked out ; changes unstashed'.format(_original_branch))

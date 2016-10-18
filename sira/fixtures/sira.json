@@ -358,6 +358,11 @@
     "fields": {}
   },
   {
+    "model": "sira.documentpage",
+    "pk": 4,
+    "fields": {}
+  },
+  {
     "model": "wagtailcore.pagerevision",
     "pk": 1,
     "fields": {
@@ -368,6 +373,20 @@
         "admin"
       ],
       "content_json": "{\"title\": \"SIRA\", \"numchild\": 0, \"path\": \"00010002\", \"content_type\": 28, \"owner\": 1, \"pk\": 3, \"first_published_at\": null, \"url_path\": \"/sira/\", \"show_in_menus\": false, \"has_unpublished_changes\": false, \"live\": true, \"slug\": \"sira\", \"search_description\": \"\", \"latest_revision_created_at\": null, \"depth\": 2, \"expire_at\": null, \"locked\": false, \"expired\": false, \"go_live_at\": null, \"seo_title\": \"\"}",
+      "approved_go_live_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.pagerevision",
+    "pk": 2,
+    "fields": {
+      "page": 4,
+      "submitted_for_moderation": false,
+      "created_at": "2016-10-18T22:36:11.925Z",
+      "user": [
+        "admin"
+      ],
+      "content_json": "{\"title\": \"Documents\", \"search_description\": \"\", \"latest_revision_created_at\": null, \"live\": true, \"content_type\": 28, \"expire_at\": null, \"show_in_menus\": false, \"first_published_at\": null, \"locked\": false, \"depth\": 3, \"url_path\": \"/sira/documents/\", \"go_live_at\": null, \"has_unpublished_changes\": false, \"slug\": \"documents\", \"expired\": false, \"owner\": 1, \"numchild\": 0, \"seo_title\": \"\", \"pk\": 4, \"path\": \"000100020001\"}",
       "approved_go_live_at": null
     }
   },
@@ -433,7 +452,7 @@
     "fields": {
       "path": "00010002",
       "depth": 2,
-      "numchild": 0,
+      "numchild": 1,
       "title": "SIRA",
       "slug": "sira",
       "content_type": [
@@ -455,6 +474,36 @@
       "locked": false,
       "first_published_at": "2016-09-25T11:00:33.137Z",
       "latest_revision_created_at": "2016-09-25T11:00:33.103Z"
+    }
+  },
+  {
+    "model": "wagtailcore.page",
+    "pk": 4,
+    "fields": {
+      "path": "000100020001",
+      "depth": 3,
+      "numchild": 0,
+      "title": "Documents",
+      "slug": "documents",
+      "content_type": [
+        "sira",
+        "documentpage"
+      ],
+      "live": true,
+      "has_unpublished_changes": false,
+      "url_path": "/sira/documents/",
+      "owner": [
+        "admin"
+      ],
+      "seo_title": "",
+      "show_in_menus": false,
+      "search_description": "",
+      "go_live_at": null,
+      "expire_at": null,
+      "expired": false,
+      "locked": false,
+      "first_published_at": "2016-10-18T22:36:11.952Z",
+      "latest_revision_created_at": "2016-10-18T22:36:11.925Z"
     }
   },
   {

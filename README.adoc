@@ -26,7 +26,7 @@ Install dependencies
 == Launch locally
 Do <<activate-venv>>
 Ensure local_launch.sh has the execution rights
-`./local_launch.sh`
+`fab local_launch`
 
 Deployed on `http://127.0.0.1:8000/`
 Admin page accessible at `http://127.0.0.1:8000/admin/`
@@ -75,7 +75,7 @@ Do <<aliases>>
 Install the deployment environment
 `fab init_tools:pwd=changeme -H sudo_user@deployment_host_ip:deployment_host_ssh_port`
 
-Install the images
+Install the images (avoid it when working on a remote VM because it may be way too slow)
 `fab install_docker_images -H devops@deployment_host_ip:deployment_host_ssh_port`
 
 Deploy and launch

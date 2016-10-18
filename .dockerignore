@@ -120,6 +120,7 @@ local_launch.sh
 aliases.sh
 fabfile.py
 *.docker
+doc
 
 
 # Documentation
