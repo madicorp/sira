@@ -81,9 +81,21 @@
 }
 
 .post-title h4 {
-    height: 4em;
+    height: 6em;
 }
 
-.disabled, .active {
+.disabled {
     pointer-events: none;
+}
+
+.tags a:hover, .tags a:focus {
+    text-decoration: none;
+}
+
+.tags a.active {
+    background-color: rgba(255, 202, 34, 0.5);
+}
+
+.tags a.inactive {
+    background-color: transparent;
 }

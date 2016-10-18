@@ -21,7 +21,7 @@ class DocumentExtraFieldsMetaField(DocumentMetaField):
     def to_representation(self, document):
         representation = super(DocumentExtraFieldsMetaField, self).to_representation(document)
         representation['extension'] = DocumentExtraFieldsMetaField.get_document_file_ext(document)
-        representation['download_url'] = document.url
+        representation['download_url'] = '/media/' + str(document.file)
         return representation
 
     @staticmethod

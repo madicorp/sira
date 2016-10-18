@@ -4,11 +4,11 @@ server {
     charset utf-8;
 
     location /static {
-        alias /usr/src/sira/static;
+        alias /www/static;
     }
 
     location /media {
-        alias /usr/src/sira/media;
+        alias /www/media;
     }
 
     location / {

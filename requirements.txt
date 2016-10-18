@@ -13,3 +13,6 @@ libsass==0.8.2
 # Dependencies for hosting
 django-redis==3.8.2
 elasticsearch==1.2.0
+
+# Dependencies for deployment
+fabric3==1.12.post1

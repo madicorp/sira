@@ -12,7 +12,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 WAGTAILSEARCH_BACKENDS = {
     'default': {
         'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch',
-        'URLS': ['http://localhost:9200'],
+        'URLS': ['tcp://localhost:9200'],
         'INDEX': 'wagtail',
         'TIMEOUT': 5,
     }

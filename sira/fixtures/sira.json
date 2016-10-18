@@ -24,56 +24,80 @@
     "model": "taggit.tag",
     "pk": 1,
     "fields": {
-      "name": "resume",
-      "slug": "resume"
+      "name": "07",
+      "slug": "07"
     }
   },
   {
     "model": "taggit.tag",
     "pk": 2,
     "fields": {
-      "name": "it",
-      "slug": "it"
+      "name": "2016",
+      "slug": "2016"
     }
   },
   {
     "model": "taggit.tag",
     "pk": 3,
     "fields": {
-      "name": "job",
-      "slug": "job"
+      "name": "lettre",
+      "slug": "lettre"
     }
   },
   {
     "model": "taggit.tag",
     "pk": 4,
     "fields": {
-      "name": "posting",
-      "slug": "posting"
+      "name": "sedhiou",
+      "slug": "sedhiou"
     }
   },
   {
     "model": "taggit.tag",
     "pk": 5,
     "fields": {
-      "name": "novel",
-      "slug": "novel"
+      "name": "juillet",
+      "slug": "juillet"
     }
   },
   {
     "model": "taggit.tag",
     "pk": 6,
     "fields": {
-      "name": "orwell",
-      "slug": "orwell"
+      "name": "kedougou",
+      "slug": "kedougou"
     }
   },
   {
     "model": "taggit.tag",
     "pk": 7,
     "fields": {
-      "name": "book",
-      "slug": "book"
+      "name": "AG",
+      "slug": "ag"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 8,
+    "fields": {
+      "name": "diourbel",
+      "slug": "diourbel"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 9,
+    "fields": {
+      "name": "PV",
+      "slug": "pv"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 10,
+    "fields": {
+      "name": "kaffrine",
+      "slug": "kaffrine"
     }
   },
   {
@@ -116,31 +140,31 @@
     "model": "taggit.taggeditem",
     "pk": 4,
     "fields": {
-      "tag": 2,
+      "tag": 4,
       "content_type": [
         "wagtaildocs",
         "document"
       ],
-      "object_id": 2
+      "object_id": 1
     }
   },
   {
     "model": "taggit.taggeditem",
     "pk": 5,
     "fields": {
-      "tag": 3,
+      "tag": 5,
       "content_type": [
         "wagtaildocs",
         "document"
       ],
-      "object_id": 2
+      "object_id": 1
     }
   },
   {
     "model": "taggit.taggeditem",
     "pk": 6,
     "fields": {
-      "tag": 4,
+      "tag": 1,
       "content_type": [
         "wagtaildocs",
         "document"
@@ -152,6 +176,102 @@
     "model": "taggit.taggeditem",
     "pk": 7,
     "fields": {
+      "tag": 2,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 2
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 8,
+    "fields": {
+      "tag": 5,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 2
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 9,
+    "fields": {
+      "tag": 6,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 2
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 10,
+    "fields": {
+      "tag": 7,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 2
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 11,
+    "fields": {
+      "tag": 8,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 3
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 12,
+    "fields": {
+      "tag": 1,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 3
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 13,
+    "fields": {
+      "tag": 2,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 3
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 14,
+    "fields": {
+      "tag": 9,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 3
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 15,
+    "fields": {
       "tag": 5,
       "content_type": [
         "wagtaildocs",
@@ -162,26 +282,74 @@
   },
   {
     "model": "taggit.taggeditem",
-    "pk": 8,
+    "pk": 16,
     "fields": {
-      "tag": 6,
+      "tag": 1,
       "content_type": [
         "wagtaildocs",
         "document"
       ],
-      "object_id": 3
+      "object_id": 4
     }
   },
   {
     "model": "taggit.taggeditem",
-    "pk": 9,
+    "pk": 17,
+    "fields": {
+      "tag": 2,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 4
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 18,
+    "fields": {
+      "tag": 5,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 4
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 19,
     "fields": {
       "tag": 7,
       "content_type": [
         "wagtaildocs",
         "document"
       ],
-      "object_id": 3
+      "object_id": 4
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 20,
+    "fields": {
+      "tag": 9,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 4
+    }
+  },
+  {
+    "model": "taggit.taggeditem",
+    "pk": 21,
+    "fields": {
+      "tag": 10,
+      "content_type": [
+        "wagtaildocs",
+        "document"
+      ],
+      "object_id": 4
     }
   },
   {
@@ -233,6 +401,34 @@
   },
   {
     "model": "wagtailcore.page",
+    "pk": 2,
+    "fields": {
+      "path": "00010001",
+      "depth": 2,
+      "numchild": 0,
+      "title": "Welcome to your new Wagtail site!",
+      "slug": "home",
+      "content_type": [
+        "wagtailcore",
+        "page"
+      ],
+      "live": true,
+      "has_unpublished_changes": false,
+      "url_path": "/home/",
+      "owner": null,
+      "seo_title": "",
+      "show_in_menus": false,
+      "search_description": "",
+      "go_live_at": null,
+      "expire_at": null,
+      "expired": false,
+      "locked": false,
+      "first_published_at": null,
+      "latest_revision_created_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.page",
     "pk": 3,
     "fields": {
       "path": "00010002",
@@ -266,9 +462,9 @@
     "pk": 1,
     "fields": {
       "collection": 1,
-      "title": "Resume Thomas Ayih Akakpo Soft Eng",
-      "file": "documents/ResumeThomasAyihAkakpo_Soft_Eng_jv7UbeH.pdf",
-      "created_at": "2016-09-25T10:55:13.727Z",
+      "title": "Installation des membres du bureau de la chambre des m\u00e9tiers de S\u00e9dhiou",
+      "file": "documents/lettre_1219_GR_SDH_AA_05_07_2016_DiUHuVX.pdf",
+      "created_at": "2016-10-06T15:41:05.292Z",
       "uploaded_by_user": [
         "admin"
       ]
@@ -279,9 +475,9 @@
     "pk": 2,
     "fields": {
       "collection": 1,
-      "title": "IT Developer OoluSolar",
-      "file": "documents/ITDeveloper-OoluSolar_lfM9RA2.pdf",
-      "created_at": "2016-09-25T10:55:46.768Z",
+      "title": "Installation des membres du bureau des AG des Chambres des m\u00e9tiers",
+      "file": "documents/lettre_129_GR_KDG_14_07_2016_3sjzGIU.pdf",
+      "created_at": "2016-10-06T15:43:56.637Z",
       "uploaded_by_user": [
         "admin"
       ]
@@ -292,9 +488,22 @@
     "pk": 3,
     "fields": {
       "collection": 1,
-      "title": "1984 - Orwell",
-      "file": "documents/orwell_1984_MxIm2fJ.pdf",
-      "created_at": "2016-09-25T10:56:20.179Z",
+      "title": "Proc\u00e8s verbal d'\u00e9lections des membres du bureau de la Chambre des m\u00e9tiers",
+      "file": "documents/lettre_1646_GRD_AD_11_07_2016_Jthdi0G.pdf",
+      "created_at": "2016-10-06T15:45:43.649Z",
+      "uploaded_by_user": [
+        "admin"
+      ]
+    }
+  },
+  {
+    "model": "wagtaildocs.document",
+    "pk": 4,
+    "fields": {
+      "collection": 1,
+      "title": "PV assembl\u00e9e g\u00e9n\u00e9rale d'\u00e9lection des membres du bureau",
+      "file": "documents/pv_ag_N01_02_07_2016_PnDZUrP.pdf",
+      "created_at": "2016-10-06T15:48:02.762Z",
       "uploaded_by_user": [
         "admin"
       ]

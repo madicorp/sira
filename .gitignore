@@ -99,6 +99,7 @@ db.sqlite3*
 
 # Wagtail
 /static
+/media
 
 # MacOS
 .DS_STORE
@@ -107,3 +108,5 @@ pip_cache
 
 # It is generated
 Dockerfile
+docker-compose.yml
+*.docker

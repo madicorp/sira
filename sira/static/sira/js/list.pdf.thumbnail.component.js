@@ -58,7 +58,6 @@
                     var dataUrl = canvas.toDataURL();
                     image = divContainer.appendChild(document.createElement('img'));
                     image.src = dataUrl;
-
                 });
 
             }

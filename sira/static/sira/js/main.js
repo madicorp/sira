@@ -16,6 +16,9 @@ function _package(packageName) {
     var packageRoot = packageItems.reverse().pop();
     if (!!window[packageRoot]) {
         return packageItems.reverse().reduce(function (prevPackage, packageItem) {
+            if(!prevPackage.hasOwnProperty(packageItem)) {
+                prevPackage[packageItem] = {};
+            }
             return prevPackage[packageItem];
         }, window[packageRoot]);
     }
