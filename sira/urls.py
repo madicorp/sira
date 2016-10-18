@@ -20,8 +20,13 @@ from sira import views
 class DocumentExtraFieldsMetaField(DocumentMetaField):
     def to_representation(self, document):
         representation = super(DocumentExtraFieldsMetaField, self).to_representation(document)
-        representation['extension'] = document.file.name.split(os.extsep)[-1]
+        representation['extension'] = DocumentExtraFieldsMetaField.get_document_file_ext(document)
+        representation['download_url'] = document.url
         return representation
+
+    @staticmethod
+    def get_document_file_ext(document):
+        return document.file.name.split(os.extsep)[-1]
 
 
 class DocumentsExtraFieldsSerializer(BaseSerializer):
