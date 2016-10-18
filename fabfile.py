@@ -112,8 +112,8 @@ def _checkout_version(version):
     :param version: the version to deploy
     """
     with settings(hide('warnings', 'running', 'stdout', 'stderr'), warn_only=True):
-        result = local('git rev-parse {}'.format(version))
-    if result.failed:
+        tag_exists = local('git rev-parse {}'.format(version))
+    if tag_exists.failed:
         error('you must create git tag for your version "{}" before deploying it'.format(version))
     with settings(hide('warnings', 'running', 'stdout', 'stderr')):
         local('git checkout {}'.format(version))
@@ -240,8 +240,18 @@ def install_docker_images():
     """
     Load docker images to deployment environment
     """
-    for image_name in ['nginx', 'postgres', 'python', 'redis']:
+    images = {'nginx': 'tutum/nginx:latest', 'postgres': 'postgres:9.6.0', 'python': 'python:3.4.5',
+              'redis': 'redis:3.0.7', 'elasticsearch': 'elasticsearch:1.7.5'}
+    for image_name in images:
         docker_image = '{}.docker'.format(image_name)
+        docker_image_name_with_tag = images[image_name]
+        with settings(hide('warnings', 'running', 'stdout', 'stderr'), warn_only=True):
+            docker_image_exists = local('ls {}'.format(docker_image), capture=True)
+        if docker_image_exists.failed:
+            puts('Archived image {} for {} not found, generating it'.format(docker_image, docker_image_name_with_tag))
+            local('docker save -o {} {}'.format(docker_image, docker_image_name_with_tag))
+        else:
+            puts('Archived image {} for {} found, using it'.format(docker_image, docker_image_name_with_tag))
         put(docker_image, '~')
         run('docker load -i {}'.format(docker_image))
 
