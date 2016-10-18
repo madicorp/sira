@@ -1,25 +1,112 @@
 {% extends "sira/base.html" %}
-{% load sira_tags compress static %}
+{% load sira_tags static compress %}
 
 {% block content %}
-    <section class="blog-masonry bg-muted" id="documents">
-    </section>
-{% endblock %}
+<section class="hero-slider">
+    <ul class="slides">
+        <li class="overlay">
+            <div class="background-image-holder parallax-background">
+                <img class="background-image" alt="Background Image" src="{% static "sira/images/hero17.jpg" %}">
+            </div>
 
+            <div class="container align-vertical">
+                <div class="row">
+                    <div class="col-md-6 col-sm-9">
+                        <h1 class="text-white">Bienvenue Sur SIRA Sénégal, toute l'actualité sur l'artisanat au
+                            Sénégal </h1>
+                    </div>
+                </div>
+            </div><!--end of container-->
+        </li><!--end of individual slide-->
+
+        <!--end of individual slide-->
+
+        <li class="overlay">
+            <div class="background-image-holder parallax-background">
+                <img class="background-image" alt="Background Image" src="{% static "sira/images/hero9.jpg" %}">
+            </div>
+
+            <div class="container align-vertical">
+                <div class="row">
+                    <div class="col-md-6 col-sm-9">
+                        <h1 class="text-white">Bienvenue Sur SIRA Sénégal, toute l'actualité sur l'artisanat au
+                            Sénégal </h1>
+                    </div>
+                </div>
+            </div><!--end of container-->
+        </li><!--end of individual slide-->
+
+        <li class="overlay">
+            <div class="background-image-holder parallax-background">
+                <img class="background-image" alt="Background Image" src="{% static "sira/images/hero17.jpg" %}">
+            </div>
+
+            <div class="container align-vertical">
+                <div class="row">
+                    <div class="col-md-6 col-sm-9">
+                        <h1 class="text-white">Bienvenue Sur SIRA Sénégal, toute l'actualité sur l'artisanat au
+                            Sénégal </h1>
+                    </div>
+                </div>
+            </div><!--end of container-->
+        </li><!--end of individual slide-->
+    </ul>
+</section>
+{% news_block_homepage %}
+{% images_gallery_block_homepage %}
+{% documents_block_homepage %}
+
+
+
+<section class="main-video-block-title primary-features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 text-center">
+                <h1>Video</h1>
+            </div>
+
+        </div><!--end of row-->
+    </div><!--end of container-->
+</section>
+<section class="hero-slider">
+    <ul class="slides">
+        <li class="overlay">
+            <div class="background-image-holder parallax-background">
+                <img alt="Background Image" src="img/hero4.jpg">
+            </div>
+
+            <div class="video-wrapper">
+                <video autoplay="" muted="" loop="">
+                    <source src="{% static "sira/video/video.webm" %}" type="video/webm">
+                    <source src="{% static "sira/video/video.mp4" %}" type="video/mp4">
+                    <source src="{% static "sira/video/video.ogv" %}" type="video/ogg">
+                </video>
+            </div>
+
+            <div class="container align-vertical">
+                <div class="row">
+                    <div class="col-sm-9 col-md-8">
+                        <h1 class="text-white">Visitez la médiathèque SIRA Sénégal .</h1>
+                        <a href="launching-soon-3.html#" class="btn btn-primary btn-filled">Plus de vidéo !</a>
+                    </div>
+                </div>
+            </div><!--end of container-->
+        </li><!--end of individual slide-->
+
+        <!--end of individual slide-->
+
+    </ul>
+</section>
+{% endblock %}
 {% block extra_js %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.1.0/rx.all.compat.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.5.500/compatibility.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.5.500/pdf.combined.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.4.201/pdf.js"></script>
     {% compress js %}
-        <script src="{% static "sira/js/utils.js" %}"></script>
         <script src="{% static "sira/js/list.pdf.thumbnail.component.js" %}"></script>
         <script src="{% static "sira/js/list.tags.component.js" %}"></script>
-        <script src="{% static "sira/js/list.inner.controller.js" %}"></script>
-        <script src="{% static "sira/js/list.inner.component.js" %}"></script>
-        <script src="{% static "sira/js/list.component.js" %}"></script>
+        <script src="{% static "sira/js/list.documents.component.js" %}"></script>
+        <script src="{% static "sira/js/list.homePage.component.js" %}"></script>
     {% endcompress %}
     <script type="application/javascript">
-        _package("com.botilab.components.list").listComponentInit("documents", "/api/v1/documents", "document",
-                                                                  "documents");
+        _package("com.botilab.components.list").listComponentInit("block-document", "/api/v1/documents", "document", "documents");
     </script>
 {% endblock %}

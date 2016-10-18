@@ -1,7 +1,6 @@
 (function () {
-    var pdfThumbnailComponent = _package("com.botilab.components.list").pdfThumbnailComponent;
     var listTagComponent = _package("com.botilab.components.list").ListTagComponent;
-    var tagItem = _package("com.botilab.components.list").TagItem;
+    var listDocumentComponent = _package("com.botilab.components.list").ListDocumentComponent;
     var noScrollAnchorCurry = _package("com.botilab.components").noScrollAnchorCurry;
     var listController = _package("com.botilab.components.list").InnerController;
 
@@ -29,7 +28,7 @@
             m(".container", [
                 m(".row", [
                     m(".col-md-9", [
-                        listItems()
+                        m(listDocumentComponent, {items:  ctrl.vm.items, getTagState:  ctrl.getTagState})
                     ]),
                     m(".col-sm-3", [
                         m(listTagComponent, {listItemType: ctrl.tagArgs})
@@ -73,41 +72,13 @@
             });
         }
 
-        function listItems() {
-            var items = ctrl.vm.items();
-            if (!items) {
-                return [];
-            }
-            var listItems = items.map(listItem);
-            return m(".blog-masonry-container", listItems);
-        }
-
-        function listItem(itemData) {
-            return m(".col-md-4.col-sm-4.blog-masonry-item.branding", [
-                m(".item-inner", [
-                    m(pdfThumbnailComponent, {pdfUrl: itemData.meta.download_url}),
-                    m(".post-title", [
-                        m("h4", itemData.title),
-                        m(".sidebar-widget", [
-                            m("ul.tags", [
-                                itemData.tags.map(function (tagName) {
-                                    var tagActive = ctrl.getTagState(tagName);
-                                    return tagItem(tagName, "#", tagActive);
-                                })
-                            ])
-
-                        ])
-                    ])
-                ])
-            ]);
-        }
 
         function pagination() {
             return [
-                m(".container", [
-                    m("row", [
-                        m(".col-sm-12.text-center", [
-                            m("ul.pagination.pagination-md", [
+                m(".container",[
+                    m(".row",[
+                        m(".col-sm-12.text-center",[
+                            m("ul.pagination.pagination-md",[
                                 paginationItems()
                             ])
                         ])
