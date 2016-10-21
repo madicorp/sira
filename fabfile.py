@@ -1,4 +1,7 @@
 import atexit
+import os
+import platform
+import shutil
 import time
 
 import urllib3
@@ -22,10 +25,21 @@ def _create_devops_user_and_group(pwd):
     sudo('echo "{}:{}" | sudo chpasswd'.format(_devops_user, pwd))
 
 
+def _get_pub_key_content():
+    platform_name = platform.platform()
+    if 'Windows' == platform_name:
+        # On Widows
+        pub_key_location = os.path.join(os.getenv('userprofile'), '.ssh/id_rsa.pub')
+    else:
+        # We normally are on Unix system for our users
+        pub_key_location = '~/.ssh/id_rsa.pub'
+    with open(pub_key_location, 'r') as pub_key_file:
+        return pub_key_file.read().replace('\n', '')
+
+
 def _add_user_public_ssh_key_to_authorized_users():
     # get current user public key
-    with settings(hide('warnings', 'running', 'stdout', 'stderr')):
-        public_key = local('cat ~/.ssh/id_rsa.pub', capture=True)
+    public_key = _get_pub_key_content()
     # create ssh dir if it does not exist
     ssh_dir = '/home/{}/.ssh/'.format(_devops_user)
     sudo('mkdir -p {}'.format(ssh_dir))
@@ -47,8 +61,8 @@ def _create_apps_dir():
 def _install_docker_prerequisites():
     sudo('apt-get update')
     sudo('apt-get install -y apt-transport-https ca-certificates')
-    sudo(
-        'apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D')
+    recv_key = '58118E89F3A912897C070ADBF76221572C52609D'
+    sudo('apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys {}'.format(recv_key))
     docker_list = '/etc/apt/sources.list.d/docker.list'
     sudo('touch {0} && chmod 644 {0}'.format(docker_list))
     sudo('echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > {}'.format(docker_list))
@@ -72,8 +86,9 @@ def _install_docker():
 
 
 def _install_docker_compose():
-    run(
-        'curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m` > docker-compose')
+    download_docker_compose = \
+        'curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m`'
+    run('{} > docker-compose'.format(download_docker_compose))
     sudo('mv docker-compose /usr/local/bin/')
     sudo('chmod 751 /usr/local/bin/docker-compose')
     sudo('chgrp docker /usr/local/bin/docker-compose')
@@ -132,7 +147,9 @@ def _upload_static(env):
     with shell_env(DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
         # build static
         puts('Compressing with settings {}'.format(_get_django_settings_module(env)))
-        local('rm -rf static')
+        # Delete static dir cross platform
+        # We do not check rights as we suppose running user owns this git repo
+        shutil.rmtree('static')
         local('python ./manage.py collectstatic -v0 --no-input')
         local('python ./manage.py compress')
     # upload
@@ -162,7 +179,6 @@ def _get_sira_image_id(version):
 
 def _build_sira_image(version, env, force_image_build=False):
     image_id = _get_sira_image_id(version)
-
     with settings(hide('warnings', 'running', 'stdout', 'stderr')):
         image_exists = local('docker images -q {} 2> /dev/null'.format(image_id), capture=True)
     if not force_image_build and image_exists:
@@ -186,8 +202,20 @@ def _push_sira_docker_image(version, env, force_image_build):
 
 
 def _build_docker_compose_file(version, env):
-    with shell_env(VERSION=version, STATIC_DIR='/var/apps/sira/static', MEDIA_DIR='/var/apps/sira/media'):
-        local('cat docker-compose.{}.tmplt | envsubst > {}'.format(env, _docker_compose_filename))
+    os.environ['VERSION'] = version
+    os.environ['STATIC_DIR'] = '/var/apps/sira/static'
+    os.environ['MEDIA_DIR'] = '/var/apps/sira/media'
+    with open('docker-compose.{}.tmplt'.format(env), 'r') as templated_file, \
+            open(_docker_compose_filename, 'w') as output_file:
+        for templated_line in templated_file:
+            output_file.writelines(os.path.expandvars(templated_line))
+
+
+def _delete_if_exists(file_path):
+    try:
+        os.remove(file_path)
+    except OSError:
+        pass
 
 
 def _push_docker_compose(version, env):
@@ -200,11 +228,11 @@ def _push_docker_compose(version, env):
     _build_docker_compose_file(version, env)
 
     put(_docker_compose_filename, _remote_sira_app_dir)
-    local('rm {}'.format(_docker_compose_filename))
+    _delete_if_exists(_docker_compose_filename)
     puts('sira docker-compose file uploaded')
 
 
-def _push_deployment_assets(version, env, force_image_build, include_media):
+def _push_deployment_assets(version, env, force_image_build, include_media, push_local_image):
     # create app dir if it does not exist
     run('mkdir -p {}'.format(_remote_sira_app_dir))
 
@@ -213,25 +241,33 @@ def _push_deployment_assets(version, env, force_image_build, include_media):
     _upload_media(include_media)
 
     # generate and upload version file
-    local('echo {} > version'.format(version))
-    put('version', _remote_sira_app_dir)
-    local('rm version')
+    version_filename = 'version'
+    with open(version_filename, 'w') as version_file:
+        version_file.writelines(version)
+    put(version_filename, _remote_sira_app_dir)
+    _delete_if_exists(version_filename)
 
     # upload files needed by docker compose images
     put('docker', _remote_sira_app_dir)
 
-    _push_sira_docker_image(version, env, force_image_build)
+    if push_local_image:
+        # If we not get image from dockerhub we rebuild it locally and push it to the server
+        _push_sira_docker_image(version, env, force_image_build)
 
     _push_docker_compose(version, env)
 
 
-def _launch_app(version, postgres_user, postgres_password, env):
+def _launch_app(version, postgres_user, postgres_password, env, push_local_image):
     with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password, ENV=env,
                    DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
-        load_sira_img_cmd = 'docker load -i {}'.format(_get_sira_docker_image_filename(version))
+        mv_to_sira_app_dir = 'cd {}'.format(_remote_sira_app_dir)
         build_app_cmd = 'docker-compose build'
         launch_app_cmd = 'docker-compose up -d'
-        run('(cd {} && {} && {} && {})'.format(_remote_sira_app_dir, load_sira_img_cmd, build_app_cmd, launch_app_cmd))
+        if push_local_image:
+            load_sira_img_cmd = 'docker load -i {}'.format(_get_sira_docker_image_filename(version))
+            run('({} && {} && {} && {})'.format(mv_to_sira_app_dir, load_sira_img_cmd, build_app_cmd, launch_app_cmd))
+        else:
+            run('({} && {} && {})'.format(mv_to_sira_app_dir, build_app_cmd, launch_app_cmd))
     puts('sira app {} launched'.format(version))
 
 
@@ -257,10 +293,9 @@ def install_docker_images():
     for image_name in images:
         docker_image = '{}.docker'.format(image_name)
         docker_image_name_with_tag = images[image_name]
-        with settings(hide('warnings', 'running', 'stdout', 'stderr'), warn_only=True):
-            docker_image_exists = local('ls {}'.format(docker_image), capture=True)
-        if docker_image_exists.failed:
-            puts('Archived image {} for {} not found, generating it'.format(docker_image, docker_image_name_with_tag))
+        if not os.path.exists(docker_image):
+            puts('Archived image {} for {} not found, generating it'.format(docker_image,
+                                                                            docker_image_name_with_tag))
             local('docker save -o {} {}'.format(docker_image, docker_image_name_with_tag))
         else:
             puts('Archived image {} for {} found, using it'.format(docker_image, docker_image_name_with_tag))
@@ -268,9 +303,11 @@ def install_docker_images():
         run('docker load -i {}'.format(docker_image))
 
 
-def deploy(version, postgres_user, postgres_password, env='prod', force_image_build=False, include_media=False):
+def deploy(version, postgres_user, postgres_password, env='prod', force_image_build=False, include_media=False,
+           push_local_image=False):
     """
     create tag and deploy application to server
+    :param push_local_image: if you want to push local image to deployment environment rather than use dockerhub
     :param include_media: if you want to push your local media files, default to False
     :param force_image_build: True if you want to force sira docker image build, default to False
     :param postgres_password: postgres password to use
@@ -285,9 +322,9 @@ def deploy(version, postgres_user, postgres_password, env='prod', force_image_bu
 
     _stop_remote_app_and_clean()
 
-    _push_deployment_assets(version, env, force_image_build, include_media)
+    _push_deployment_assets(version, env, force_image_build, include_media, push_local_image)
 
-    _launch_app(version, postgres_user, postgres_password, env)
+    _launch_app(version, postgres_user, postgres_password, env, push_local_image)
 
 
 def local_docker_compose(version, env='dev'):
@@ -335,8 +372,20 @@ def local_launch():
             _wait_for('localhost', 9200)
     local('./local_launch.sh')
 
+    # always invoked before fab task completely exits even when error
 
-# always invoked before fab task completely exits even when error
+
+def build_sira_image(version, env):
+    """
+    Build sira docker image based on the tagged version
+    :param version: the docker version to build
+    :param env: the environment to build
+    """
+    _save_local_repo_initial_state()
+    _checkout_version(version)
+    _build_sira_image(version, env, True)
+
+
 @atexit.register
 def _reset_local_repo_to_initial_state():
     """
@@ -347,4 +396,5 @@ def _reset_local_repo_to_initial_state():
     with settings(hide('warnings', 'running', 'stdout', 'stderr'), warn_only=True):
         local('git checkout {}'.format(_original_branch))
         local('git stash pop')
-    puts('initial repo state restored. original branch "{}" checked out ; changes unstashed'.format(_original_branch))
+    puts('initial repo state restored. original branch "{}" checked out ; changes unstashed'.format(
+        _original_branch))
