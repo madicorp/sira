@@ -1,7 +1,6 @@
 import atexit
 import os
 import platform
-import shutil
 import time
 
 import urllib3
@@ -16,7 +15,17 @@ _remote_app_dir = '/var/apps/'
 _remote_sira_app_dir = '{}sira/'.format(_remote_app_dir)
 _original_branch = None
 _docker_compose_filename = 'docker-compose.yml'
-_docker_file_name = 'dockerfile'
+_docker_filename = 'Dockerfile'
+
+
+def _is_on_windows():
+    return 'Windows' in platform.platform()
+
+
+def _local_execution(fn_windows_exec, fn_unix_exec):
+    if _is_on_windows():
+        return fn_windows_exec()
+    return fn_unix_exec()
 
 
 def _create_devops_user_and_group(pwd):
@@ -25,14 +34,16 @@ def _create_devops_user_and_group(pwd):
     sudo('echo "{}:{}" | sudo chpasswd'.format(_devops_user, pwd))
 
 
+def _get_pub_key_location_windows():
+    return os.path.join(os.getenv('userprofile'), '.ssh/id_rsa.pub')
+
+
+def _get_pub_key_location_unix():
+    return '~/.ssh/id_rsa.pub'
+
+
 def _get_pub_key_content():
-    platform_name = platform.platform()
-    if 'Windows' == platform_name:
-        # On Widows
-        pub_key_location = os.path.join(os.getenv('userprofile'), '.ssh/id_rsa.pub')
-    else:
-        # We normally are on Unix system for our users
-        pub_key_location = '~/.ssh/id_rsa.pub'
+    pub_key_location = _local_execution(_get_pub_key_location_windows, _get_pub_key_location_unix)
     with open(pub_key_location, 'r') as pub_key_file:
         return pub_key_file.read().replace('\n', '')
 
@@ -95,7 +106,10 @@ def _install_docker_compose():
 
 
 def _get_django_settings_module(env):
-    return 'sira.settings.{}'.format(env)
+    sira_settings = 'sira.settings.{}'.format(env)
+    if _is_on_windows():
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", sira_settings)
+    return sira_settings
 
 
 def _stop_remote_app_and_clean():
@@ -149,9 +163,10 @@ def _upload_static(env):
         puts('Compressing with settings {}'.format(_get_django_settings_module(env)))
         # Delete static dir cross platform
         # We do not check rights as we suppose running user owns this git repo
-        shutil.rmtree('static')
-        local('python ./manage.py collectstatic -v0 --no-input')
-        local('python ./manage.py compress')
+        if exists('static'):
+            _local_execution(lambda: local('rmdir /s /q static'), lambda: local('rm -rf static'))
+        local('python manage.py collectstatic -v0 --no-input')
+        local('python manage.py compress')
     # upload
     put('static', _remote_sira_app_dir)
     puts('static files uploaded to server')
@@ -186,9 +201,9 @@ def _build_sira_image(version, env, force_image_build=False):
     else:
         with shell_env(VERSION=version, ENV=env, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
             # generate dockerfile from template
-            local('cat dockerfile.tmplt | envsubst > {}'.format(_docker_file_name))
+            local('cat dockerfile.tmplt | envsubst > {}'.format(_docker_filename))
             local('docker build -t {} .'.format(image_id))
-            local('rm -f {}'.format(_docker_file_name))
+            local('rm -f {}'.format(_docker_filename))
 
 
 def _push_sira_docker_image(version, env, force_image_build):
