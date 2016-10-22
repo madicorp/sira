@@ -9,7 +9,7 @@ ADD ./requirements.txt /usr/src/sira/requirements.txt
 # Getting all project's dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-ADD ./static/CACHE/manifest.json /usr/src/sira/static/CACHE/manifest.json
+ADD ./static /usr/src/sira/static
 
 ADD ./docker /usr/src/sira/docker
 ADD ./manage.py /usr/src/sira/manage.py

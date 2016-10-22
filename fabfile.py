@@ -15,7 +15,7 @@ _remote_app_dir = '/var/apps/'
 _remote_sira_app_dir = '{}sira/'.format(_remote_app_dir)
 _original_branch = None
 _docker_compose_filename = 'docker-compose.yml'
-_dockerfile_filename = 'Dockerfile'
+_docker_filename = 'Dockerfile'
 
 
 def _is_on_windows():
@@ -154,24 +154,6 @@ def _checkout_version(version):
     puts('version {} checked out'.format(version))
 
 
-def _upload_static(env):
-    """
-    upload sira static files to server
-    """
-    with shell_env(DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
-        # build static
-        puts('Compressing with settings {}'.format(_get_django_settings_module(env)))
-        # Delete static dir cross platform
-        # We do not check rights as we suppose running user owns this git repo
-        if exists('static'):
-            _local_execution(lambda: local('rmdir /s /q static'), lambda: local('rm -rf static'))
-        local('python manage.py collectstatic -v0 --no-input')
-        local('python manage.py compress')
-    # upload
-    put('static', _remote_sira_app_dir)
-    puts('static files uploaded to server')
-
-
 def _upload_media(include_media):
     """
     upload sira media files to server if include_media set to True
@@ -201,15 +183,25 @@ def _build_sira_image(version, env, force_image_build=False):
     else:
         with shell_env(VERSION=version, ENV=env, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
             # generate dockerfile from template
-            local('cat dockerfile.tmplt | envsubst > {}'.format(_dockerfile_filename))
             local('docker build -t {} .'.format(image_id))
-            local('rm -f {}'.format(_dockerfile_filename))
 
 
-def _build_docker_compose_file(version, env):
+def _push_sira_docker_image(version, env, force_image_build):
+    _build_sira_image(version, env, force_image_build)
+
+    sira_docker_image_filename = _get_sira_docker_image_filename(version)
+    sira_image_id = _get_sira_image_id(version)
+    with settings(hide('warnings', 'running', 'stdout', 'stderr'), warn_only=True):
+        image_exists = run('docker images -q {} 2> /dev/null'.format(sira_image_id))
+    if image_exists:
+        run('docker rmi {}'.format(sira_image_id))
+    local('docker save -o {} {}'.format(sira_docker_image_filename, sira_image_id))
+    put(sira_docker_image_filename, _remote_sira_app_dir)
+
+
+def _build_docker_compose_file(version, env, media_dir='/var/apps/sira/media'):
     os.environ['VERSION'] = version
-    os.environ['STATIC_DIR'] = '/var/apps/sira/static'
-    os.environ['MEDIA_DIR'] = '/var/apps/sira/media'
+    os.environ['MEDIA_DIR'] = media_dir
     with open('docker-compose.{}.tmplt'.format(env), 'r') as templated_file, \
             open(_docker_compose_filename, 'w') as output_file:
         for templated_line in templated_file:
@@ -237,11 +229,9 @@ def _push_docker_compose(version, env):
     puts('sira docker-compose file uploaded')
 
 
-def _push_deployment_assets(version, env, include_media):
+def _push_deployment_assets(version, env, force_image_build, include_media, push_local_image):
     # create app dir if it does not exist
     run('mkdir -p {}'.format(_remote_sira_app_dir))
-
-    _upload_static(env)
 
     _upload_media(include_media)
 
@@ -255,23 +245,32 @@ def _push_deployment_assets(version, env, include_media):
     # upload files needed by docker compose images
     put('docker', _remote_sira_app_dir)
 
-    put(_dockerfile_filename)
+    if push_local_image:
+        # If we not get image from dockerhub we rebuild it locally and push it to the server
+        _push_sira_docker_image(version, env, force_image_build)
 
     _push_docker_compose(version, env)
 
 
-def _launch_app(version, postgres_user, postgres_password, env):
+def _launch_app(version, postgres_user, postgres_password, env, push_local_image):
     with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password, ENV=env,
                    DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
-        build_sira_docker_img = 'docker build -t {} .'.format(version)
         mv_to_sira_app_dir = 'cd {}'.format(_remote_sira_app_dir)
         build_app_cmd = 'docker-compose build'
         launch_app_cmd = 'docker-compose up -d'
-        run('({} && {} && {} && {})'.format(mv_to_sira_app_dir, build_sira_docker_img, build_app_cmd, launch_app_cmd))
-        # The next command remove the ekougs/sira dangling containers by taking their IDs
-        # It's to avoid piling up images that will take too much space
-        run('docker rmi $(docker images -f "dangling=true" | grep ekougs/sira | tr -s ' ' | cut -f3 -d' ')')
-        puts('sira app {} launched'.format(version))
+        if push_local_image:
+            load_sira_img_cmd = 'docker load -i {}'.format(_get_sira_docker_image_filename(version))
+            run('({} && {} && {} && {})'.format(mv_to_sira_app_dir, load_sira_img_cmd, build_app_cmd, launch_app_cmd))
+        else:
+            run('({} && {} && {})'.format(mv_to_sira_app_dir, build_app_cmd, launch_app_cmd))
+
+    # TODO handle error possibility on first command
+    # remove dangling sira images to make space on disk
+    dangling_sira_imgs_cmd = 'docker images -f "dangling=true" | grep ekougs/sira'
+    dangling_sira_imgs = run(dangling_sira_imgs_cmd)
+    if dangling_sira_imgs:
+        run('docker rmi $({} | tr -s '' | cut -f3 -d\' \')'.format(dangling_sira_imgs_cmd))
+    puts('sira app {} launched'.format(version))
 
 
 def init_tools(pwd):
@@ -306,12 +305,13 @@ def install_docker_images():
         run('docker load -i {}'.format(docker_image))
 
 
-def deploy(version, postgres_user, postgres_password, env='prod', include_media=False,
+def deploy(version, postgres_user, postgres_password, env='prod', force_image_build=False, include_media=False,
            push_local_image=False):
     """
     create tag and deploy application to server
     :param push_local_image: if you want to push local image to deployment environment rather than use dockerhub
     :param include_media: if you want to push your local media files, default to False
+    :param force_image_build: True if you want to force sira docker image build, default to False
     :param postgres_password: postgres password to use
     :param postgres_user: postgres user to use
     :param env: the env for settings
@@ -324,26 +324,30 @@ def deploy(version, postgres_user, postgres_password, env='prod', include_media=
 
     _stop_remote_app_and_clean()
 
-    _push_deployment_assets(version, env, include_media)
+    _push_deployment_assets(version, env, force_image_build, include_media, push_local_image)
 
-    _launch_app(version, postgres_user, postgres_password, env)
+    _launch_app(version, postgres_user, postgres_password, env, push_local_image)
 
 
-def local_docker_compose(version, env='dev'):
+def local_docker_compose(version, postgres_user, postgres_password, env='dev'):
     """
     Launch a docker-compose with current sources on the provided environment. Useful to simulate before deployment
-    :param version: the version to
+    :param postgres_password:
+    :param postgres_user:
+    :param version: the version of sira image to launch locally
     :param env: the environment to launch locally ; default is 'dev'
     """
     _build_sira_image(version, env, True)
 
-    _build_docker_compose_file(version, env)
+    _build_docker_compose_file(version, env, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media'))
 
     stop_app_cmd = 'docker-compose stop'
     remove_app_containers_cmd = 'docker-compose rm -f'
     build_app_cmd = 'docker-compose build'
     launch_app_cmd = 'docker-compose up -d'
-    local('{} && {} && {} && {}'.format(stop_app_cmd, remove_app_containers_cmd, build_app_cmd, launch_app_cmd))
+    with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password, ENV=env,
+                   DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
+        local('{} && {} && {} && {}'.format(stop_app_cmd, remove_app_containers_cmd, build_app_cmd, launch_app_cmd))
 
 
 def _wait_for(host, port):

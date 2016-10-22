@@ -6,7 +6,9 @@ sira:
   links:
     - postgres:postgres
     - redis:redis
-    - elasticsearch:elasticsearch
+    - elasticsearch:elasticsearch  
+  volumes:
+    - /usr/src/sira/static
   environment:
     - DJANGO_SETTINGS_MODULE
     - POSTGRES_USER
@@ -20,9 +22,10 @@ nginx:
   ports:
     - "80:80"
   volumes:
-    - $STATIC_DIR:/www/static
     - $MEDIA_DIR:/www/media
     - /var/run/docker.sock:/tmp/docker.sock:ro
+  volumes_from:
+    - sira
   links:
     - sira:web
 

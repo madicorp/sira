@@ -8,7 +8,6 @@ sira:
     - redis:redis
     - elasticsearch:elasticsearch
   volumes:
-    - /usr/src/sira
     - /usr/src/sira/static
   environment:
     - DJANGO_SETTINGS_MODULE
@@ -23,7 +22,6 @@ nginx:
   ports:
     - "80:80"
   volumes:
-    - ${STATIC_DIR}:/www/static
     - ${MEDIA_DIR}:/www/media
     - /var/run/docker.sock:/tmp/docker.sock:ro
   volumes_from:
