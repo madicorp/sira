@@ -1,4 +1,7 @@
 from django import template
+from el_pagination.paginators import LazyPaginator
+from el_pagination.templatetags.el_pagination_tags import paginate
+from puput.urls import get_entry_url
 from wagtail.wagtailcore.models import Page
 
 register = template.Library()
@@ -86,3 +89,16 @@ def documents_block_homepage(context):
     return {
         'request': context['request']
     }
+
+
+@register.simple_tag(takes_context=True)
+def entry_url(context, entry, blog_page):
+    return get_entry_url(entry, blog_page.page_ptr, context['request'].site.root_page)
+
+
+@register.tag
+def lazy_paginate(parser, token):
+    return paginate(parser, token, LazyPaginator)
+
+
+register.tag('paginate', lazy_paginate)

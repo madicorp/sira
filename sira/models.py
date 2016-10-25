@@ -7,6 +7,7 @@ class HomePage(Page):
         FieldPanel('title', classname="full title"),
     ]
     promote_panels = Page.promote_panels
+    subpage_types = ['puput.BlogPage', 'sira.DocumentPage']
 
     class Meta:
         verbose_name = "Accueil"
@@ -17,6 +18,7 @@ class DocumentPage(Page):
         FieldPanel('title', classname="full title"),
     ]
     promote_panels = Page.promote_panels
+    subpage_types = []
 
     class Meta:
         verbose_name = "Documents"

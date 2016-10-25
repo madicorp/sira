@@ -38,6 +38,10 @@
     color: #339900;
 }
 
+.blog-masonry-item span.sub.alt-font {
+    color: #000;
+}
+
 .sub a {
     color: #fff;
 }
@@ -163,4 +167,13 @@
 
 .tags a.inactive {
     background-color: transparent;
+}
+
+.post-title h3 {
+    height: 4em;
+    overflow: scroll;
+}
+
+.pagination-block {
+    text-align: center;
 }

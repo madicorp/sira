@@ -28,7 +28,7 @@
             m(".container", [
                 m(".row", [
                     m(".col-md-9", [
-                        m(listDocumentComponent, {items:  ctrl.vm.items, getTagState:  ctrl.getTagState})
+                        m(listDocumentComponent, {items: ctrl.vm.items, getTagState: ctrl.getTagState})
                     ]),
                     m(".col-sm-3", [
                         m(listTagComponent, {listItemType: ctrl.tagArgs})
@@ -75,10 +75,10 @@
 
         function pagination() {
             return [
-                m(".container",[
-                    m(".row",[
-                        m(".col-sm-12.text-center",[
-                            m("ul.pagination.pagination-md",[
+                m(".container", [
+                    m(".row", [
+                        m(".col-sm-12.text-center", [
+                            m("ul.pagination.pagination-md", [
                                 paginationItems()
                             ])
                         ])
@@ -106,7 +106,7 @@
                          onclick: noScrollAnchorCurry(ctrl.prev)
                      },
                      m("a[href='#']", [
-                           m("i.icon.arrow_left")
+                           "<"
                        ]
                      )
             );
@@ -121,7 +121,7 @@
                          onclick: noScrollAnchorCurry(ctrl.next)
                      },
                      m("a[href='#']", [
-                           m("i.icon.arrow_right")
+                           ">"
                        ]
                      )
             );
