@@ -1,4 +1,4 @@
-{% load sira_tags compress static %}
+{% load sira_tags compress static wagtailimages_tags sira_tags puput_tags %}
 <section class="main-news-block side-image text-heavy clearfix">
     <div class="image-container col-md-4 col-sm-3 pull-left">
         <div class="background-image-holder">
@@ -24,84 +24,52 @@
                 <div class="row">
                     <div class="comment-list">
                         <ol>
-                            <li>
-                                <div class="blog-comment">
-                                    <div class="user">
-                                        <img alt="User" src="{% static "sira/images/team-small-2.png" %}">
-                                    </div>
-                                    <div class="message">
-                                        <div class="info">
-                                            <h6>Chip Mayer</h6>
-                                            <span class="date alt-font sub">September 17 2014</span>
-                                            <a href="#" class="link-text">Reply</a>
+                            {% get_news_page as news_page %}
+                            {% get_last_news_entries as news_entries %}
+                            {% for news_entry in news_entries %}
+                                <li>
+                                    <div class="blog-comment">
+                                        <div class="user">
+                                            {% if news_entry.header_image %}
+                                                {% image news_entry.header_image fill-100x60 as header_image %}
+                                                <img alt="{{ news_entry.header_image.title }}"
+                                                     src="{{ header_image.url }}">
+                                            {% endif %}
                                         </div>
-                                        <p>
-                                            Under my tutelage, you will grow from boys to men. From men into gladiators.
-                                            And
-                                            from gladiators into Swansons.
-                                        </p>
-                                    </div>
-                                </div>
-                            </li><!--end of individual comment-->
-
-                            <li>
-                                <div class="blog-comment">
-                                    <div class="user">
-                                        <img alt="User" src="{% static "sira/images/team-small-2.png" %}">
-                                    </div>
-                                    <div class="message">
-                                        <div class="info">
-                                            <h6>Rita Repulsa</h6>
-                                            <span class="date alt-font sub">September 18 2014</span>
-                                            <a href="#" class="link-text">Reply</a>
+                                        <div class="message">
+                                            <div class="info">
+                                                <a href="{% entry_url news_entry news_page %}"><h6>{{ news_entry.title }}</h6></a>
+                                                <div class="alt-font sub">{{ news_entry.owner.username }}</div>
+                                                <span class="date alt-font sub">{{ news_entry.date|date:"DATE_FORMAT" }}</span>
+                                                <a href="{% entry_url news_entry news_page %}" class="link-text">Lire
+                                                    plus</a>
+                                            </div>
+                                            <p>
+                                                {{ news_entry.body }}
+                                            </p>
                                         </div>
-                                        <p>
-                                            Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis
-                                            voluptatibus maiores alias consequatur aut perferendis doloribus asperiores
-                                            repellat.
-                                        </p>
                                     </div>
-                                </div>
-                            </li><!--end of individual comment-->
-                            <li>
-                                <div class="blog-comment">
-                                    <div class="user">
-                                        <img alt="User" src="{% static "sira/images/team-small-2.png" %}">
-                                    </div>
-                                    <div class="message">
-                                        <div class="info">
-                                            <h6>Rita Repulsa</h6>
-                                            <span class="date alt-font sub">September 18 2014</span>
-                                            <a href="#" class="link-text">Reply</a>
-                                        </div>
-                                        <p>
-                                            Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis
-                                            voluptatibus maiores alias consequatur aut perferendis doloribus asperiores
-                                            repellat.
-                                        </p>
-                                    </div>
-                                </div>
-                            </li><!--end of individual comment-->
-                            <li>
-                                <div class="blog-comment">
-                                    <div class="user">
-                                        <img alt="User" src="{% static "sira/images/team-small-2.png" %}">
-                                    </div>
-                                    <div class="message">
-                                        <div class="info">
-                                            <h6>Bill Thompson</h6>
-                                            <span class="date alt-font sub">September 12 2014</span>
-                                            <a href="#" class="link-text">Reply</a>
-                                        </div>
-                                        <p>
-                                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                                            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                                            occaecat cupidatat non proident.
-                                        </p>
-                                    </div>
-                                </div>
-                            </li><!--end of individual comment-->
+                                </li>
+                            {% endfor %}
+                            {#                            <li>#}
+                            {#                                <div class="blog-comment">#}
+                            {#                                    <div class="user">#}
+                            {#                                        <img alt="User" src="{% static "sira/images/team-small-2.png" %}">#}
+                            {#                                    </div>#}
+                            {#                                    <div class="message">#}
+                            {#                                        <div class="info">#}
+                            {#                                            <h6>Chip Mayer</h6>#}
+                            {#                                            <span class="date alt-font sub">September 17 2014</span>#}
+                            {#                                            <a href="#" class="link-text">Reply</a>#}
+                            {#                                        </div>#}
+                            {#                                        <p>#}
+                            {#                                            Under my tutelage, you will grow from boys to men. From men into gladiators.#}
+                            {#                                            And#}
+                            {#                                            from gladiators into Swansons.#}
+                            {#                                        </p>#}
+                            {#                                    </div>#}
+                            {#                                </div>#}
+                            {#                            </li><!--end of individual comment-->#}
 
                         </ol>
                     </div>

@@ -1,6 +1,6 @@
 {% extends "sira/base.html" %}
 
-{% load static i18n wagtailcore_tags wagtailimages_tags el_pagination_tags puput_tags sira_tags %}
+{% load static i18n wagtailcore_tags wagtailimages_tags el_pagination_tags puput_tags %}
 
 {% block title %}{% if search_term %}{{ search_term }} | {{ blog_page.title }}{% else %}{{ block.super }}
 {% endif %}{% endblock title %}

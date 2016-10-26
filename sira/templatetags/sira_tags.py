@@ -1,7 +1,6 @@
+from bs4 import BeautifulSoup
 from django import template
-from el_pagination.paginators import LazyPaginator
-from el_pagination.templatetags.el_pagination_tags import paginate
-from puput.urls import get_entry_url
+from puput.models import BlogPage
 from wagtail.wagtailcore.models import Page
 
 register = template.Library()
@@ -91,14 +90,16 @@ def documents_block_homepage(context):
     }
 
 
-@register.simple_tag(takes_context=True)
-def entry_url(context, entry, blog_page):
-    return get_entry_url(entry, blog_page.page_ptr, context['request'].site.root_page)
+@register.simple_tag()
+def get_news_page():
+    return BlogPage.objects.first()
 
 
-@register.tag
-def lazy_paginate(parser, token):
-    return paginate(parser, token, LazyPaginator)
-
-
-register.tag('paginate', lazy_paginate)
+@register.simple_tag()
+def get_last_news_entries():
+    news_page = get_news_page()
+    news_entries = news_page.get_entries()
+    last_news_entries = news_entries[:news_page.num_last_entries]
+    for index, news_entry in enumerate(last_news_entries):
+        news_entry.body = BeautifulSoup(news_entry.body).text[:150]
+    return last_news_entries

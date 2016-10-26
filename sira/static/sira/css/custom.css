@@ -177,3 +177,17 @@
 .pagination-block {
     text-align: center;
 }
+
+.comment-list ol {
+    list-style-type: none;
+}
+
+.message .info a:focus {
+    text-decoration: none;
+}
+
+.message p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
