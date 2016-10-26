@@ -182,7 +182,7 @@
     list-style-type: none;
 }
 
-.message .info a:focus {
+.message .info a:focus, .main-news-block .block-link a {
     text-decoration: none;
 }
 
