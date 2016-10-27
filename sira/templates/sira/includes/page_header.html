@@ -1,0 +1,13 @@
+{% load static %}
+<section>
+    <div class="background-image-holder parallax-background">
+        <img class="background-image" alt="Background Image" src="{% static "sira/images/hero17.jpg" %}">
+    </div>
+    <div class="container align-vertical sira-page-header">
+        <div class="row">
+            <div class="col-md-6 col-sm-9">
+                <h1>{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}</h1>
+            </div>
+        </div>
+    </div>
+</section>

@@ -101,5 +101,13 @@ def get_last_news_entries():
     news_entries = news_page.get_entries()
     last_news_entries = news_entries[:news_page.num_last_entries]
     for index, news_entry in enumerate(last_news_entries):
-        news_entry.body = BeautifulSoup(news_entry.body).text[:150]
+        news_entry.body = get_entry_sample(news_entry.body, False)
     return last_news_entries
+
+
+@register.simple_tag()
+def get_entry_sample(entry_body, ellipsis=True):
+    entry_sample = BeautifulSoup(entry_body).text[:150]
+    if not ellipsis:
+        return entry_sample
+    return entry_sample + '...'

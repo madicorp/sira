@@ -43,12 +43,16 @@
             return [
                 m(".container", [
                     m(".row", [
-                        m(".col-sm-12.text-center", [
+                        m(".col-sm-3.text-center"),
+                        m(".col-sm-6.text-center", [
                             m(".sidebar-widget", [
                                 m("h5.widget-title"),
                                 m("form.comment-form", [
-                                    m(".form-input", [
-                                        filterItem()
+                                    m(".input-group", [
+                                        filterItem(),
+                                        m(".input-group-addon", [
+                                            m("i.glyphicon.glyphicon-search")
+                                        ])
                                     ])
                                 ])
                             ])
@@ -59,7 +63,7 @@
         }
 
         function filterItem() {
-            var filterInputSelector = "input[type=text][placeholder='Recherche...']";
+            var filterInputSelector = "input.form-control[type=text][placeholder='Recherche...']";
             var filterValue = ctrl.vm.filterValue();
             if (!ctrl.nullNorUndefined(filterValue)) {
                 filterInputSelector += "[value='" + filterValue + "']";

@@ -171,7 +171,7 @@
 
 .post-title h3 {
     height: 4em;
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .pagination-block {
@@ -190,4 +190,18 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.sira-page-header h1 {
+    color: #EB4247;
+}
+
+section.pagination-block, .search-box {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.comment-form input[type="text"], .comment-form textarea {
+    border: solid 1px #ccc !important;
+    border-radius: 10px;
 }

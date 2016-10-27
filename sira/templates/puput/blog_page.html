@@ -1,6 +1,6 @@
 {% extends "sira/base.html" %}
 
-{% load static i18n wagtailcore_tags wagtailimages_tags el_pagination_tags puput_tags %}
+{% load static i18n wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags el_pagination_tags puput_tags sira_tags %}
 
 {% block title %}{% if search_term %}{{ search_term }} | {{ blog_page.title }}{% else %}{{ block.super }}
 {% endif %}{% endblock title %}
@@ -25,25 +25,45 @@
 {% endblock social_share %}
 
 {% block content %}
+    {% include "sira/includes/page_header.html" %}
     {% with per_page=blog_page.num_entries_page %}
         {% lazy_paginate per_page entries %}
+        <div class="container search-box">
+            <div class="row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-6 text-center">
+                    <form name="search_form" method="get" action="{% routablepageurl blog_page "entries_search" %}"
+                          class="comment-form">
+                        <div class="input-group">
+                            <input type="text" name="q" placeholder="Rechercher" class="form-control" >
+                            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% include "sira/includes/news_pagination.html" %}
         <section class="blog-masonry bg-muted">
             <div class="container">
                 <div class="row">
-                    {% for entry in entries %}
+                    {% for news_entry in entries %}
                         <div class="col-md-4 col-sm-4 blog-masonry-item branding">
                             <div class="item-inner">
-                                {% if entry.header_image %}
-                                    {% image entry.header_image fill-400x270 as header_image %}
-                                    <img alt="{{ entry.header_image.title }}" src="{{ header_image.url }}">
+                                {% if news_entry.header_image %}
+                                    {% image news_entry.header_image fill-400x270 as header_image %}
+                                    <img alt="{{ news_entry.header_image.title }}" src="{{ header_image.url }}">
                                 {% endif %}
                                 <div class="post-title">
-                                    <h3><a href="{% entry_url entry blog_page %}">{{ entry.title }}</a></h3>
+                                    <h3><a href="{% entry_url news_entry blog_page %}">{{ news_entry.title }}</a></h3>
+                                    <p>
+                                        {% get_entry_sample news_entry.body %}
+                                    </p>
                                     <div class="post-meta">
-                                        <span class="sub alt-font">{{ entry.owner.username }}</span>
-                                        <span class="sub alt-font">{{ entry.date|date:"DATE_FORMAT" }}</span>
+                                        <span class="sub alt-font">{{ news_entry.owner.username }}</span>
+                                        <span class="sub alt-font">{{ news_entry.date|date:"DATE_FORMAT" }}</span>
                                     </div>
-                                    <a href="{% entry_url entry blog_page %}" class="link-text">Lire plus</a>
+                                    <a href="{% entry_url news_entry blog_page %}" class="link-text">Lire plus</a>
                                 </div>
                             </div>
                         </div>
@@ -51,21 +71,6 @@
                 </div>
             </div>
         </section>
-        <section class="pagination-block">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-                        {% get_pages %}
-                        <ul class="pagination pagination-md">
-                            <li {% if pages.current.number == pages.first.number %}class="disabled" {% endif %}><a href="#">&lt;</a></li>
-                            {% for page in pages %}
-                                <li {% if page.is_current %}class="active"{% endif %}><a href="/news?page={{ page.number }}">{{ page.number }}</a></li>
-                            {% endfor %}
-                            <li {% if pages.current.number == pages.last.number %}class="disabled" {% endif %}><a href="#">&gt;</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
+        {% include "sira/includes/news_pagination.html" %}
     {% endwith %}
 {% endblock content %}

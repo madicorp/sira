@@ -1,0 +1,17 @@
+{% load el_pagination_tags %}
+<section class="pagination-block">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+                {% get_pages %}
+                <ul class="pagination pagination-md">
+                    <li {% if pages.current.number == pages.first.number %}class="disabled" {% endif %}><a href="/news?page={{ pages.first.number }}">&lt;</a></li>
+                    {% for page in pages %}
+                        <li {% if page.is_current %}class="active"{% endif %}><a href="/news?page={{ page.number }}">{{ page.number }}</a></li>
+                    {% endfor %}
+                    <li {% if pages.current.number == pages.last.number %}class="disabled" {% endif %}><a href="/news?page={{ pages.last.number }}">&gt;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
