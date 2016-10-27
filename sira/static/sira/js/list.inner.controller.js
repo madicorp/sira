@@ -8,7 +8,7 @@
     function listController(componentArgs) {
         var baseListUrl = componentArgs.baseListUrl;
         var itemsKeyInResponse = componentArgs.itemsKeyInResponse;
-        var limit = 2;
+        var limit = 9;
         var vm = {
             items: m.prop([]),
             tagActiveStates: m.prop({}),
