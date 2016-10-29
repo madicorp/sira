@@ -1,7 +1,7 @@
 {% extends "sira/base.html" %}
 {% load sira_tags compress static %}
-{% breadcrumbs %}
 {% block content %}
+    {% include "sira/includes/page_header.html" %}
     <section class="blog-masonry bg-muted" id="documents">
     </section>
 {% endblock %}

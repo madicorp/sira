@@ -1,4 +1,6 @@
+from bs4 import BeautifulSoup
 from django import template
+from puput.models import BlogPage
 from wagtail.wagtailcore.models import Page
 
 register = template.Library()
@@ -86,3 +88,26 @@ def documents_block_homepage(context):
     return {
         'request': context['request']
     }
+
+
+@register.simple_tag()
+def get_news_page():
+    return BlogPage.objects.first()
+
+
+@register.simple_tag()
+def get_last_news_entries():
+    news_page = get_news_page()
+    news_entries = news_page.get_entries()
+    last_news_entries = news_entries[:news_page.num_last_entries]
+    for index, news_entry in enumerate(last_news_entries):
+        news_entry.body = get_entry_sample(news_entry.body, False)
+    return last_news_entries
+
+
+@register.simple_tag()
+def get_entry_sample(entry_body, ellipsis=True):
+    entry_sample = BeautifulSoup(entry_body).text[:150]
+    if not ellipsis:
+        return entry_sample
+    return entry_sample + '...'

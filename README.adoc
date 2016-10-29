@@ -37,9 +37,9 @@ Once done, `python manage.py compilemessages -l fr`
 This is automatically done when using the Vagrant configuration
 
 == Updating the migration files
-`./manage.py dumpdata auth.user --natural-foreign --indent 2 > sira/fixtures/user.json`
-`./manage.py dumpdata wagtaildocs.document --natural-foreign --indent 2 > sira/fixtures/documents.json`
-`./manage.py dumpdata -e wagtailcore.groupcollectionpermission -e auth.permission -e contenttypes.contenttype -e wagtailimages.image -e sessions.session -e auth.group -e auth.user -e wagtailcore.grouppagepermission --natural-foreign --indent 2 > sira/fixtures/sira.json`
+`python manage.py dumpdata auth.user --natural-foreign --indent 2 > sira/fixtures/user.json`
+`python manage.py dumpdata wagtaildocs.document --natural-foreign --indent 2 > sira/fixtures/documents.json`
+`python manage.py dumpdata -e wagtailcore.groupcollectionpermission -e auth.permission -e contenttypes.contenttype -e wagtailimages.image -e sessions.session -e auth.group -e auth.user -e wagtailcore.grouppagepermission --natural-foreign --indent 2 > sira/fixtures/sira.json`
 
 [[aliases]]
 == Get aliases
@@ -68,7 +68,7 @@ Do <<aliases>>
 
 
 == Launch tests
-`./manage.py test`
+`python manage.py test`
 
 
 == Deploy

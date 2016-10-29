@@ -38,6 +38,10 @@
     color: #339900;
 }
 
+.blog-masonry-item span.sub.alt-font {
+    color: #000;
+}
+
 .sub a {
     color: #fff;
 }
@@ -163,4 +167,41 @@
 
 .tags a.inactive {
     background-color: transparent;
+}
+
+.post-title h3 {
+    height: 4em;
+    overflow: hidden;
+}
+
+.pagination-block {
+    text-align: center;
+}
+
+.comment-list ol {
+    list-style-type: none;
+}
+
+.message .info a:focus, .main-news-block .block-link a {
+    text-decoration: none;
+}
+
+.message p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sira-page-header h1 {
+    color: #EB4247;
+}
+
+section.pagination-block, .search-box {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.comment-form input[type="text"], .comment-form textarea {
+    border: solid 1px #ccc !important;
+    border-radius: 10px;
 }

@@ -4,7 +4,6 @@ import os
 
 from django.conf import settings
 from django.conf.urls import include, url
-from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from wagtail.contrib.wagtailapi.endpoints import PagesAPIEndpoint, ImagesAPIEndpoint, DocumentsAPIEndpoint
@@ -51,15 +50,12 @@ wagtail_api_urlpatterns = [
 urlpatterns = [
     url(r'^documents/', include(wagtaildocs_urls)),
     url(r'^api/', include(wagtail_api_urlpatterns)),
-]
-
-urlpatterns += i18n_patterns(
+    url(r'', include('puput.urls')),
     url(r'^django-admin/', include(admin.site.urls)),
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^search/$', views.search, name='search'),
-    url(r'^(?!api)', include(wagtail_urls)),
-    prefix_default_language=True
-)
+    url(r'^(?!api)', include(wagtail_urls))
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

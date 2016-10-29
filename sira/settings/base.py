@@ -42,11 +42,15 @@ INSTALLED_APPS = [
     'wagtail.wagtailcore',
     'wagtail.contrib.wagtailsearchpromotions',
     'wagtail.contrib.wagtailapi',
+    'wagtail.contrib.wagtailsitemaps',
+    'wagtail.contrib.wagtailroutablepage',
+    'puput',
 
     'compressor',
     'modelcluster',
     'taggit',
     'rest_framework',
+    'el_pagination',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,7 +64,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -87,7 +90,6 @@ TEMPLATES = [
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
-                'django.template.context_processors.i18n',
                 'django.template.context_processors.static',
                 'django.template.context_processors.media',
                 'django.template.context_processors.tz',
@@ -117,20 +119,11 @@ COMPRESS_PRECOMPILERS = (
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'fr'
-
 TIME_ZONE = 'UTC'
-
-USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
-
-LANGUAGES = (
-    ('en', _('English')),
-    ('fr', _('Français')),
-)
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
@@ -157,7 +150,7 @@ MEDIA_URL = '/media/'
 
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = "sira"
+WAGTAIL_SITE_NAME = "SIRA"
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
@@ -170,4 +163,8 @@ WAGTAILSEARCH_BACKENDS = {
     }
 }
 
+PUPUT_AS_PLUGIN = True
+PUPUT_USERNAME_FIELD = 'userprofile'
+
+MIGRATION_MODULES = {'puput': 'sira.puput_migrations'}
 # Custom settings
