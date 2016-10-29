@@ -1,8 +1,5 @@
 (function () {
     var getQueryParam = _package("com.botilab.components").getQueryParam;
-    var insertParam = _package("com.botilab.components").insertParam;
-    var deleteParam = _package("com.botilab.components").deleteParam;
-
     _package("com.botilab.components.list").InnerController = listController;
 
     function listController(componentArgs) {
@@ -24,7 +21,7 @@
         this.filter = filter;
         this.setTagState = setTagState;
         this.getTagState = getTagState;
-        this.nullNorUndefined = nullNorUndefined;
+        this.nullNorUndefined = nullOrUndefined;
         this.to = to;
         this.tagArgs = componentArgs.listItemType;
         var activeTags = getQueryParam("tags") ? getQueryParam("tags").split("+") : [];
@@ -56,8 +53,8 @@
             to(0, value);
         }
 
-        function nullNorUndefined(filterValue) {
-            return filterValue === null || filterValue === undefined;
+        function nullOrUndefined(obj) {
+            return obj === null || obj === undefined;
         }
 
         function _nonEmptyArray(array) {
@@ -95,30 +92,34 @@
         }
 
         function _updateFilter(filterValue, activeTags) {
-            _updateFilterValue(filterValue);
-            var params = _updateTags(activeTags);
+            var filterValueParams = _updateFilterValue(filterValue);
+            var tagsParams = _updateTags(activeTags);
             // The 2 previous methods return the params after update
             // But the last is the most up to date
             // That's why we push it once in the browser history
+            var params = '?';
+            _.forIn(_.merge(filterValueParams, tagsParams), function(value, key) {
+                params += ('&' + key + '=' + value)
+            });
             window.history.pushState({}, window.document.title, params);
         }
 
         function _updateFilterValue(filterValue) {
-            if (nullNorUndefined(filterValue)) {
+            if (nullOrUndefined(filterValue)) {
                 filterValue = vm.filterValue();
             }
             vm.filterValue(filterValue);
             if (vm.filterValue() && "" !== vm.filterValue()) {
-                return insertParam("query", vm.filterValue())
+                return {"query": vm.filterValue()};
             }
-            return deleteParam("query");
+            return {};
         }
 
         function _updateTags(activeTags) {
-            if (nullNorUndefined(activeTags) || activeTags.length === 0) {
-                return deleteParam("tags");
+            if (nullOrUndefined(activeTags) || activeTags.length === 0) {
+                return {};
             }
-            return insertParam("tags", activeTags.join("+"))
+            return {"tags": activeTags.join("+")};
         }
 
         function _getApiQueryUrl(page) {

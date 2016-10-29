@@ -47,14 +47,21 @@
                         m(".col-sm-6.text-center", [
                             m(".sidebar-widget", [
                                 m("h5.widget-title"),
-                                m("form.comment-form", [
-                                    m(".input-group", [
-                                        filterItem(),
-                                        m(".input-group-addon", [
-                                            m("i.glyphicon.glyphicon-search")
-                                        ])
-                                    ])
-                                ])
+                                m("form.comment-form", {
+                                    onsubmit: function (e) {
+                                        console.log('onsubmit', e);
+                                        var query = e.target.querySelector('#search').value;
+                                        ctrl.filter(query || "");
+                                        return false;
+                                    }
+                                }, [
+                                      m(".input-group", [
+                                          filterItem(),
+                                          m(".input-group-addon", [
+                                              m("i.glyphicon.glyphicon-search")
+                                          ])
+                                      ])
+                                  ])
                             ])
                         ])
                     ])
@@ -63,17 +70,12 @@
         }
 
         function filterItem() {
-            var filterInputSelector = "input.form-control[type=text][placeholder='Recherche...']";
+            var filterInputSelector = "input.form-control[id=search][type=text][placeholder='Recherche...']";
             var filterValue = ctrl.vm.filterValue();
             if (!ctrl.nullNorUndefined(filterValue)) {
                 filterInputSelector += "[value='" + filterValue + "']";
             }
-            return m(filterInputSelector, {
-                oninput: function (e) {
-                    var query = e.target.value.split(" ").join("+");
-                    ctrl.filter(query || "");
-                }
-            });
+            return m(filterInputSelector);
         }
 
 
