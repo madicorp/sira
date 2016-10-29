@@ -12,21 +12,22 @@
                 updateItems();
                 function updateItems() {
                     m.request({
-                        method: "GET",
-                        url: baseListUrl + '?fields=title,created_at,tags&limit=6&offset=0&order=created_at'
-                    })
-                        .then(function (resp) {
-                            var items = resp[itemsKeyInResponse];
-                            vm.items(items);
-                        });
+                                  method: "GET",
+                                  url: baseListUrl + '?fields=title,created_at,tags&limit=6&offset=0&order=created_at'
+                              })
+                     .then(function (resp) {
+                         var items = resp[itemsKeyInResponse];
+                         vm.items(items);
+                     });
                 }
             },
             view: function (ctrl) {
                 return m(listDocumentComponent, {
-                        items: ctrl.vm.items, getTagState: function () {
-                            return false;
-                        }
-                    }
+                             items: ctrl.vm.items, getTagState: function () {
+                                 return false;
+                             },
+                             thumbnailComponent: _package("com.botilab.components.list").pdfThumbnailComponent
+                         }
                 );
             }
 

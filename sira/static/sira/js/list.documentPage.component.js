@@ -6,7 +6,12 @@
         var MainComponent = {
             view: function () {
                 return m(innerComponent,
-                         {baseListUrl: baseListUrl, listItemType: listItemType, itemsKeyInResponse: itemsKeyInResponse});
+                         {
+                             baseListUrl: baseListUrl,
+                             listItemType: listItemType,
+                             itemsKeyInResponse: itemsKeyInResponse,
+                             thumbnailComponent: _package("com.botilab.components.list").pdfThumbnailComponent
+                         });
             }
         };
 

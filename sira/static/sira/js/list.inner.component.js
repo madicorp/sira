@@ -28,7 +28,11 @@
             m(".container", [
                 m(".row", [
                     m(".col-md-9", [
-                        m(listDocumentComponent, {items: ctrl.vm.items, getTagState: ctrl.getTagState})
+                        m(listDocumentComponent, {
+                            items: ctrl.vm.items,
+                            getTagState: ctrl.getTagState,
+                            thumbnailComponent: ctrl.thumbnailComponent
+                        })
                     ]),
                     m(".col-sm-3", [
                         m(listTagComponent, {listItemType: ctrl.tagArgs})

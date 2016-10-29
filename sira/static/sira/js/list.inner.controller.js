@@ -24,6 +24,7 @@
         this.nullNorUndefined = nullOrUndefined;
         this.to = to;
         this.tagArgs = componentArgs.listItemType;
+        this.thumbnailComponent = componentArgs.thumbnailComponent;
         var activeTags = getQueryParam("tags") ? getQueryParam("tags").split("+") : [];
         to(vm.currentPage(), getQueryParam("query"), activeTags);
 

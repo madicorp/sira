@@ -1,5 +1,4 @@
 (function () {
-    var pdfThumbnailComponent = _package("com.botilab.components.list").pdfThumbnailComponent;
     var tagItem = _package("com.botilab.components.list").TagItem;
     _package("com.botilab.components.list").ListDocumentComponent = {
         controller: documentsController,
@@ -10,6 +9,7 @@
         this.vm = {
             items: componentArgs.items
         };
+        this.thumbnailComponent = componentArgs.thumbnailComponent;
         this.getTagState = componentArgs.getTagState
     }
 
@@ -24,7 +24,7 @@
         function listItem(itemData) {
             return m(".col-md-4.col-sm-4.blog-masonry-item.branding", [
                 m(".item-inner", [
-                    m(pdfThumbnailComponent, {pdfUrl: itemData.meta.download_url}),
+                    m(ctrl.thumbnailComponent, {pdfUrl: itemData.meta.download_url}),
                     m(".post-title", [
                         m("h4", itemData.title),
                         m(".sidebar-widget", [
