@@ -1,5 +1,7 @@
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailcore.models import Page
+from wagtail.wagtailsearch import index
+from wagtailmedia.models import Media
 
 
 class HomePage(Page):
@@ -22,3 +24,6 @@ class DocumentPage(Page):
 
     class Meta:
         verbose_name = "Documents"
+
+
+Media.search_fields += [index.FilterField('type')]

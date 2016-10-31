@@ -1,62 +1,114 @@
-from django.shortcuts import render
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import os
+
+from django.utils.translation import ugettext_lazy as _
 from rest_framework.decorators import api_view
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from taggit.models import Tag
-
-from wagtail.wagtailcore.models import Page
-from wagtail.wagtailsearch.models import Query
-
-try:
-    # Wagtail >= 1.1
-    from wagtail.contrib.wagtailsearchpromotions.models import SearchPromotion
-except ImportError:
-    # Wagtail < 1.1
-    from wagtail.wagtailsearch.models import EditorsPick as SearchPromotion
-
-
-def search(request):
-    # Search
-    search_query = request.GET.get('query', None)
-    if search_query:
-        search_results = Page.objects.live().search(search_query)
-        query = Query.get(search_query)
-
-        # Record hit
-        query.add_hit()
-
-        # Get search picks
-        search_picks = query.editors_picks.all()
-    else:
-        search_results = Page.objects.none()
-        search_picks = SearchPromotion.objects.none()
-
-    # Pagination
-    page = request.GET.get('page', 1)
-    paginator = Paginator(search_results, 10)
-    try:
-        search_results = paginator.page(page)
-    except PageNotAnInteger:
-        search_results = paginator.page(1)
-    except EmptyPage:
-        search_results = paginator.page(paginator.num_pages)
-
-    return render(request, 'sira/search_results.html', {
-        'search_query': search_query,
-        'search_results': search_results,
-        'search_picks': search_picks,
-    })
+from wagtail.wagtailadmin.forms import SearchForm
+from wagtail.wagtailcore.models import Collection
+from wagtailmedia.models import Media
 
 
 @api_view(['GET'])
 def tags_endpoint(request):
     if 'GET' == request.method:
-        query = 'SELECT DISTINCT tag.* FROM taggit_tag AS tag ' \
-                'INNER JOIN taggit_taggeditem AS tti ON tag.id = tti.tag_id '
+        tagged_type = None
         params = request.query_params
         if 'type' in params:
-            query += 'INNER JOIN django_content_type AS ct on tti.content_type_id = ct.id AND ct.model=%s'
-            query_set = Tag.objects.raw(query, params=(params['type'],))
-        else:
-            query_set = Tag.objects.raw(query)
-        return Response([tag.name for tag in query_set])
+            tagged_type = params['type']
+        return Response(get_tags(tagged_type))
+
+
+def get_tags(type=None):
+    query = 'SELECT DISTINCT tag.* FROM taggit_tag AS tag ' \
+            'INNER JOIN taggit_taggeditem AS tti ON tag.id = tti.tag_id '
+    if type is not None:
+        query += 'INNER JOIN django_content_type AS ct on tti.content_type_id = ct.id AND ct.model=%s'
+        query_set = Tag.objects.raw(query, params=(type,))
+    else:
+        query_set = Tag.objects.raw(query)
+    return [tag.name for tag in query_set]
+
+
+@api_view(['GET'])
+def videos_endpoint(request):
+    if 'GET' == request.method:
+        # Ordering
+        ordering = '-created_at'
+        if 'ordering' in request.GET and request.GET['ordering'] in ['title', '-created_at']:
+            ordering = request.GET['ordering']
+
+        # Filter by collection
+        collection_id = request.GET.get('collection_id')
+
+        # Search
+        query_string = None
+        if 'q' in request.GET:
+            form = SearchForm(request.GET, placeholder=_("Search media files"))
+            if form.is_valid():
+                query_string = form.cleaned_data['q']
+
+        # Pagination
+        videos = get_videos(ordering, collection_id, query_string)
+        pagination = VideoPagination()
+        videos_page = pagination.paginate_queryset(videos, request)
+        videos_page_view = [_get_video_view(video) for video in videos_page]
+        return pagination.get_paginated_response(videos_page_view)
+
+
+def get_videos(ordering='-created_at', collection_id=None, query_string=None):
+    # Ordering
+    media = Media.objects.filter(type='video').order_by(ordering)
+
+    # Filter by collection
+    if collection_id:
+        try:
+            current_collection = Collection.objects.get(id=collection_id)
+            media = media.filter(collection=current_collection)
+        except (ValueError, Collection.DoesNotExist):
+            pass
+
+    # Search
+    if query_string:
+        media = media.search(query_string)
+
+    return media
+
+
+def get_file_field_ext(file_field):
+    return file_field.file.name.split(os.extsep)[-1]
+
+
+def _get_video_view(video):
+    thumbnail = None
+    if video.thumbnail:
+        thumbnail = '/media/' + str(video.thumbnail)
+    return {
+        'id': video.id,
+        'meta': {
+            'thumbnail': thumbnail,
+            'download_url': '/media/' + str(video.file),
+            'extension': get_file_field_ext(video.file),
+            'duration': video.duration,
+        },
+        'title': video.title,
+    }
+
+
+class VideoPagination(LimitOffsetPagination):
+    default_limit = 9
+
+    def __init__(self):
+        self.request = None
+        self.offset = 0
+        self.limit = LimitOffsetPagination.default_limit
+        self.count = 0
+
+    def get_paginated_response(self, data):
+        return Response({
+            'meta': {
+                'total_count': self.count
+            },
+            'videos': data
+        })

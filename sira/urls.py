@@ -1,7 +1,5 @@
 from __future__ import absolute_import, unicode_literals
 
-import os
-
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
@@ -14,18 +12,15 @@ from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
 from sira import views
+from sira.views import get_file_field_ext
 
 
 class DocumentExtraFieldsMetaField(DocumentMetaField):
     def to_representation(self, document):
         representation = super(DocumentExtraFieldsMetaField, self).to_representation(document)
-        representation['extension'] = DocumentExtraFieldsMetaField.get_document_file_ext(document)
+        representation['extension'] = get_file_field_ext(document)
         representation['download_url'] = '/media/' + str(document.file)
         return representation
-
-    @staticmethod
-    def get_document_file_ext(document):
-        return document.file.name.split(os.extsep)[-1]
 
 
 class DocumentsExtraFieldsSerializer(BaseSerializer):
@@ -44,6 +39,7 @@ v1.register_endpoint('documents', DocumentsExtraFieldsAPIEndpoint)
 
 wagtail_api_urlpatterns = [
     url(r'^v1/tags', views.tags_endpoint),
+    url(r'^v1/videos', views.videos_endpoint),
     url(r'^v1/', v1.urls),
 ]
 
@@ -53,7 +49,6 @@ urlpatterns = [
     url(r'', include('puput.urls')),
     url(r'^django-admin/', include(admin.site.urls)),
     url(r'^admin/', include(wagtailadmin_urls)),
-    url(r'^search/$', views.search, name='search'),
     url(r'^(?!api)', include(wagtail_urls))
 ]
 
