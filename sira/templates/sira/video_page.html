@@ -1,20 +1,26 @@
 {% extends "sira/base.html" %}
 {% load sira_tags compress static %}
+{% block extra_css %}
+    {% compress css %}
+        <link rel="stylesheet" type="text/css" href="{% static "sira/css/video-js.5.11.9.css" %}"/>
+    {% endcompress %}
+{% endblock %}
+
 {% block content %}
     {% include "sira/includes/page_header.html" %}
-    <section class="blog-masonry bg-muted" id="documents">
+    <section class="blog-masonry bg-muted" id="videos">
     </section>
 {% endblock %}
 
 {% block extra_js %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.4.201/pdf.js"></script>
     {% compress js %}
-        <script src="{% static "sira/js/list.pdf.thumbnail.component.js" %}"></script>
+        <script src="{% static "sira/js/vendor/video.5.11.9.js" %}"></script>
+        <script src="{% static "sira/js/list.video.thumbnail.component.js" %}"></script>
         <script src="{% static "sira/js/list.tags.component.js" %}"></script>
         <script src="{% static "sira/js/list.elements.component.js" %}"></script>
         <script src="{% static "sira/js/list.inner.controller.js" %}"></script>
         <script src="{% static "sira/js/list.inner.component.js" %}"></script>
         <script src="{% static "sira/js/list.generic.component.js" %}"></script>
-        <script src="{% static "sira/js/list.documentPage.component.js" %}"></script>
+        <script src="{% static "sira/js/list.videoPage.component.js" %}"></script>
     {% endcompress %}
 {% endblock %}

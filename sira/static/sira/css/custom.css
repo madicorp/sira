@@ -205,3 +205,10 @@ section.pagination-block, .search-box {
     border: solid 1px #ccc !important;
     border-radius: 10px;
 }
+
+.video-js button.vjs-big-play-button {
+    border-radius: 50%;
+    width: 50px;
+    top: 37%;
+    left: 43%;
+}

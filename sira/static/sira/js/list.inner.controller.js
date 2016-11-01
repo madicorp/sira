@@ -23,8 +23,9 @@
         this.getTagState = getTagState;
         this.nullNorUndefined = nullOrUndefined;
         this.to = to;
-        this.tagArgs = componentArgs.listItemType;
+        this.listItemType = componentArgs.listItemType;
         this.thumbnailComponent = componentArgs.thumbnailComponent;
+        this.itemsPerLine = componentArgs.itemsPerLine;
         var activeTags = getQueryParam("tags") ? getQueryParam("tags").split("+") : [];
         to(vm.currentPage(), getQueryParam("query"), activeTags);
 
@@ -99,7 +100,7 @@
             // But the last is the most up to date
             // That's why we push it once in the browser history
             var params = '?';
-            _.forIn(_.merge(filterValueParams, tagsParams), function(value, key) {
+            _.forIn(_.merge(filterValueParams, tagsParams), function (value, key) {
                 params += ('&' + key + '=' + value)
             });
             window.history.pushState({}, window.document.title, params);
@@ -145,12 +146,20 @@
         function _updateItemsAndTagsStates(apiQueryUrl) {
             m.request({method: "GET", url: apiQueryUrl})
              .then(function (resp) {
-                 var items = resp[itemsKeyInResponse];
+                 var items = init_items(resp);
                  vm.items(items);
                  var tagsActiveStates = _getTagsStates(items);
                  vm.tagActiveStates(tagsActiveStates);
                  vm.pageCount(_.round(resp.meta.total_count / limit, 0));
              });
+        }
+
+        function init_items(resp) {
+            var items = resp[itemsKeyInResponse];
+            items.forEach(function (item) {
+                item.tags = item.tags || [];
+            });
+            return items;
         }
 
         function _getTagsStates(items) {

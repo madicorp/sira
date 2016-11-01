@@ -38,7 +38,7 @@
 
         <li class="overlay">
             <div class="background-image-holder parallax-background">
-                <img class="background-image" alt="Background Image" src="{% static "sira/images/hero17.jpg" %}">
+                <img class="background-image" alt="Background Image" src="{% static "sira/images/side1.jpg" %}">
             </div>
 
             <div class="container align-vertical">
@@ -62,7 +62,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 text-center">
-                <h1>Video</h1>
+                <h1>Vidéos</h1>
             </div>
         </div><!--end of row-->
     </div><!--end of container-->
@@ -85,15 +85,13 @@
             <div class="container align-vertical">
                 <div class="row">
                     <div class="col-sm-9 col-md-8">
-                        <h1 class="text-white">Visitez la médiathèque SIRA Sénégal .</h1>
-                        <a href="launching-soon-3.html#" class="btn btn-primary btn-filled">Plus de vidéo !</a>
+                        <h1 class="text-white">Visitez la vidéothèque de SIRA Sénégal.</h1>
+                        <a href="/videos" class="btn btn-primary btn-filled">Voir les vidéos</a>
                     </div>
                 </div>
             </div><!--end of container-->
         </li><!--end of individual slide-->
-
         <!--end of individual slide-->
-
     </ul>
 </section>
 {% endblock %}
@@ -102,10 +100,13 @@
     {% compress js %}
         <script src="{% static "sira/js/list.pdf.thumbnail.component.js" %}"></script>
         <script src="{% static "sira/js/list.tags.component.js" %}"></script>
-        <script src="{% static "sira/js/list.documents.component.js" %}"></script>
+        <script src="{% static "sira/js/list.elements.component.js" %}"></script>
         <script src="{% static "sira/js/list.homePage.component.js" %}"></script>
     {% endcompress %}
     <script type="application/javascript">
-        _package("com.botilab.components.list").listComponentInit("block-document", "/api/v1/documents", "document", "documents");
+        _package("com.botilab.components.list").homepageDocListComponentInit("block-document", 
+                                                                             "/api/v1/documents", 
+                                                                             "document", 
+                                                                             "documents");
     </script>
 {% endblock %}

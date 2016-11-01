@@ -1,6 +1,6 @@
 (function () {
     var listTagComponent = _package("com.botilab.components.list").ListTagComponent;
-    var listDocumentComponent = _package("com.botilab.components.list").ListDocumentComponent;
+    var listElementsComponent = _package("com.botilab.components.list").ListElementsComponent;
     var noScrollAnchorCurry = _package("com.botilab.components").noScrollAnchorCurry;
     var listController = _package("com.botilab.components.list").InnerController;
 
@@ -27,15 +27,16 @@
             paginationComp,
             m(".container", [
                 m(".row", [
-                    m(".col-md-9", [
-                        m(listDocumentComponent, {
+                    m(".col-sm-9.col-md-9", [
+                        m(listElementsComponent, {
                             items: ctrl.vm.items,
                             getTagState: ctrl.getTagState,
-                            thumbnailComponent: ctrl.thumbnailComponent
+                            thumbnailComponent: ctrl.thumbnailComponent,
+                            itemsPerLine: ctrl.itemsPerLine
                         })
                     ]),
-                    m(".col-sm-3", [
-                        m(listTagComponent, {listItemType: ctrl.tagArgs})
+                    m(".col-sm-3.col-md-3", [
+                        m(listTagComponent, {listItemType: ctrl.listItemType})
                     ])
                 ])
             ]),

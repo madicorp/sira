@@ -40,13 +40,20 @@
         return m(".blog-sidebar",
                  m(".sidebar-widget",
                    m("h2", "Étiquettes"),
-                   m("ul.tags", [
-                       vm.tags().map(function (tagName) {
-                           return tagItem(tagName, '#', vm.tagActiveStates()[tagName]);
-                       })
-                   ]))
+                   getTagsItem(vm))
         );
     }
+
+    var getTagsItem = function (vm) {
+        if (!vm.tags() || vm.tags().length === 0) {
+            return m("h6", "Pas d'étiquettes disponibles");
+        }
+        return m("ul.tags", [
+            vm.tags().map(function (tagName) {
+                return tagItem(tagName, '#', vm.tagActiveStates()[tagName]);
+            })
+        ]);
+    };
 
     function tagItem(tagName, link, active) {
         var tagActiveClass = !!active ? "active" : "inactive";

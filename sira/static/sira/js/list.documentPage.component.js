@@ -1,20 +1,5 @@
 (function () {
-    var innerComponent = _package("com.botilab.components.list").InnerComponent;
-    _package("com.botilab.components.list").listComponentInit = ListComponentInitialise;
-
-    function ListComponentInitialise(containerId, baseListUrl, listItemType, itemsKeyInResponse) {
-        var MainComponent = {
-            view: function () {
-                return m(innerComponent,
-                         {
-                             baseListUrl: baseListUrl,
-                             listItemType: listItemType,
-                             itemsKeyInResponse: itemsKeyInResponse,
-                             thumbnailComponent: _package("com.botilab.components.list").pdfThumbnailComponent
-                         });
-            }
-        };
-
-        m.mount(document.getElementById(containerId), MainComponent);
-    }
+    var thumbnailComponent = _package("com.botilab.components.list").pdfThumbnailComponent;
+    _package("com.botilab.components.list").genericListComponentInit("documents", "/api/v1/documents",
+                                                                     "document", "documents", thumbnailComponent);
 })();

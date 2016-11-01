@@ -84,6 +84,7 @@ def _get_video_view(video):
     thumbnail = None
     if video.thumbnail:
         thumbnail = '/media/' + str(video.thumbnail)
+    video_tags = [tag.name for tag in video.popular_tags()]
     return {
         'id': video.id,
         'meta': {
@@ -93,6 +94,7 @@ def _get_video_view(video):
             'duration': video.duration,
         },
         'title': video.title,
+        'tags': video_tags,
     }
 
 

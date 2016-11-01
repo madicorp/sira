@@ -10,8 +10,9 @@
             pdfUrl: m.prop()
         };
         this.vm = vm;
-        vm.pdfUrl(componentArgs.pdfUrl);
-        PDFJS.getDocument(componentArgs.pdfUrl)
+        var pdfUrl = componentArgs.itemData.meta.download_url;
+        vm.pdfUrl(pdfUrl);
+        PDFJS.getDocument(pdfUrl)
              .then(function (pdf) {
                  return pdf.getPage(1);
              })

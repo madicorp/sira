@@ -1,6 +1,6 @@
 (function () {
-    var listDocumentComponent = _package("com.botilab.components.list").ListDocumentComponent;
-    _package("com.botilab.components.list").listComponentInit = ListComponentInitialise;
+    var listElementsComponent = _package("com.botilab.components.list").ListElementsComponent;
+    _package("com.botilab.components.list").homepageDocListComponentInit = ListComponentInitialise;
 
     function ListComponentInitialise(containerId, baseListUrl, listItemType, itemsKeyInResponse) {
         var MainComponent = {
@@ -22,7 +22,7 @@
                 }
             },
             view: function (ctrl) {
-                return m(listDocumentComponent, {
+                return m(listElementsComponent, {
                              items: ctrl.vm.items, getTagState: function () {
                                  return false;
                              },
