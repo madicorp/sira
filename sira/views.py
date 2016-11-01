@@ -83,8 +83,16 @@ def get_file_field_ext(file_field):
 def _get_video_view(video):
     thumbnail = None
     if video.thumbnail:
-        thumbnail = '/media/' + str(video.thumbnail)
-    video_tags = [tag.name for tag in video.popular_tags()]
+        thumbnail = '/media/images/' + str(video.thumbnail)
+    # This should be refactored if too slow.
+    # If that's the case, we can get the tags in bulk for a whole page of videos and then link them in memory
+    # on the python side.
+    query = \
+        'SELECT DISTINCT tag.* FROM taggit_tag AS tag ' \
+        'INNER JOIN taggit_taggeditem AS tti ON tag.id = tti.tag_id AND tti.object_id={} ' \
+        'INNER JOIN django_content_type AS ct on tti.content_type_id = ct.id AND app_label=\'{}\' AND ct.model=\'{}\'' \
+        .format(video.id, 'wagtailmedia', 'media')
+    video_tags = [tag.name for tag in Tag.objects.raw(query)]
     return {
         'id': video.id,
         'meta': {
