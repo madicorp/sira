@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.4.201/pdf.js"></script>
+    <script src="{% static "sira/js/vendor/pdf.1.4.201.min.js" %}"></script>
     {% compress js %}
         <script src="{% static "sira/js/list.pdf.thumbnail.component.js" %}"></script>
         <script src="{% static "sira/js/list.tags.component.js" %}"></script>
