@@ -212,3 +212,37 @@ section.pagination-block, .search-box {
     top: 37%;
     left: 43%;
 }
+
+#videos video {
+    width: 380px;
+    height: 214px;
+}
+
+@media (min-width: 768px) {
+    /* sm device */
+    #videos video {
+        width: 492px;
+        height: 277px;
+    }
+}
+
+@media (min-width: 992px) {
+    /* md device */
+    #videos video {
+        width: 641px;
+        height: 360px;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* lg device */
+    div.video-js[aria-label="video player"], #videos video {
+        width: 780px;
+        height: 438px;
+    }
+
+    .video-js button.vjs-big-play-button {
+        top: 43%;
+        left: 47%;
+    }
+}

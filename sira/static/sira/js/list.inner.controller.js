@@ -5,7 +5,7 @@
     function listController(componentArgs) {
         var baseListUrl = componentArgs.baseListUrl;
         var itemsKeyInResponse = componentArgs.itemsKeyInResponse;
-        var limit = 9;
+        var limit = componentArgs.itemsPerPage || 9;
         var vm = {
             items: m.prop([]),
             tagActiveStates: m.prop({}),

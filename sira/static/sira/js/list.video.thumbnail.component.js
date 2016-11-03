@@ -19,7 +19,7 @@
             "To view this video please enable JavaScript, and consider upgrading to a web browser" +
             "that <a href='http://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>";
         return m(
-            "video.video-js.vjs-default-skin[preload=auto][width=320][height=132][data-setup=\"{\"controls\":true}\"]",
+            "video.video-js.vjs-default-skin[preload=auto][data-setup=\"{\"controls\":true}\"]",
             [
                 m("source[src='" + vm.videoUrl() + "']"),
                 m("p.vjs-no-js", m.trust(jsNotEnabledMsg)),

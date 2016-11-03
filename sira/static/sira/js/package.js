@@ -53,7 +53,7 @@ function _package(packageName) {
                 return pair[1];
             }
         }
-        if (console.trace) {
+        if (console && console.trace) {
             console.trace("query param " + paramName + " not found");
         }
         return undefined;

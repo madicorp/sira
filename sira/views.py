@@ -1,11 +1,10 @@
 import os
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.html import escape
 from rest_framework.decorators import api_view
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from taggit.models import Tag
-from wagtail.wagtailadmin.forms import SearchForm
 from wagtail.wagtailcore.models import Collection
 from wagtailmedia.models import Media
 
@@ -44,10 +43,8 @@ def videos_endpoint(request):
 
         # Search
         query_string = None
-        if 'q' in request.GET:
-            form = SearchForm(request.GET, placeholder=_("Search media files"))
-            if form.is_valid():
-                query_string = form.cleaned_data['q']
+        if 'search' in request.GET:
+            query_string = escape(request.GET.get('search'))
 
         # Pagination
         videos = get_videos(ordering, collection_id, query_string)
@@ -71,6 +68,8 @@ def get_videos(ordering='-created_at', collection_id=None, query_string=None):
 
     # Search
     if query_string:
+        # Already protected against SQL injection
+        # https://docs.djangoproject.com/fr/1.10/topics/security/#sql-injection-protection
         media = media.search(query_string)
 
     return media

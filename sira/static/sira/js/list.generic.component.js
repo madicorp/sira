@@ -3,7 +3,7 @@
     _package("com.botilab.components.list").genericListComponentInit = ListComponentInitialise;
 
     function ListComponentInitialise(containerId, baseListUrl, listItemType, itemsKeyInResponse, thumbnailComponent,
-                                     itemsPerLine) {
+                                     itemsPerLine, itemsPerPage) {
         var MainComponent = {
             view: function () {
                 return m(innerComponent,
@@ -12,7 +12,8 @@
                              listItemType: listItemType,
                              itemsKeyInResponse: itemsKeyInResponse,
                              thumbnailComponent: thumbnailComponent,
-                             itemsPerLine: itemsPerLine
+                             itemsPerLine: itemsPerLine,
+                             itemsPerPage: itemsPerPage,
                          });
             }
         };
