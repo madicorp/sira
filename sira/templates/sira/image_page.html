@@ -1,0 +1,20 @@
+{% extends "sira/base.html" %}
+{% load sira_tags compress static %}
+{% block content %}
+    {% include "sira/includes/page_header.html" %}
+    <section class="blog-masonry bg-muted" id="images">
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static "sira/js/vendor/pdf.1.4.201.min.js" %}"></script>
+    {% compress js %}
+        <script src="{% static "sira/js/list.image.thumbnail.component.js" %}"></script>
+        <script src="{% static "sira/js/list.tags.component.js" %}"></script>
+        <script src="{% static "sira/js/list.elements.component.js" %}"></script>
+        <script src="{% static "sira/js/list.inner.controller.js" %}"></script>
+        <script src="{% static "sira/js/list.inner.component.js" %}"></script>
+        <script src="{% static "sira/js/list.generic.component.js" %}"></script>
+        <script src="{% static "sira/js/list.imagePage.component.js" %}"></script>
+    {% endcompress %}
+{% endblock %}

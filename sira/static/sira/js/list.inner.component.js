@@ -54,7 +54,6 @@
                                 m("h5.widget-title"),
                                 m("form.comment-form", {
                                     onsubmit: function (e) {
-                                        console.log('onsubmit', e);
                                         var query = e.target.querySelector('#search').value;
                                         ctrl.filter(query || "");
                                         return false;

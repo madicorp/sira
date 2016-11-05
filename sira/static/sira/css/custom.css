@@ -246,3 +246,18 @@ section.pagination-block, .search-box {
         left: 47%;
     }
 }
+
+#images .item-inner img {
+    width: 250px;
+    height: 170px;
+}
+
+.modal.sira {
+    display: none;
+}
+
+.jquery-modal.blocker.current .modal.sira {
+    /* Obliged to use it because of jquery/bootstrap modal */
+    display: inline-block !important;
+    overflow: visible;
+}

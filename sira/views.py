@@ -1,12 +1,81 @@
 import os
 
+from django.urls import reverse
 from django.utils.html import escape
 from rest_framework.decorators import api_view
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from taggit.models import Tag
 from wagtail.wagtailcore.models import Collection
+from wagtail.wagtaildocs.api.v2.endpoints import DocumentsAPIEndpoint
+from wagtail.wagtaildocs.api.v2.serializers import DocumentDownloadUrlField, DocumentSerializer
+from wagtail.wagtailimages.api.v2.endpoints import ImagesAPIEndpoint
+from wagtail.wagtailimages.api.v2.serializers import ImageSerializer
+from wagtail.wagtailimages.models import Image
+from wagtail.wagtailimages.views.serve import generate_signature
 from wagtailmedia.models import Media
+
+
+class DocumentAbsoluteDownloadUrlField(DocumentDownloadUrlField):
+    def to_representation(self, document):
+        return document.url
+
+
+class DocumentsExtraSerializer(DocumentSerializer):
+    download_url = DocumentAbsoluteDownloadUrlField(read_only=True)
+
+
+class DocumentsExtraFieldsAPIEndpoint(DocumentsAPIEndpoint):
+    base_serializer_class = DocumentsExtraSerializer
+    body_fields = DocumentsAPIEndpoint.body_fields + ['created_at']
+
+
+def _original_image_url(image):
+    signature = generate_signature(image.id, 'original')
+    return reverse('wagtailimages_serve', args=[signature, image.id, 'original'])
+
+
+class ImageOriginalAbsoluteDownloadUrlField(DocumentDownloadUrlField):
+    def to_representation(self, image):
+        return _original_image_url(image)
+
+
+class ImageThumbnailAbsoluteDownloadUrlField(DocumentDownloadUrlField):
+    render_width_param_name = 'render-width'
+    render_height_param_name = 'render-height'
+
+    def to_representation(self, image):
+        request = self.context['request']
+        request_get = request.GET
+        if self.render_width_param_name not in request_get or self.render_height_param_name not in request_get:
+            return _original_image_url(image)
+        request_render_width = request_get[self.render_width_param_name]
+        request_render_height = request_get[self.render_height_param_name]
+        image_format = 'fill-{}x{}-c100'.format(request_render_width, request_render_height)
+        signature = generate_signature(image.id, image_format)
+        return reverse('wagtailimages_serve', args=[signature, image.id, image_format])
+
+
+class ImagesExtraFieldsSerializer(ImageSerializer):
+    download_url = ImageOriginalAbsoluteDownloadUrlField(read_only=True)
+    thumbnail_url = ImageThumbnailAbsoluteDownloadUrlField(read_only=True)
+
+    class Meta:
+        model = Image
+        fields = ['thumbnail_url']
+
+
+class ImagesExtraFieldsAPIEndpoint(ImagesAPIEndpoint):
+    _images_extra_meta_fields = ['download_url', 'thumbnail_url']
+    base_serializer_class = ImagesExtraFieldsSerializer
+    body_fields = ImagesAPIEndpoint.body_fields + ['created_at']
+    meta_fields = ImagesAPIEndpoint.meta_fields + _images_extra_meta_fields
+    listing_default_fields = ImagesAPIEndpoint.listing_default_fields + _images_extra_meta_fields
+    nested_default_fields = ImagesAPIEndpoint.nested_default_fields + _images_extra_meta_fields
+    known_query_parameters = list(ImagesAPIEndpoint.known_query_parameters) + [
+        ImageThumbnailAbsoluteDownloadUrlField.render_width_param_name,
+        ImageThumbnailAbsoluteDownloadUrlField.render_height_param_name,
+    ]
 
 
 @api_view(['GET'])
@@ -90,7 +159,7 @@ def _get_video_view(video):
         'SELECT DISTINCT tag.* FROM taggit_tag AS tag ' \
         'INNER JOIN taggit_taggeditem AS tti ON tag.id = tti.tag_id AND tti.object_id={} ' \
         'INNER JOIN django_content_type AS ct on tti.content_type_id = ct.id AND app_label=\'{}\' AND ct.model=\'{}\'' \
-        .format(video.id, 'wagtailmedia', 'media')
+            .format(video.id, 'wagtailmedia', 'media')
     video_tags = [tag.name for tag in Tag.objects.raw(query)]
     return {
         'id': video.id,
@@ -99,9 +168,9 @@ def _get_video_view(video):
             'download_url': '/media/' + str(video.file),
             'extension': get_file_field_ext(video.file),
             'duration': video.duration,
+            'tags': video_tags,
         },
         'title': video.title,
-        'tags': video_tags,
     }
 
 

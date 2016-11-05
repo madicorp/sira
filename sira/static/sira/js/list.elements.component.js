@@ -23,7 +23,7 @@
         return m(".blog-masonry-container", listItems);
 
         function getItemTags(itemData) {
-            return itemData.tags.map(function (tagName) {
+            return itemData.meta.tags.map(function (tagName) {
                 var tagActive = ctrl.getTagState(tagName);
                 return tagItem(tagName, "#", tagActive);
             });

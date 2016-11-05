@@ -1,8 +1,4 @@
 /**
- * Created by a621217 on 10/10/2016.
- */
-
-/**
  * Returns an object representing the package to avoid collision in the window scope.
  * If it already exists, it just returns it.
  * @param packageName string separated by '.'

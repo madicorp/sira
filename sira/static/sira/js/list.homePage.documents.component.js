@@ -2,7 +2,7 @@
     var listElementsComponent = _package("com.botilab.components.list").ListElementsComponent;
     _package("com.botilab.components.list").homepageDocListComponentInit = ListComponentInitialise;
 
-    function ListComponentInitialise(containerId, baseListUrl, listItemType, itemsKeyInResponse) {
+    function ListComponentInitialise(containerId, baseListUrl) {
         var MainComponent = {
             controller: function () {
                 var vm = {
@@ -16,7 +16,7 @@
                                   url: baseListUrl + '?fields=title,created_at,tags&limit=6&offset=0&order=created_at'
                               })
                      .then(function (resp) {
-                         var items = resp[itemsKeyInResponse];
+                         var items = resp['items'];
                          vm.items(items);
                      });
                 }

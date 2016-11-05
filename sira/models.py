@@ -9,7 +9,7 @@ class HomePage(Page):
         FieldPanel('title', classname="full title"),
     ]
     promote_panels = Page.promote_panels
-    subpage_types = ['puput.BlogPage', 'sira.DocumentPage', 'sira.VideoPage']
+    subpage_types = ['puput.BlogPage', 'sira.DocumentPage', 'sira.VideoPage', 'sira.ImagePage']
 
     class Meta:
         verbose_name = "Accueil"
@@ -35,6 +35,17 @@ class VideoPage(Page):
 
     class Meta:
         verbose_name = "Vidéos"
+
+
+class ImagePage(Page):
+    content_panels = [
+        FieldPanel('title', classname="full title"),
+    ]
+    promote_panels = Page.promote_panels
+    subpage_types = []
+
+    class Meta:
+        verbose_name = "Images"
 
 
 Media.search_fields += [index.FilterField('type')]

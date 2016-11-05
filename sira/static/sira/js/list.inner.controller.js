@@ -26,6 +26,7 @@
         this.listItemType = componentArgs.listItemType;
         this.thumbnailComponent = componentArgs.thumbnailComponent;
         this.itemsPerLine = componentArgs.itemsPerLine;
+        var extraApiParams = componentArgs.extraApiParams;
         var activeTags = getQueryParam("tags") ? getQueryParam("tags").split("+") : [];
         to(vm.currentPage(), getQueryParam("query"), activeTags);
 
@@ -139,6 +140,11 @@
             }
             if (!search) {
                 url += "&order=created_at"
+            }
+            if (extraApiParams) {
+                _.forIn(extraApiParams, function (value, key) {
+                    url += "&" + key + "=" + value;
+                });
             }
             return url;
         }
