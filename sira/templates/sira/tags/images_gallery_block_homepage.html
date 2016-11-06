@@ -1,91 +1,24 @@
 {% load static %}
+{% load static compress %}
 <section class="main-gallery-block-title primary-features">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 text-center">
-                <h1>Galerie</h1>
-            </div>
+    <a href="/images">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 text-center">
+                    <h1>Galerie</h1>
+                </div>
 
-        </div><!--end of row-->
-    </div><!--end of container-->
+            </div><!--end of row-->
+        </div><!--end of container-->
+    </a>
 </section>
 <section class="main-gallery-block no-pad-bottom projects-gallery">
     <div class="projects-wrapper clearfix">
         <div class="container">
-            <div class="projects-container column-projects gallery-slider">
-
-                <div class="col-md-4 col-sm-6 project development image-holder">
-                    <div class="background-image-holder">
-                        <img class="background-image" alt="Background Image" src="{% static "sira/images/project5.jpg"%}">
-                    </div>
-                    <div class="hover-state">
-                        <div class="align-vertical">
-                            <h3 class="text-white"><strong>MS10</strong> UX</h3>
-                            <a href="project-single.html" class="btn btn-primary btn-white">See Project</a>
-                        </div>
-                    </div>
-                </div><!--end of individual project-->
-
-                <div class="col-md-4 col-sm-6 project branding image-holder">
-                    <div class="background-image-holder">
-                        <img class="background-image" alt="Background Image" src="{% static "sira/images/project5.jpg"%}">
-                    </div>
-                    <div class="hover-state">
-                        <div class="align-vertical">
-                            <h3 class="text-white"><strong>Medium</strong> Blog Platform</h3>
-                            <a href="project-single.html" class="btn btn-primary btn-white">See Project</a>
-                        </div>
-                    </div>
-                </div><!--end of individual project-->
-
-                <div class="col-md-4 col-sm-6 project print image-holder">
-                    <div class="background-image-holder">
-                        <img class="background-image" alt="Background Image" src="{% static "sira/images/project5.jpg"%}">
-                    </div>
-                    <div class="hover-state">
-                        <div class="align-vertical">
-                            <h3 class="text-white"><strong>Identity</strong> Mockup</h3>
-                            <a href="project-single.html" class="btn btn-primary btn-white">See Project</a>
-                        </div>
-                    </div>
-                </div><!--end of individual project-->
-
-                <div class="col-md-4 col-sm-6 project print image-holder">
-                    <div class="background-image-holder">
-                        <img class="background-image" alt="Background Image" src="{% static "sira/images/project5.jpg"%}">
-                    </div>
-                    <div class="hover-state">
-                        <div class="align-vertical">
-                            <h3 class="text-white"><strong>Aurora</strong> App Icons</h3>
-                            <a href="project-single.html" class="btn btn-primary btn-white">See Project</a>
-                        </div>
-                    </div>
-                </div><!--end of individual project-->
-
-                <div class="col-md-4 col-sm-6 project branding image-holder">
-                    <div class="background-image-holder">
-                        <img class="background-image" alt="Background Image" src="{% static "sira/images/project5.jpg"%}">
-                    </div>
-                    <div class="hover-state">
-                        <div class="align-vertical">
-                            <h3 class="text-white"><strong>Sketchbook</strong> Logo Mockup</h3>
-                            <a href="project-single.html" class="btn btn-primary btn-white">See Project</a>
-                        </div>
-                    </div>
-                </div><!--end of individual project-->
-
-                <div class="col-md-4 col-sm-6 project development image-holder">
-                    <div class="background-image-holder">
-                        <img class="background-image" alt="Background Image" src="{% static "sira/images/project5.jpg"%}">
-                    </div>
-                    <div class="hover-state">
-                        <div class="align-vertical">
-                            <h3 class="text-white"><strong>Muzik</strong> Home Screen</h3>
-                            <a href="project-single.html" class="btn btn-primary btn-white">See Project</a>
-                        </div>
-                    </div>
-                </div><!--end of individual project-->
-            </div><!--end of projects-container-->
+            <div class="row">
+                <div class="comment-list" id="block-images">
+                </div>
+            </div>
         </div><!--end of container-->
     </div><!--end of projects wrapper-->
 </section>

@@ -99,11 +99,13 @@
     <script src="{% static "sira/js/vendor/pdf.1.4.201.min.js" %}"></script>
     {% compress js %}
         <script src="{% static "sira/js/list.pdf.thumbnail.component.js" %}"></script>
+        <script src="{% static "sira/js/list.document.generic.thumbnail.component.js" %}"></script>
+        <script src="{% static "sira/js/list.document.thumbnail.component.provider.js" %}"></script>
+        <script src="{% static "sira/js/list.image.thumbnail.component.js" %}"></script>
         <script src="{% static "sira/js/list.tags.component.js" %}"></script>
         <script src="{% static "sira/js/list.elements.component.js" %}"></script>
-        <script src="{% static "sira/js/list.homePage.component.js" %}"></script>
+        <script src="{% static "sira/js/list.homePage.generic.component.js" %}"></script>
+        <script src="{% static "sira/js/list.homePage.documents.component.js" %}"></script>
+        <script src="{% static "sira/js/list.homePage.images.component.js" %}"></script>
     {% endcompress %}
-    <script type="application/javascript">
-        _package("com.botilab.components.list").homepageDocListComponentInit("block-document", "/api/v2/documents");
-    </script>
 {% endblock %}

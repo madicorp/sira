@@ -25,7 +25,9 @@
             rel: 'modal:open',
         };
         return m('a', thumbnailParams, [
-            m(imgSelector(vm.thumbnailUrl())),
+            m(".thumbnail", [
+                m(imgSelector(vm.thumbnailUrl())),
+            ]),
             originalImgModal()
         ]);
 
