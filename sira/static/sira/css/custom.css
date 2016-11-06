@@ -261,3 +261,39 @@ section.pagination-block, .search-box {
     display: inline-block !important;
     overflow: visible;
 }
+
+.item-inner .thumbnail {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 0;
+    border: none;
+}
+
+.item-inner .thumbnail {
+    height: 70px;
+    line-height: 70px;
+}
+
+@media (min-width: 768px) {
+    /* sm device */
+    .item-inner .thumbnail {
+        height: 100px;
+        line-height: 100px;
+    }
+}
+
+@media (min-width: 992px) {
+    /* md device */
+    .item-inner .thumbnail {
+        height: 120px;
+        line-height: 120px;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* md device */
+    .item-inner .thumbnail {
+        height: 180px;
+        line-height: 180px;
+    }
+}

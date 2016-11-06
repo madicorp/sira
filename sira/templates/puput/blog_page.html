@@ -36,7 +36,7 @@
                     <form name="search_form" method="get" action="{% routablepageurl blog_page "entries_search" %}"
                           class="comment-form">
                         <div class="input-group">
-                            <input type="text" name="q" placeholder="Rechercher" class="form-control" >
+                            <input type="text" name="q" placeholder="Rechercher" class="form-control">
                             <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
                         </div>
                     </form>
@@ -50,10 +50,14 @@
                     {% for news_entry in entries %}
                         <div class="col-md-4 col-sm-4 blog-masonry-item branding">
                             <div class="item-inner">
-                                {% if news_entry.header_image %}
-                                    {% image news_entry.header_image fill-400x270 as header_image %}
-                                    <img alt="{{ news_entry.header_image.title }}" src="{{ header_image.url }}">
-                                {% endif %}
+                                <div class="thumbnail">
+                                    {% if news_entry.header_image %}
+                                        {% image news_entry.header_image fill-400x270 as header_image %}
+                                        <img alt="{{ news_entry.header_image.title }}" src="{{ header_image.url }}">
+                                    {% else %}
+                                        <i class="fa fa-5x fa-newspaper-o"></i>
+                                    {% endif %}
+                                </div>
                                 <div class="post-title">
                                     <h3><a href="{% entry_url news_entry blog_page %}">{{ news_entry.title }}</a></h3>
                                     <p>
