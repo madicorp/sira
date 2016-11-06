@@ -33,7 +33,7 @@
             var gridColumnsNb = 12 / ctrl.itemsPerLine;
             return m(".col-md-" + gridColumnsNb + ".col-sm-" + gridColumnsNb + ".blog-masonry-item.branding", [
                 m(".item-inner", [
-                    m(ctrl.thumbnailComponent, {itemData: itemData}),
+                    m(ctrl.thumbnailComponent(itemData), {itemData: itemData}),
                     m(".post-title", [
                         m("h4", itemData.title),
                         m(".sidebar-widget", [

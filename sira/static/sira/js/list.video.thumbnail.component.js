@@ -6,7 +6,6 @@
 
     function videoThumbnailController(componentArgs) {
         var vm = {
-            page: m.prop(),
             videoUrl: m.prop()
         };
         this.vm = vm;

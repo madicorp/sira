@@ -6,7 +6,6 @@
 
     function imageThumbnailController(componentArgs) {
         var vm = {
-            page: m.prop(),
             imgId: m.prop(),
             imgUrl: m.prop(),
             thumbnailUrl: m.prop(),

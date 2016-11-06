@@ -1,5 +1,6 @@
 (function () {
     var listElementsComponent = _package("com.botilab.components.list").ListElementsComponent;
+    var documentThumbnailComponentProvider = _package("com.botilab.components.list").documentThumbnailComponentProvider;
     _package("com.botilab.components.list").homepageDocListComponentInit = ListComponentInitialise;
 
     function ListComponentInitialise(containerId, baseListUrl) {
@@ -29,7 +30,7 @@
                              },
                              setTagState: function () {
                              },
-                             thumbnailComponent: _package("com.botilab.components.list").pdfThumbnailComponent
+                             thumbnailComponent: documentThumbnailComponentProvider
                          }
                 );
             }

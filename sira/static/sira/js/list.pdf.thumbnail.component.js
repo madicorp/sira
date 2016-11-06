@@ -25,7 +25,9 @@
 
     function pdfThumbnailView(ctrl) {
         var vm = ctrl.vm;
-        return m("a[href='" + vm.pdfUrl() + "']", {config: renderPdf});
+        return m("a[href='" + vm.pdfUrl() + "']", [
+            m("div.thumbnail", {config: renderPdf})
+        ]);
 
         function renderPdf(divContainer) {
             var page = vm.page();

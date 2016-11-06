@@ -9,6 +9,7 @@ from taggit.models import Tag
 from wagtail.wagtailcore.models import Collection
 from wagtail.wagtaildocs.api.v2.endpoints import DocumentsAPIEndpoint
 from wagtail.wagtaildocs.api.v2.serializers import DocumentDownloadUrlField, DocumentSerializer
+from wagtail.wagtaildocs.models import Document
 from wagtail.wagtailimages.api.v2.endpoints import ImagesAPIEndpoint
 from wagtail.wagtailimages.api.v2.serializers import ImageSerializer
 from wagtail.wagtailimages.models import Image
@@ -21,13 +22,31 @@ class DocumentAbsoluteDownloadUrlField(DocumentDownloadUrlField):
         return document.url
 
 
+def _get_file_field_ext(file_field):
+    return file_field.file.name.split(os.extsep)[-1]
+
+
+class DocumentExtensionField(DocumentDownloadUrlField):
+    def to_representation(self, document):
+        return _get_file_field_ext(document)
+
+
 class DocumentsExtraSerializer(DocumentSerializer):
     download_url = DocumentAbsoluteDownloadUrlField(read_only=True)
+    extension = DocumentExtensionField(read_only=True)
+
+    class Meta:
+        model = Document
+        fields = ['extension']
 
 
 class DocumentsExtraFieldsAPIEndpoint(DocumentsAPIEndpoint):
+    _documents_extra_meta_fields = ['extension']
     base_serializer_class = DocumentsExtraSerializer
     body_fields = DocumentsAPIEndpoint.body_fields + ['created_at']
+    meta_fields = DocumentsAPIEndpoint.meta_fields + _documents_extra_meta_fields
+    listing_default_fields = DocumentsAPIEndpoint.listing_default_fields + _documents_extra_meta_fields
+    nested_default_fields = DocumentsAPIEndpoint.nested_default_fields + _documents_extra_meta_fields
 
 
 def _original_image_url(image):
