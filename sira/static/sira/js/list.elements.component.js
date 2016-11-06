@@ -10,8 +10,9 @@
             items: componentArgs.items
         };
         this.thumbnailComponent = componentArgs.thumbnailComponent;
-        this.itemsPerLine = componentArgs.itemsPerLine || 3;
-        this.getTagState = componentArgs.getTagState
+        this.itemsPerLine = componentArgs.itemsPerLine || 3;
+        this.getTagState = componentArgs.getTagState;
+        this.setTagState = componentArgs.setTagState;
     }
 
     function elementsView(ctrl) {
@@ -24,8 +25,7 @@
 
         function getItemTags(itemData) {
             return itemData.meta.tags.map(function (tagName) {
-                var tagActive = ctrl.getTagState(tagName);
-                return tagItem(tagName, "#", tagActive);
+                return tagItem(tagName, "#", ctrl.getTagState(tagName), ctrl.setTagState);
             });
         }
 
@@ -47,6 +47,4 @@
             ]);
         }
     }
-
-
 })();

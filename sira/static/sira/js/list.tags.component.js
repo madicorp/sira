@@ -1,6 +1,5 @@
 (function () {
     var tagTogglesEvent = document.createEvent('CustomEvent');
-    var getQueryParam = _package("com.botilab.components").getQueryParam;
     var noScrollAnchorCurry = _package("com.botilab.components").noScrollAnchorCurry;
 
     _package("com.botilab.components.list").tagTogglesEvent = tagTogglesEvent;
@@ -15,9 +14,11 @@
         var listItemType = componentArgs.listItemType;
         var vm = {
             tags: m.prop([]),
-            tagActiveStates: m.prop({})
+            tagActiveStates: componentArgs.tagActiveStates,
         };
         this.vm = vm;
+        this.getTagState = componentArgs.getTagState;
+        this.setTagState = componentArgs.setTagState;
         m.request({method: "GET", url: "/api/v1/tags?type=" + listItemType})
          .then(function (tagNames) {
              vm.tags(tagNames);
@@ -29,41 +30,32 @@
 
     function tagsView(ctrl) {
         var vm = ctrl.vm;
-        var activeTags = getQueryParam("tags") ? getQueryParam("tags").split("+") : [];
-        activeTags.forEach(function (activeTag) {
-            vm.tagActiveStates()[activeTag] = true;
-        });
-
-        document.addEventListener('tagTogglesEvent', function (tagToggleEvent) {
-            vm.tagActiveStates()[tagToggleEvent.detail.tagName] = tagToggleEvent.detail.active;
-        });
         return m(".blog-sidebar",
                  m(".sidebar-widget",
                    m("h2", "Étiquettes"),
                    getTagsItem(vm))
         );
+
+        function getTagsItem() {
+            if (!vm.tags() || vm.tags().length === 0) {
+                return m("h6", "Pas d'étiquettes disponibles");
+            }
+            return m("ul.tags", [
+                vm.tags().map(function (tagName) {
+                    return tagItem(tagName, '#', ctrl.getTagState(tagName), ctrl.setTagState);
+                })
+            ]);
+        }
     }
 
-    var getTagsItem = function (vm) {
-        if (!vm.tags() || vm.tags().length === 0) {
-            return m("h6", "Pas d'étiquettes disponibles");
-        }
-        return m("ul.tags", [
-            vm.tags().map(function (tagName) {
-                return tagItem(tagName, '#', vm.tagActiveStates()[tagName]);
-            })
-        ]);
-    };
-
-    function tagItem(tagName, link, active) {
+    function tagItem(tagName, link, active, setTagState) {
         var tagActiveClass = !!active ? "active" : "inactive";
         return m("li",
                  [m('a.' + tagActiveClass + '[href="' + link + '"]', {onclick: noScrollAnchorCurry(toggleTag)},
                     tagName)]);
 
         function toggleTag() {
-            tagTogglesEvent.initCustomEvent("tagTogglesEvent", false, false, {tagName: tagName, active: !active});
-            document.dispatchEvent(tagTogglesEvent);
+            setTagState(tagName, !active);
         }
     }
 })();

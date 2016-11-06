@@ -27,8 +27,15 @@
         this.thumbnailComponent = componentArgs.thumbnailComponent;
         this.itemsPerLine = componentArgs.itemsPerLine;
         var extraApiParams = componentArgs.extraApiParams;
-        var activeTags = getQueryParam("tags") ? getQueryParam("tags").split("+") : [];
-        to(vm.currentPage(), getQueryParam("query"), activeTags);
+        var activeTags;
+        updateListFromBrowserHash();
+        window.onpopstate = updateListFromBrowserHash;
+
+        function updateListFromBrowserHash(e) {
+            activeTags = getQueryParam("tags") ? getQueryParam("tags").split("+") : [];
+            to(vm.currentPage(), getQueryParam("query"), activeTags, true);
+        }
+
 
         function hasPrev() {
             return vm.currentPage() > 0;
@@ -81,20 +88,26 @@
             return vm.tagActiveStates()[tagName];
         }
 
-        function to(page, filterValue, activeTags) {
+        function to(page, filterValue, activeTags, fromBrowserHistory) {
+            if (fromBrowserHistory) {
+                // reinit tag active states
+                vm.tagActiveStates({});
+            } else {
+                filterValue = filterValue || vm.filterValue();
+            }
             if (_nonEmptyArray(activeTags)) {
                 activeTags.forEach(function activateTag(tagName) {
                     vm.tagActiveStates()[tagName] = true;
                 });
             }
             activeTags = _getActiveTags();
-            _updateFilter(filterValue, activeTags);
+            _updateFilter(filterValue, activeTags, fromBrowserHistory);
             var apiQueryUrl = _getApiQueryUrl(page);
             _updateItemsAndTagsStates(apiQueryUrl);
             vm.currentPage(page);
         }
 
-        function _updateFilter(filterValue, activeTags) {
+        function _updateFilter(filterValue, activeTags, fromBrowserHistory) {
             var filterValueParams = _updateFilterValue(filterValue);
             var tagsParams = _updateTags(activeTags);
             // The 2 previous methods return the params after update
@@ -104,13 +117,13 @@
             _.forIn(_.merge(filterValueParams, tagsParams), function (value, key) {
                 params += ('&' + key + '=' + value)
             });
-            window.history.pushState({}, window.document.title, params);
+            if (!fromBrowserHistory) {
+                // We only write to browser history if we are not navigating in browser history
+                window.history.pushState({}, window.document.title, params);
+            }
         }
 
         function _updateFilterValue(filterValue) {
-            if (nullOrUndefined(filterValue)) {
-                filterValue = vm.filterValue();
-            }
             vm.filterValue(filterValue);
             if (vm.filterValue() && "" !== vm.filterValue()) {
                 return {"query": vm.filterValue()};

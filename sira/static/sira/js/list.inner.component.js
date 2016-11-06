@@ -10,17 +10,8 @@
         view: listView
     };
 
-    var isTagStateListenerInit = false;
-
     function listView(ctrl) {
         var paginationComp = pagination();
-
-        if (!isTagStateListenerInit) {
-            document.addEventListener('tagTogglesEvent', function toggleTagVMState(tagToggleEvent) {
-                ctrl.setTagState(tagToggleEvent.detail.tagName, tagToggleEvent.detail.active);
-            });
-            isTagStateListenerInit = true;
-        }
 
         return m("", [
             filterComp(),
@@ -31,12 +22,18 @@
                         m(listElementsComponent, {
                             items: ctrl.vm.items,
                             getTagState: ctrl.getTagState,
+                            setTagState: ctrl.setTagState,
                             thumbnailComponent: ctrl.thumbnailComponent,
                             itemsPerLine: ctrl.itemsPerLine
                         })
                     ]),
                     m(".col-sm-3.col-md-3", [
-                        m(listTagComponent, {listItemType: ctrl.listItemType})
+                        m(listTagComponent, {
+                            tagActiveStates: ctrl.vm.tagActiveStates,
+                            getTagState: ctrl.getTagState,
+                            setTagState: ctrl.setTagState,
+                            listItemType: ctrl.listItemType
+                        })
                     ])
                 ])
             ]),

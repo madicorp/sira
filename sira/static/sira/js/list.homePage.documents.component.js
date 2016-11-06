@@ -23,8 +23,11 @@
             },
             view: function (ctrl) {
                 return m(listElementsComponent, {
-                             items: ctrl.vm.items, getTagState: function () {
+                             items: ctrl.vm.items,
+                             getTagState: function () {
                                  return false;
+                             },
+                             setTagState: function () {
                              },
                              thumbnailComponent: _package("com.botilab.components.list").pdfThumbnailComponent
                          }
