@@ -297,3 +297,7 @@ section.pagination-block, .search-box {
         line-height: 180px;
     }
 }
+
+.page-header {
+   padding: 100px 0;
+}

@@ -14,3 +14,4 @@ ADD ./static /usr/src/sira/static
 ADD ./docker /usr/src/sira/docker
 ADD ./manage.py /usr/src/sira/manage.py
 ADD ./sira /usr/src/sira/sira
+                                                                                                                                         N
