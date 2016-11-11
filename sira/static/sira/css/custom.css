@@ -205,3 +205,99 @@ section.pagination-block, .search-box {
     border: solid 1px #ccc !important;
     border-radius: 10px;
 }
+
+.video-js button.vjs-big-play-button {
+    border-radius: 50%;
+    width: 50px;
+    top: 37%;
+    left: 43%;
+}
+
+#videos video {
+    width: 380px;
+    height: 214px;
+}
+
+@media (min-width: 768px) {
+    /* sm device */
+    #videos video {
+        width: 492px;
+        height: 277px;
+    }
+}
+
+@media (min-width: 992px) {
+    /* md device */
+    #videos video {
+        width: 641px;
+        height: 360px;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* lg device */
+    div.video-js[aria-label="video player"], #videos video {
+        width: 780px;
+        height: 438px;
+    }
+
+    .video-js button.vjs-big-play-button {
+        top: 43%;
+        left: 47%;
+    }
+}
+
+#images .item-inner img {
+    width: 250px;
+    height: 170px;
+}
+
+.modal.sira {
+    display: none;
+}
+
+.jquery-modal.blocker.current .modal.sira {
+    /* Obliged to use it because of jquery/bootstrap modal */
+    display: inline-block !important;
+    overflow: visible;
+}
+
+.item-inner .thumbnail {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 0;
+    border: none;
+}
+
+.item-inner .thumbnail {
+    height: 70px;
+    line-height: 70px;
+}
+
+@media (min-width: 768px) {
+    /* sm device */
+    .item-inner .thumbnail {
+        height: 100px;
+        line-height: 100px;
+    }
+}
+
+@media (min-width: 992px) {
+    /* md device */
+    .item-inner .thumbnail {
+        height: 120px;
+        line-height: 120px;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* md device */
+    .item-inner .thumbnail {
+        height: 180px;
+        line-height: 180px;
+    }
+}
+
+.page-header {
+   padding: 100px 0;
+}

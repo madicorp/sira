@@ -1,6 +1,6 @@
 (function () {
     var listTagComponent = _package("com.botilab.components.list").ListTagComponent;
-    var listDocumentComponent = _package("com.botilab.components.list").ListDocumentComponent;
+    var listElementsComponent = _package("com.botilab.components.list").ListElementsComponent;
     var noScrollAnchorCurry = _package("com.botilab.components").noScrollAnchorCurry;
     var listController = _package("com.botilab.components.list").InnerController;
 
@@ -10,28 +10,30 @@
         view: listView
     };
 
-    var isTagStateListenerInit = false;
-
     function listView(ctrl) {
         var paginationComp = pagination();
-
-        if (!isTagStateListenerInit) {
-            document.addEventListener('tagTogglesEvent', function toggleTagVMState(tagToggleEvent) {
-                ctrl.setTagState(tagToggleEvent.detail.tagName, tagToggleEvent.detail.active);
-            });
-            isTagStateListenerInit = true;
-        }
 
         return m("", [
             filterComp(),
             paginationComp,
             m(".container", [
                 m(".row", [
-                    m(".col-md-9", [
-                        m(listDocumentComponent, {items: ctrl.vm.items, getTagState: ctrl.getTagState})
+                    m(".col-sm-9.col-md-9", [
+                        m(listElementsComponent, {
+                            items: ctrl.vm.items,
+                            getTagState: ctrl.getTagState,
+                            setTagState: ctrl.setTagState,
+                            thumbnailComponent: ctrl.thumbnailComponent,
+                            itemsPerLine: ctrl.itemsPerLine
+                        })
                     ]),
-                    m(".col-sm-3", [
-                        m(listTagComponent, {listItemType: ctrl.tagArgs})
+                    m(".col-sm-3.col-md-3", [
+                        m(listTagComponent, {
+                            tagActiveStates: ctrl.vm.tagActiveStates,
+                            getTagState: ctrl.getTagState,
+                            setTagState: ctrl.setTagState,
+                            listItemType: ctrl.listItemType
+                        })
                     ])
                 ])
             ]),
@@ -47,14 +49,20 @@
                         m(".col-sm-6.text-center", [
                             m(".sidebar-widget", [
                                 m("h5.widget-title"),
-                                m("form.comment-form", [
-                                    m(".input-group", [
-                                        filterItem(),
-                                        m(".input-group-addon", [
-                                            m("i.glyphicon.glyphicon-search")
-                                        ])
-                                    ])
-                                ])
+                                m("form.comment-form", {
+                                    onsubmit: function (e) {
+                                        var query = e.target.querySelector('#search').value;
+                                        ctrl.filter(query || "");
+                                        return false;
+                                    }
+                                }, [
+                                      m(".input-group", [
+                                          filterItem(),
+                                          m(".input-group-addon", [
+                                              m("i.glyphicon.glyphicon-search")
+                                          ])
+                                      ])
+                                  ])
                             ])
                         ])
                     ])
@@ -63,17 +71,12 @@
         }
 
         function filterItem() {
-            var filterInputSelector = "input.form-control[type=text][placeholder='Recherche...']";
+            var filterInputSelector = "input.form-control[id=search][type=text][placeholder='Recherche...']";
             var filterValue = ctrl.vm.filterValue();
             if (!ctrl.nullNorUndefined(filterValue)) {
                 filterInputSelector += "[value='" + filterValue + "']";
             }
-            return m(filterInputSelector, {
-                oninput: function (e) {
-                    var query = e.target.value.split(" ").join("+");
-                    ctrl.filter(query || "");
-                }
-            });
+            return m(filterInputSelector);
         }
 
 

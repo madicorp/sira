@@ -10,8 +10,9 @@
             pdfUrl: m.prop()
         };
         this.vm = vm;
-        vm.pdfUrl(componentArgs.pdfUrl);
-        PDFJS.getDocument(componentArgs.pdfUrl)
+        var pdfUrl = componentArgs.itemData.meta.download_url;
+        vm.pdfUrl(pdfUrl);
+        PDFJS.getDocument(pdfUrl)
              .then(function (pdf) {
                  return pdf.getPage(1);
              })
@@ -24,7 +25,9 @@
 
     function pdfThumbnailView(ctrl) {
         var vm = ctrl.vm;
-        return m("a[href='" + vm.pdfUrl() + "']", {config: renderPdf});
+        return m("a[href='" + vm.pdfUrl() + "']", [
+            m("div.thumbnail", {config: renderPdf})
+        ]);
 
         function renderPdf(divContainer) {
             var page = vm.page();
