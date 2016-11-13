@@ -12,6 +12,7 @@ libsass==0.8.2
 beautifulsoup4==4.5.1
 puput==0.7
 wagtailmedia==0.1.1
+gunicorn==19.6.0
 
 # Dependencies for hosting
 django-redis==3.8.2

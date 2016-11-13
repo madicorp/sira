@@ -327,9 +327,10 @@ def deploy(version, postgres_user, postgres_password, secret_key, env='prod', fo
     _launch_app(version, postgres_user, postgres_password, secret_key, env, push_local_image)
 
 
-def local_docker_compose(version, postgres_user, postgres_password, env='prod'):
+def local_docker_compose(version, postgres_user, postgres_password, secret_key, env='prod'):
     """
     Launch a docker-compose with current sources on the provided environment. Useful to simulate before deployment
+    :param secret_key:
     :param postgres_password:
     :param postgres_user:
     :param version: the version of sira image to launch locally
@@ -344,7 +345,7 @@ def local_docker_compose(version, postgres_user, postgres_password, env='prod'):
     build_app_cmd = 'docker-compose build'
     launch_app_cmd = 'docker-compose up -d'
     with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password,
-                   DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
+                   SECRET_KEY=secret_key, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
         local('{} && {} && {} && {}'.format(stop_app_cmd, remove_app_containers_cmd, build_app_cmd, launch_app_cmd))
 
 
