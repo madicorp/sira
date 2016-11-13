@@ -13,6 +13,7 @@ sira:
     - DJANGO_SETTINGS_MODULE
     - POSTGRES_USER
     - POSTGRES_PASSWORD
+    - SECRET_KEY
     - VIRTUAL_HOST
   command: ./docker/sira/launch.sh
 

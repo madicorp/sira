@@ -249,9 +249,9 @@ def _push_deployment_assets(version, force_image_build, include_media, push_loca
     _push_docker_compose(version)
 
 
-def _launch_app(version, postgres_user, postgres_password, env, push_local_image):
+def _launch_app(version, postgres_user, postgres_password, secret_key, env, push_local_image):
     with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password,
-                   DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
+                   SECRET_KEY=secret_key, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
         mv_to_sira_app_dir = 'cd {}'.format(_remote_sira_app_dir)
         build_app_cmd = 'docker-compose build'
         launch_app_cmd = 'docker-compose up -d'
@@ -302,10 +302,11 @@ def install_docker_images():
         run('docker load -i {}'.format(docker_image))
 
 
-def deploy(version, postgres_user, postgres_password, env='prod', force_image_build=False, include_media=False,
-           push_local_image=False):
+def deploy(version, postgres_user, postgres_password, secret_key, env='prod', force_image_build=False,
+           include_media=False, push_local_image=False):
     """
     create tag and deploy application to server
+    :param secret_key: the secret key used by django app
     :param push_local_image: if you want to push local image to deployment environment rather than use dockerhub
     :param include_media: if you want to push your local media files, default to False
     :param force_image_build: True if you want to force sira docker image build, default to False
@@ -323,7 +324,7 @@ def deploy(version, postgres_user, postgres_password, env='prod', force_image_bu
 
     _push_deployment_assets(version, force_image_build, include_media, push_local_image)
 
-    _launch_app(version, postgres_user, postgres_password, env, push_local_image)
+    _launch_app(version, postgres_user, postgres_password, secret_key, env, push_local_image)
 
 
 def local_docker_compose(version, postgres_user, postgres_password, env='prod'):
