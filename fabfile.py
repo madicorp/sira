@@ -174,20 +174,18 @@ def _get_sira_image_id(version):
     return 'ekougs/sira:{}'.format(version)
 
 
-def _build_sira_image(version, env, force_image_build=False):
+def _build_sira_image(version, force_image_build=False):
     image_id = _get_sira_image_id(version)
     with settings(hide('warnings', 'running', 'stdout', 'stderr')):
         image_exists = local('docker images -q {} 2> /dev/null'.format(image_id), capture=True)
     if not force_image_build and image_exists:
         puts('using existing image {}'.format(image_id))
     else:
-        with shell_env(VERSION=version, ENV=env, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
-            # generate dockerfile from template
-            local('docker build -t {} .'.format(image_id))
+        local('docker build -t {} .'.format(image_id))
 
 
-def _push_sira_docker_image(version, env, force_image_build):
-    _build_sira_image(version, env, force_image_build)
+def _push_sira_docker_image(version, force_image_build):
+    _build_sira_image(version, force_image_build)
 
     sira_docker_image_filename = _get_sira_docker_image_filename(version)
     sira_image_id = _get_sira_image_id(version)
@@ -199,10 +197,10 @@ def _push_sira_docker_image(version, env, force_image_build):
     put(sira_docker_image_filename, _remote_sira_app_dir)
 
 
-def _build_docker_compose_file(version, env, media_dir='/var/apps/sira/media'):
+def _build_docker_compose_file(version, media_dir='/var/apps/sira/media'):
     os.environ['VERSION'] = version
     os.environ['MEDIA_DIR'] = media_dir
-    with open('docker-compose.{}.tmplt'.format(env), 'r') as templated_file, \
+    with open('docker-compose.tmplt', 'r') as templated_file, \
             open(_docker_compose_filename, 'w') as output_file:
         for templated_line in templated_file:
             output_file.writelines(os.path.expandvars(templated_line))
@@ -215,21 +213,20 @@ def _delete_if_exists(file_path):
         pass
 
 
-def _push_docker_compose(version, env):
+def _push_docker_compose(version):
     """
-    generate docker compose file from the template matching the env and upload to server
+    generate docker compose file from its template and upload to server
     :param version: the version to deploy
-    :param env: the env settings to deploy
     :return:
     """
-    _build_docker_compose_file(version, env)
+    _build_docker_compose_file(version)
 
     put(_docker_compose_filename, _remote_sira_app_dir)
     _delete_if_exists(_docker_compose_filename)
     puts('sira docker-compose file uploaded')
 
 
-def _push_deployment_assets(version, env, force_image_build, include_media, push_local_image):
+def _push_deployment_assets(version, force_image_build, include_media, push_local_image):
     # create app dir if it does not exist
     run('mkdir -p {}'.format(_remote_sira_app_dir))
 
@@ -247,13 +244,13 @@ def _push_deployment_assets(version, env, force_image_build, include_media, push
 
     if push_local_image:
         # If we not get image from dockerhub we rebuild it locally and push it to the server
-        _push_sira_docker_image(version, env, force_image_build)
+        _push_sira_docker_image(version, force_image_build)
 
-    _push_docker_compose(version, env)
+    _push_docker_compose(version)
 
 
 def _launch_app(version, postgres_user, postgres_password, env, push_local_image):
-    with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password, ENV=env,
+    with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password,
                    DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
         mv_to_sira_app_dir = 'cd {}'.format(_remote_sira_app_dir)
         build_app_cmd = 'docker-compose build'
@@ -324,28 +321,28 @@ def deploy(version, postgres_user, postgres_password, env='prod', force_image_bu
 
     _stop_remote_app_and_clean()
 
-    _push_deployment_assets(version, env, force_image_build, include_media, push_local_image)
+    _push_deployment_assets(version, force_image_build, include_media, push_local_image)
 
     _launch_app(version, postgres_user, postgres_password, env, push_local_image)
 
 
-def local_docker_compose(version, postgres_user, postgres_password, env='dev'):
+def local_docker_compose(version, postgres_user, postgres_password, env='prod'):
     """
     Launch a docker-compose with current sources on the provided environment. Useful to simulate before deployment
     :param postgres_password:
     :param postgres_user:
     :param version: the version of sira image to launch locally
-    :param env: the environment to launch locally ; default is 'dev'
+    :param env: the environment to launch locally ; default is 'prod'
     """
-    _build_sira_image(version, env, True)
+    _build_sira_image(version, True)
 
-    _build_docker_compose_file(version, env, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media'))
+    _build_docker_compose_file(version, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media'))
 
     stop_app_cmd = 'docker-compose stop'
     remove_app_containers_cmd = 'docker-compose rm -f'
     build_app_cmd = 'docker-compose build'
     launch_app_cmd = 'docker-compose up -d'
-    with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password, ENV=env,
+    with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password,
                    DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
         local('{} && {} && {} && {}'.format(stop_app_cmd, remove_app_containers_cmd, build_app_cmd, launch_app_cmd))
 
@@ -381,15 +378,14 @@ def local_launch():
     # always invoked before fab task completely exits even when error
 
 
-def build_sira_image(version, env):
+def build_sira_image(version):
     """
     Build sira docker image based on the tagged version
     :param version: the docker version to build
-    :param env: the environment to build
     """
     _save_local_repo_initial_state()
     _checkout_version(version)
-    _build_sira_image(version, env, True)
+    _build_sira_image(version, True)
 
 
 @atexit.register
