@@ -1,0 +1,168 @@
+version: '2'
+
+networks:
+  front-tier:
+    driver: bridge
+  back-tier:
+    driver: bridge
+
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
+    esdata: {}
+    sirapgdata: {}
+    redisdata: {}
+
+services:
+#########################################################
+####                ACTUAL SERVICES                  ####
+#########################################################
+  sira:
+    restart: always
+    image: ekougs/sira:$VERSION
+    expose:
+      - 8000
+    links:
+      - postgres:postgres
+      - redis:redis
+      - elasticsearch:elasticsearch
+    volumes:
+      - /usr/src/sira/static
+      - $MEDIA_DIR:/usr/src/sira/media
+    environment:
+      - DJANGO_SETTINGS_MODULE
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - SECRET_KEY
+      - VIRTUAL_HOST
+    command: ./docker/sira/launch.sh
+    networks:
+      - back-tier
+
+  nginx:
+    restart: always
+    build: ./docker/nginx/
+    ports:
+      - 80:80
+    volumes:
+      - $MEDIA_DIR:/www/media
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    volumes_from:
+      - sira
+    links:
+      - sira:web
+    networks:
+      - back-tier
+      - front-tier
+
+  postgres:
+    restart: always
+    image: postgres:9.6.0
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    volumes:
+      - sirapgdata:/var/lib/postgresql/data/
+    networks:
+      - back-tier
+
+  redis:
+    restart: always
+    image: redis:3.0.7
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data
+    networks:
+      - back-tier
+
+  elasticsearch:
+    restart: always
+    image: elasticsearch:1.7.5
+    ports:
+      - 9200:9200
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - back-tier
+
+#########################################################
+####                    MONITORING                   ####
+#########################################################
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./docker/monitoring/prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '-config.file=/etc/prometheus/prometheus.yml'
+      - '-storage.local.path=/prometheus'
+      - '-alertmanager.url=http://alertmanager:9093'
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+    links:
+      - cadvisor:cadvisor
+      - alertmanager:alertmanager
+    depends_on:
+      - cadvisor
+    networks:
+      - back-tier
+
+  node-exporter:
+    image: prom/node-exporter
+    expose:
+      - 9100
+    networks:
+      - back-tier
+
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - 9093:9093
+    networks:
+      - back-tier
+    environment:
+      - SMTP_ENABLED
+      - SMTP_TO
+      - SMTP_FROM
+      - SMTP_AUTH_USERNAME
+      - SMTP_AUTH_PASSWORD
+    command:
+      - '-config.file=/etc/alertmanager/config.yml'
+      - '-storage.path=/alertmanager'
+
+  cadvisor:
+    image: google/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    expose:
+      - 8080
+    networks:
+      - back-tier
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD
+      - GF_USERS_ALLOW_SIGN_UP
+    networks:
+      - back-tier
+      - front-tier
+
+#########################################################
+####                    LOGGING                      ####
+#########################################################

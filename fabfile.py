@@ -11,6 +11,7 @@ from fabric.utils import puts, error
 from urllib3.exceptions import RequestError
 
 _devops_user = 'devops'
+# TODO use /usr/local/sira
 _remote_app_dir = '/var/apps/'
 _remote_sira_app_dir = '{}sira/'.format(_remote_app_dir)
 _original_branch = None
@@ -200,7 +201,7 @@ def _push_sira_docker_image(version, force_image_build):
 def _build_docker_compose_file(version, media_dir='/var/apps/sira/media'):
     os.environ['VERSION'] = version
     os.environ['MEDIA_DIR'] = media_dir
-    with open('docker-compose.tmplt', 'r') as templated_file, \
+    with open('docker-compose.tmplt.yml', 'r') as templated_file, \
             open(_docker_compose_filename, 'w') as output_file:
         for templated_line in templated_file:
             output_file.writelines(os.path.expandvars(templated_line))
@@ -249,9 +250,13 @@ def _push_deployment_assets(version, force_image_build, include_media, push_loca
     _push_docker_compose(version)
 
 
-def _launch_app(version, postgres_user, postgres_password, secret_key, env, push_local_image):
+def _launch_app(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
+                contact_email_password, env, push_local_image):
     with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password,
-                   SECRET_KEY=secret_key, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
+                   SECRET_KEY=secret_key, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env),
+                   GF_USERS_ALLOW_SIGN_UP='false', GF_SECURITY_ADMIN_PASSWORD=monitor_admin_pwd,
+                   SMTP_ENABLED='true', SMTP_TO=contact_email, SMTP_FROM=contact_email,
+                   SMTP_AUTH_USERNAME=contact_email, SMTP_AUTH_PASSWORD=contact_email_password):
         mv_to_sira_app_dir = 'cd {}'.format(_remote_sira_app_dir)
         build_app_cmd = 'docker-compose build'
         launch_app_cmd = 'docker-compose up -d'
@@ -302,10 +307,13 @@ def install_docker_images():
         run('docker load -i {}'.format(docker_image))
 
 
-def deploy(version, postgres_user, postgres_password, secret_key, env='prod', force_image_build=False,
-           include_media=False, push_local_image=False):
+def deploy(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
+           contact_email_password, env='prod', force_image_build=False, include_media=False, push_local_image=False):
     """
     create tag and deploy application to server
+    :param monitor_admin_pwd: the admin pwd for grafana
+    :param contact_email: the email address used for alerts
+    :param contact_email_password: the password for smtp access to contact email
     :param secret_key: the secret key used by django app
     :param push_local_image: if you want to push local image to deployment environment rather than use dockerhub
     :param include_media: if you want to push your local media files, default to False
@@ -324,12 +332,19 @@ def deploy(version, postgres_user, postgres_password, secret_key, env='prod', fo
 
     _push_deployment_assets(version, force_image_build, include_media, push_local_image)
 
-    _launch_app(version, postgres_user, postgres_password, secret_key, env, push_local_image)
+    _launch_app(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
+                contact_email_password, env, push_local_image)
 
 
-def local_docker_compose(version, postgres_user, postgres_password, secret_key, env='prod'):
+def local_docker_compose(version, postgres_user, postgres_password, secret_key, env='prod',
+                         monitor_admin_pwd='changeme', contact_email='foo@bar.com', contact_email_password='changeme',
+                         smtp_enabled="false"):
     """
     Launch a docker-compose with current sources on the provided environment. Useful to simulate before deployment
+    :param smtp_enabled:
+    :param contact_email_password:
+    :param contact_email:
+    :param monitor_admin_pwd:
     :param secret_key:
     :param postgres_password:
     :param postgres_user:
@@ -345,7 +360,10 @@ def local_docker_compose(version, postgres_user, postgres_password, secret_key, 
     build_app_cmd = 'docker-compose build'
     launch_app_cmd = 'docker-compose up -d'
     with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password,
-                   SECRET_KEY=secret_key, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env)):
+                   SECRET_KEY=secret_key, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env),
+                   GF_USERS_ALLOW_SIGN_UP='false', GF_SECURITY_ADMIN_PASSWORD=monitor_admin_pwd,
+                   SMTP_ENABLED=smtp_enabled, SMTP_TO=contact_email, SMTP_FROM=contact_email,
+                   SMTP_AUTH_USERNAME=contact_email, SMTP_AUTH_PASSWORD=contact_email_password):
         local('{} && {} && {} && {}'.format(stop_app_cmd, remove_app_containers_cmd, build_app_cmd, launch_app_cmd))
 
 
