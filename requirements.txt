@@ -1,6 +1,6 @@
 Django>=1.10,<1.11
 psycopg2==2.6
-wagtail==1.6.2
+wagtail==1.7
 django-compressor>=1.4
 django-modelcluster>=0.6
 django-taggit>=0.14.0
@@ -10,13 +10,13 @@ django-settings-export==1.1.0
 django-libsass>=0.2
 libsass==0.8.2
 beautifulsoup4==4.5.1
-puput==0.7
-wagtailmedia==0.1.1
+puput==0.8
+wagtailmedia==0.1.2
 gunicorn==19.6.0
 
 # Dependencies for hosting
 django-redis==3.8.2
-elasticsearch==1.2.0
+elasticsearch==2.4.0
 
 # Dependencies for deployment
 fabric3==1.12.post1

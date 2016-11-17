@@ -14,4 +14,4 @@ ADD ./manage.py /usr/src/sira/manage.py
 ADD ./sira /usr/src/sira/sira
 
 RUN python manage.py collectstatic --noinput
-RUN DJANGO_SETTINGS_MODULE="sira.settings.prod" SECRET_KEY="dummy_secret" python manage.py compress
+RUN DJANGO_SETTINGS_MODULE="sira.settings.prod" SECRET_KEY="dummy_secret_to_compress" python manage.py compress

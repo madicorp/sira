@@ -336,9 +336,9 @@ def deploy(version, postgres_user, postgres_password, secret_key, monitor_admin_
                 contact_email_password, env, push_local_image)
 
 
-def local_docker_compose(version, postgres_user, postgres_password, secret_key, env='prod',
-                         monitor_admin_pwd='changeme', contact_email='foo@bar.com', contact_email_password='changeme',
-                         smtp_enabled="false"):
+def local_docker_compose(version, postgres_user='admin', postgres_password='changeme', secret_key='secret_key',
+                         env='prod', monitor_admin_pwd='changeme', contact_email='foo@bar.com',
+                         contact_email_password='changeme', smtp_enabled="false"):
     """
     Launch a docker-compose with current sources on the provided environment. Useful to simulate before deployment
     :param smtp_enabled:

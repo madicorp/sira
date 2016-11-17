@@ -13,17 +13,16 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_USER'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_1_PORT_5432_TCP_ADDR'),
-        'PORT': os.getenv('POSTGRES_1_PORT_5432_TCP_PORT')
+        'HOST': 'postgres',
+        'PORT': 5432
     }
 }
 
-ELASTICSEARCH_URL = 'http://' + os.getenv('SIRA_ELASTICSEARCH_1_PORT_9200_TCP_ADDR', '') + ':' + \
-                    os.getenv('SIRA_ELASTICSEARCH_1_PORT_9200_TCP_PORT', '')
+ELASTICSEARCH_URL = 'http://elasticsearch:9200'
 
 WAGTAILSEARCH_BACKENDS = {
     'default': {
-        'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch',
+        'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch2',
         'URLS': [ELASTICSEARCH_URL],
         'AUTO_UPDATE': True,
         'INDEX': 'wagtail',

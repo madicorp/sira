@@ -10,7 +10,7 @@ volumes:
     prometheus_data: {}
     grafana_data: {}
     esdata: {}
-    sirapgdata: {}
+    pgdata: {}
     redisdata: {}
 
 services:
@@ -64,7 +64,7 @@ services:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
     volumes:
-      - sirapgdata:/var/lib/postgresql/data/
+      - pgdata:/var/lib/postgresql/data/
     networks:
       - back-tier
 
@@ -80,9 +80,12 @@ services:
 
   elasticsearch:
     restart: always
-    image: elasticsearch:1.7.5
+    image: elasticsearch:2.4
     ports:
       - 9200:9200
+      - 9300:9300
+    environment:
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
     volumes:
       - esdata:/usr/share/elasticsearch/data
     networks:
@@ -162,7 +165,3 @@ services:
     networks:
       - back-tier
       - front-tier
-
-#########################################################
-####                    LOGGING                      ####
-#########################################################
