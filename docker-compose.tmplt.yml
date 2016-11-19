@@ -29,6 +29,7 @@ services:
     volumes:
       - /usr/src/sira/static
       - $MEDIA_DIR:/usr/src/sira/media
+      - $LOG_DIR/sira:/var/log/sira
     environment:
       - DJANGO_SETTINGS_MODULE
       - POSTGRES_USER
@@ -47,6 +48,7 @@ services:
     volumes:
       - $MEDIA_DIR:/www/media
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - $LOG_DIR/nginx:/var/log/nginx
     volumes_from:
       - sira
     links:
@@ -65,18 +67,22 @@ services:
       - POSTGRES_PASSWORD
     volumes:
       - pgdata:/var/lib/postgresql/data/
+      - ./docker/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+      - $LOG_DIR/postgresql:/var/log/postgresql
     networks:
       - back-tier
 
   redis:
     restart: always
-    image: redis:3.0.7
+    build: ./docker/redis
     ports:
       - 6379:6379
     volumes:
       - redisdata:/data
+      - $LOG_DIR/redis:/var/log/redis
     networks:
       - back-tier
+    command: docker-entrypoint.sh /etc/redis.conf
 
   elasticsearch:
     restart: always
@@ -88,6 +94,9 @@ services:
       ES_JAVA_OPTS: "-Xms1g -Xmx1g"
     volumes:
       - esdata:/usr/share/elasticsearch/data
+      - ./docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./docker/elasticsearch/logging.yml:/usr/share/elasticsearch/config/logging.yml
+      - $LOG_DIR/elasticsearch:/var/log/elasticsearch
     networks:
       - back-tier
 

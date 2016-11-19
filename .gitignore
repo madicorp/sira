@@ -109,3 +109,5 @@ pip_cache
 # It is generated
 docker-compose.yml
 *.docker
+
+log

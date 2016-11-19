@@ -251,12 +251,13 @@ def _push_deployment_assets(version, force_image_build, include_media, push_loca
 
 
 def _launch_app(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
-                contact_email_password, env, push_local_image):
+                contact_email_password, env, push_local_image, log_dir):
     with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password,
                    SECRET_KEY=secret_key, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env),
                    GF_USERS_ALLOW_SIGN_UP='false', GF_SECURITY_ADMIN_PASSWORD=monitor_admin_pwd,
                    SMTP_ENABLED='true', SMTP_TO=contact_email, SMTP_FROM=contact_email,
-                   SMTP_AUTH_USERNAME=contact_email, SMTP_AUTH_PASSWORD=contact_email_password):
+                   SMTP_AUTH_USERNAME=contact_email, SMTP_AUTH_PASSWORD=contact_email_password,
+                   LOG_DIR=log_dir):
         mv_to_sira_app_dir = 'cd {}'.format(_remote_sira_app_dir)
         build_app_cmd = 'docker-compose build'
         launch_app_cmd = 'docker-compose up -d'
@@ -308,7 +309,8 @@ def install_docker_images():
 
 
 def deploy(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
-           contact_email_password, env='prod', force_image_build=False, include_media=False, push_local_image=False):
+           contact_email_password, env='prod', force_image_build=False, include_media=False, push_local_image=False,
+           log_dir='/var/log'):
     """
     create tag and deploy application to server
     :param monitor_admin_pwd: the admin pwd for grafana
@@ -333,14 +335,15 @@ def deploy(version, postgres_user, postgres_password, secret_key, monitor_admin_
     _push_deployment_assets(version, force_image_build, include_media, push_local_image)
 
     _launch_app(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
-                contact_email_password, env, push_local_image)
+                contact_email_password, env, push_local_image, log_dir)
 
 
 def local_docker_compose(version, postgres_user='admin', postgres_password='changeme', secret_key='secret_key',
                          env='prod', monitor_admin_pwd='changeme', contact_email='foo@bar.com',
-                         contact_email_password='changeme', smtp_enabled="false"):
+                         contact_email_password='changeme', smtp_enabled="false", log_dir='./log'):
     """
     Launch a docker-compose with current sources on the provided environment. Useful to simulate before deployment
+    :param log_dir:
     :param smtp_enabled:
     :param contact_email_password:
     :param contact_email:
@@ -363,7 +366,8 @@ def local_docker_compose(version, postgres_user='admin', postgres_password='chan
                    SECRET_KEY=secret_key, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env),
                    GF_USERS_ALLOW_SIGN_UP='false', GF_SECURITY_ADMIN_PASSWORD=monitor_admin_pwd,
                    SMTP_ENABLED=smtp_enabled, SMTP_TO=contact_email, SMTP_FROM=contact_email,
-                   SMTP_AUTH_USERNAME=contact_email, SMTP_AUTH_PASSWORD=contact_email_password):
+                   SMTP_AUTH_USERNAME=contact_email, SMTP_AUTH_PASSWORD=contact_email_password,
+                   LOG_DIR=log_dir):
         local('{} && {} && {} && {}'.format(stop_app_cmd, remove_app_containers_cmd, build_app_cmd, launch_app_cmd))
 
 
