@@ -8,7 +8,7 @@
         var vm = {
             imgId: m.prop(),
             imgUrl: m.prop(),
-            thumbnailUrl: m.prop(),
+            thumbnailUrl: m.prop()
         };
         this.vm = vm;
         vm.imgId(componentArgs.itemData.id);
@@ -18,30 +18,13 @@
 
     function imageThumbnailView(ctrl) {
         var vm = ctrl.vm;
-        var imgModalId = 'img-' + vm.imgId();
-        var imgModalIdSelector = '#' + imgModalId;
-        var thumbnailParams = {
-            href: imgModalIdSelector,
-            rel: 'modal:open',
-        };
-        return m('a', thumbnailParams, [
-            m(".thumbnail", [
-                m(imgSelector(vm.thumbnailUrl())),
-            ]),
-            originalImgModal()
-        ]);
+        return  m(imgSelector(vm.thumbnailUrl()));
 
         function imgSelector(url) {
-            return 'img[src=' + url + ']';
+            return 'img.background-image[src=' + url + ']';
         }
-
-        function originalImgModal() {
-            return m('.modal.sira', {
-                id: imgModalId,
-            }, [
-                         m(imgSelector(vm.imgUrl()))
-                     ]);
-        }
-
     }
+
+
+
 })();

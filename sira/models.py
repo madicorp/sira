@@ -34,7 +34,7 @@ class VideoPage(Page):
     subpage_types = []
 
     class Meta:
-        verbose_name = "Vidéos"
+        verbose_name = "Videos"
 
 
 class ImagePage(Page):

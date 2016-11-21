@@ -3,7 +3,7 @@
 
     _package("com.botilab.components.list").homepageGenericListComponentInit = ListComponentInitialise;
 
-    function ListComponentInitialise(containerId, baseListUrl, thumbnailComponentProvider, extraApiParams) {
+    function ListComponentInitialise(containerId, baseListUrl, thumbnailComponentProvider, extraApiParams, listCustomComponent) {
         var extraApiParamsStr = "";
         _.forIn(extraApiParams, function (value, key) {
             extraApiParamsStr += "&" + key + "=" + value;
@@ -14,6 +14,7 @@
                     items: m.prop([])
                 };
                 this.vm = vm;
+                this.listComponent = listCustomComponent || listElementsComponent;
                 updateItems();
                 function updateItems() {
                     m.request({
@@ -27,13 +28,10 @@
                 }
             },
             view: function (ctrl) {
-                return m(listElementsComponent, {
+                return m(ctrl.listComponent, {
                              items: ctrl.vm.items,
-                             getTagState: function () {
-                                 return false;
-                             },
-                             setTagState: function () {
-                             },
+                             getTagState: function () {return false;},
+                             setTagState: function () {},
                              thumbnailComponent: thumbnailComponentProvider
                          }
                 );

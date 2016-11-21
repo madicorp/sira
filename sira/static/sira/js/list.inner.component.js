@@ -12,22 +12,23 @@
 
     function listView(ctrl) {
         var paginationComp = pagination();
-
+        var elementsComponent = ctrl.CustomlistElementsComponent || listElementsComponent;
         return m("", [
             filterComp(),
             paginationComp,
             m(".container", [
                 m(".row", [
                     m(".col-sm-9.col-md-9", [
-                        m(listElementsComponent, {
+                        m(elementsComponent, {
                             items: ctrl.vm.items,
                             getTagState: ctrl.getTagState,
                             setTagState: ctrl.setTagState,
                             thumbnailComponent: ctrl.thumbnailComponent,
-                            itemsPerLine: ctrl.itemsPerLine
+                            itemsPerLine: ctrl.itemsPerLine,
+                            md_size: ctrl.md_size
                         })
                     ]),
-                    m(".col-sm-3.col-md-3", [
+                    m(".col-sm-3.col-md-3.side___block", [
                         m(listTagComponent, {
                             tagActiveStates: ctrl.vm.tagActiveStates,
                             getTagState: ctrl.getTagState,

@@ -3,7 +3,7 @@
     _package("com.botilab.components.list").genericListComponentInit = ListComponentInitialise;
 
     function ListComponentInitialise(containerId, baseListUrl, listItemType, itemsKeyInResponse, thumbnailComponentProvider,
-                                     itemsPerLine, itemsPerPage, extraApiParams) {
+                                     itemsPerLine, itemsPerPage, extraApiParams,listElementsComponent, md_size) {
         var thumbnailComponentProviderFn;
         if (!_.isFunction(thumbnailComponentProvider)) {
             thumbnailComponentProviderFn = function () {
@@ -23,6 +23,9 @@
                              itemsPerLine: itemsPerLine,
                              itemsPerPage: itemsPerPage,
                              extraApiParams: extraApiParams,
+                             listElementsComponent: listElementsComponent,
+                             md_size: md_size
+
                          });
             }
         };

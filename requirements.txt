@@ -13,6 +13,7 @@ beautifulsoup4==4.5.1
 puput==0.8
 wagtailmedia==0.1.2
 gunicorn==19.6.0
+moviepy==0.2.2.11
 
 # Dependencies for hosting
 django-redis==3.8.2
