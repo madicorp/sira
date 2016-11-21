@@ -13,6 +13,8 @@
             pageCount: m.prop(-1),
             filterValue: m.prop()
         };
+        this.CustomlistElementsComponent = componentArgs.listElementsComponent;
+        this.md_size = componentArgs.md_size;
         this.vm = vm;
         this.hasPrev = hasPrev;
         this.hasNext = hasNext;

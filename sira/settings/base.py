@@ -15,8 +15,6 @@ from __future__ import absolute_import, unicode_literals
 
 import os
 
-from django.utils.translation import ugettext_lazy as _
-
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
@@ -168,5 +166,4 @@ WAGTAILSEARCH_BACKENDS = {
 PUPUT_AS_PLUGIN = True
 PUPUT_USERNAME_FIELD = 'userprofile'
 
-MIGRATION_MODULES = {'puput': 'sira.puput_migrations'}
 # Custom settings

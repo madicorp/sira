@@ -9,9 +9,9 @@ ADD ./requirements.txt /usr/src/sira/requirements.txt
 # Getting all project's dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-ADD ./static /usr/src/sira/static
-
 ADD ./docker /usr/src/sira/docker
 ADD ./manage.py /usr/src/sira/manage.py
 ADD ./sira /usr/src/sira/sira
-                                                                                                                                         N
+
+RUN python manage.py collectstatic --noinput
+RUN DJANGO_SETTINGS_MODULE="sira.settings.prod" SECRET_KEY="dummy_secret" python manage.py compress

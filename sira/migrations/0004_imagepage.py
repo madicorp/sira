@@ -9,7 +9,6 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailcore', '0030_auto_20161023_1338'),
         ('sira', '0003_videopage'),
     ]
 

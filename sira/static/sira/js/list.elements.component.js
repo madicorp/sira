@@ -1,19 +1,10 @@
 (function () {
     var tagItem = _package("com.botilab.components.list").TagItem;
+    var elementsController = _package("com.botilab.components.list").ElementsController;
     _package("com.botilab.components.list").ListElementsComponent = {
         controller: elementsController,
         view: elementsView
     };
-
-    function elementsController(componentArgs) {
-        this.vm = {
-            items: componentArgs.items
-        };
-        this.thumbnailComponent = componentArgs.thumbnailComponent;
-        this.itemsPerLine = componentArgs.itemsPerLine || 3;
-        this.getTagState = componentArgs.getTagState;
-        this.setTagState = componentArgs.setTagState;
-    }
 
     function elementsView(ctrl) {
         var items = ctrl.vm.items();
