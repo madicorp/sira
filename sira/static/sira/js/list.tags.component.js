@@ -4,6 +4,7 @@
 
     _package("com.botilab.components.list").tagTogglesEvent = tagTogglesEvent;
     _package("com.botilab.components.list").TagItem = tagItem;
+    _package("com.botilab.components.list").Tag = tag;
 
     _package("com.botilab.components.list").ListTagComponent = {
         controller: tagsController,
@@ -58,4 +59,17 @@
             setTagState(tagName, !active);
         }
     }
+
+    function tag(tagName, link, active, setTagState){
+        var tagActiveClass = !!active ? "active" : "inactive";
+        return m("li",
+            m('a.' + tagActiveClass + '[href="' + link + '"]', {onclick: noScrollAnchorCurry(toggleTag)}, tagName)
+        );
+
+         function toggleTag() {
+            setTagState(tagName, !active);
+        }
+
+    }
+
 })();

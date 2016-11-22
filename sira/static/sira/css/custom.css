@@ -301,3 +301,62 @@ section.pagination-block, .search-box {
 .page-header {
    padding: 100px 0;
 }
+
+.img-tags .sidebar-widget{
+     margin: 10px 0 0 10px;
+}
+
+.img-tags li {
+    background:none !important;
+}
+
+.img-tags li a{
+    color: #ffffff;
+     background: rgba(66, 38, 0, 0.4) !important;
+}
+
+.img-tags li a:hover{
+    color: rgba(255, 202, 34, 0.5);
+}
+
+.image-holder .align-vertical a {
+        min-width: 0;
+}
+
+.thumb-video__button {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -14.5px;
+    margin-left: -10.5px;
+}
+
+.thumb-video__time {
+    font-size: 11px;
+    color: #fff;
+    position: absolute;
+    display: block;
+    bottom: 15px;
+    right: 15px;
+    text-shadow: 0 0 9px rgba(0,0,0,.5);
+}
+
+.thumb-video__link {
+    position: relative;
+    display: block;
+    margin-bottom: 15px;
+}
+.thumb-video__title {
+    text-align: center;
+    padding:15px 40px 0 40px;
+}
+
+.thumb-video__footer{
+ background-color: #ffffff;
+}
+.side___block {
+    background-color: #ffffff;
+}
+
+
