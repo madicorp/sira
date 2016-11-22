@@ -261,6 +261,7 @@ def _launch_app(version, postgres_user, postgres_password, secret_key, monitor_a
         mv_to_sira_app_dir = 'cd {}'.format(_remote_sira_app_dir)
         build_app_cmd = 'docker-compose build'
         launch_app_cmd = 'docker-compose up -d'
+        _stop_remote_app_and_clean()
         if push_local_image:
             load_sira_img_cmd = 'docker load -i {}'.format(_get_sira_docker_image_filename(version))
             run('({} && {} && {} && {})'.format(mv_to_sira_app_dir, load_sira_img_cmd, build_app_cmd, launch_app_cmd))
@@ -309,10 +310,11 @@ def install_docker_images():
 
 
 def deploy(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
-           contact_email_password, env='prod', force_image_build=False, include_media=False, push_local_image=False,
+           contact_email_password, env='prod', force_image_build=False, include_media=False, push_local_image=True,
            log_dir='/var/log'):
     """
     create tag and deploy application to server
+    :param log_dir: the dir to use for logs
     :param monitor_admin_pwd: the admin pwd for grafana
     :param contact_email: the email address used for alerts
     :param contact_email_password: the password for smtp access to contact email
@@ -329,8 +331,6 @@ def deploy(version, postgres_user, postgres_password, secret_key, monitor_admin_
 
     _save_local_repo_initial_state()
     _checkout_version(version)
-
-    _stop_remote_app_and_clean()
 
     _push_deployment_assets(version, force_image_build, include_media, push_local_image)
 
