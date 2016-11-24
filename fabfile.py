@@ -198,9 +198,11 @@ def _push_sira_docker_image(version, force_image_build):
     put(sira_docker_image_filename, _remote_sira_app_dir)
 
 
-def _build_docker_compose_file(version, media_dir='/var/apps/sira/media'):
+def _build_docker_compose_file(version, log_dir, data_dir, media_dir='/var/apps/sira/media'):
     os.environ['VERSION'] = version
     os.environ['MEDIA_DIR'] = media_dir
+    os.environ['LOG_DIR'] = log_dir
+    os.environ['DATA_DIR'] = data_dir
     with open('docker-compose.tmplt.yml', 'r') as templated_file, \
             open(_docker_compose_filename, 'w') as output_file:
         for templated_line in templated_file:
@@ -220,7 +222,7 @@ def _push_docker_compose(version):
     :param version: the version to deploy
     :return:
     """
-    _build_docker_compose_file(version)
+    _build_docker_compose_file(version, '/var/log', '/var/data')
 
     put(_docker_compose_filename, _remote_sira_app_dir)
     _delete_if_exists(_docker_compose_filename)
@@ -340,9 +342,11 @@ def deploy(version, postgres_user, postgres_password, secret_key, monitor_admin_
 
 def local_docker_compose(version, postgres_user='admin', postgres_password='changeme', secret_key='secret_key',
                          env='prod', monitor_admin_pwd='changeme', contact_email='foo@bar.com',
-                         contact_email_password='changeme', smtp_enabled="false", log_dir='./log'):
+                         contact_email_password='changeme', smtp_enabled="false", log_dir='./log',
+                         data_dir='./data'):
     """
     Launch a docker-compose with current sources on the provided environment. Useful to simulate before deployment
+    :param data_dir:
     :param log_dir:
     :param smtp_enabled:
     :param contact_email_password:
@@ -356,7 +360,8 @@ def local_docker_compose(version, postgres_user='admin', postgres_password='chan
     """
     _build_sira_image(version, True)
 
-    _build_docker_compose_file(version, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media'))
+    _build_docker_compose_file(version, log_dir, data_dir,
+                               os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media'))
 
     stop_app_cmd = 'docker-compose stop'
     remove_app_containers_cmd = 'docker-compose rm -f'
@@ -366,8 +371,7 @@ def local_docker_compose(version, postgres_user='admin', postgres_password='chan
                    SECRET_KEY=secret_key, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env),
                    GF_USERS_ALLOW_SIGN_UP='false', GF_SECURITY_ADMIN_PASSWORD=monitor_admin_pwd,
                    SMTP_ENABLED=smtp_enabled, SMTP_TO=contact_email, SMTP_FROM=contact_email,
-                   SMTP_AUTH_USERNAME=contact_email, SMTP_AUTH_PASSWORD=contact_email_password,
-                   LOG_DIR=log_dir):
+                   SMTP_AUTH_USERNAME=contact_email, SMTP_AUTH_PASSWORD=contact_email_password):
         local('{} && {} && {} && {}'.format(stop_app_cmd, remove_app_containers_cmd, build_app_cmd, launch_app_cmd))
 
 

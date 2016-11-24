@@ -6,13 +6,6 @@ networks:
   back-tier:
     driver: bridge
 
-volumes:
-    prometheus_data: {}
-    grafana_data: {}
-    esdata: {}
-    pgdata: {}
-    redisdata: {}
-
 services:
 #########################################################
 ####                ACTUAL SERVICES                  ####
@@ -66,7 +59,7 @@ services:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
     volumes:
-      - pgdata:/var/lib/postgresql/data/
+      - $DATA_DIR/postgres:/var/lib/postgresql/data/
       - ./docker/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
       - $LOG_DIR/postgresql:/var/log/postgresql
     networks:
@@ -78,7 +71,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - redisdata:/data
+      - $DATA_DIR/redis:/data
       - $LOG_DIR/redis:/var/log/redis
     networks:
       - back-tier
@@ -93,7 +86,7 @@ services:
     environment:
       ES_JAVA_OPTS: "-Xms1g -Xmx1g"
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - $DATA_DIR/elasticsearch:/usr/share/elasticsearch/data
       - ./docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./docker/elasticsearch/logging.yml:/usr/share/elasticsearch/config/logging.yml
       - $LOG_DIR/elasticsearch:/var/log/elasticsearch
@@ -108,7 +101,7 @@ services:
     container_name: prometheus
     volumes:
       - ./docker/monitoring/prometheus/:/etc/prometheus/
-      - prometheus_data:/prometheus
+      - $DATA_DIR/prometheus:/prometheus
     command:
       - '-config.file=/etc/prometheus/prometheus.yml'
       - '-storage.local.path=/prometheus'
@@ -167,7 +160,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - grafana_data:/var/lib/grafana
+      - $DATA_DIR/grafana:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD
       - GF_USERS_ALLOW_SIGN_UP
