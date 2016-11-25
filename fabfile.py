@@ -297,7 +297,8 @@ def install_docker_images():
     Load docker images to deployment environment
     """
     images = {'nginx': 'tutum/nginx:latest', 'postgres': 'postgres:9.6.0', 'python': 'python:3.4.5',
-              'redis': 'redis:3.0.7', 'elasticsearch': 'elasticsearch:1.7.5'}
+              'redis': 'redis:3.0.7', 'elasticsearch': 'elasticsearch:1.7.5', 'prometheus': 'latest',
+              'node-exporter': 'latest', 'alertmanager': 'latest', 'cadvisor': 'latest', 'grafana': 'latest'}
     for image_name in images:
         docker_image = '{}.docker'.format(image_name)
         docker_image_name_with_tag = images[image_name]
@@ -311,6 +312,7 @@ def install_docker_images():
         run('docker load -i {}'.format(docker_image))
 
 
+# TODO ADMIN_EMAIL, ADMIN_PASSWORD
 def deploy(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
            contact_email_password, env='prod', force_image_build=False, include_media=False, push_local_image=True,
            log_dir='/var/log'):
@@ -372,7 +374,7 @@ def local_docker_compose(version, postgres_user='admin', postgres_password='chan
                    GF_USERS_ALLOW_SIGN_UP='false', GF_SECURITY_ADMIN_PASSWORD=monitor_admin_pwd,
                    SMTP_ENABLED=smtp_enabled, SMTP_TO=contact_email, SMTP_FROM=contact_email,
                    SMTP_AUTH_USERNAME=contact_email, SMTP_AUTH_PASSWORD=contact_email_password):
-        local('{} && {} && {} && {}'.format(stop_app_cmd, remove_app_containers_cmd, build_app_cmd, launch_app_cmd))
+        local('{} && {} && {} && {}'.format(build_app_cmd, stop_app_cmd, remove_app_containers_cmd, launch_app_cmd))
 
 
 def _wait_for(host, port):

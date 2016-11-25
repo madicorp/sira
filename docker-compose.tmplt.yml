@@ -29,7 +29,7 @@ services:
       - POSTGRES_PASSWORD
       - SECRET_KEY
       - VIRTUAL_HOST
-    command: ./docker/sira/launch.sh
+    command: ./docker/sira/docker-entrypoint.sh
     networks:
       - back-tier
 
@@ -60,7 +60,6 @@ services:
       - POSTGRES_PASSWORD
     volumes:
       - $DATA_DIR/postgres:/var/lib/postgresql/data/
-      - ./docker/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
       - $LOG_DIR/postgresql:/var/log/postgresql
     networks:
       - back-tier

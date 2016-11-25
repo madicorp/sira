@@ -5,7 +5,9 @@
 == Requirements
 Python 2.7
 npm
+Docker
 
+[[work-env]]
 == Install work environment
 If virtualenv is not installed
 `pip install virtualenv`
@@ -21,51 +23,28 @@ Install dependencies
 
 [[activate-venv]]
 == Activate venv
+Do <<work-env>>
 `source venv/bin/activate`
 
 == Launch locally
 Do <<activate-venv>>
-Ensure local_launch.sh has the execution rights
+Ensure `local_launch.sh` and `launch.sh` have execution rights
 `fab local_launch`
 
 Deployed on `http://127.0.0.1:8000/`
 Admin page accessible at `http://127.0.0.1:8000/admin/`
 
-== I18N
-Add I18N key and translations to `locale/fr/LC_MESSAGES/django.po`
-Once done, `python manage.py compilemessages -l fr`
-This is automatically done when using the Vagrant configuration
-
 == Updating the migration files
-`python manage.py dumpdata auth.user --natural-foreign --indent 2 > sira/fixtures/user.json`
-`python manage.py dumpdata wagtaildocs.document --natural-foreign --indent 2 > sira/fixtures/documents.json`
+Do <<activate-venv>>
 `python manage.py dumpdata -e wagtailcore.groupcollectionpermission -e auth.permission -e contenttypes.contenttype -e wagtailimages.image -e sessions.session -e auth.group -e auth.user -e wagtailcore.grouppagepermission --natural-foreign --indent 2 > sira/fixtures/sira.json`
-
-[[aliases]]
-== Get aliases
-`source aliases.sh`
 
 [[build-image]]
 == Build SIRA dev docker image
 Do <<aliases>>
 `build_image dev 1.1` env followed by docker image version
 
-== Launch project
-Do <<build-image>> first
-```
-docker-compose stop
-docker-compose rm
-docker-compose build
-POSTGRES_USER="admin" POSTGRES_PASSWORD="changeme" DJANGO_SETTINGS_MODULE="sira.settings.dev" docker-compose up
-```
-`POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_SETTINGS_MODULE` env vars are mandatory
-
-image::doc/sira_archi_dev.png[alt="Dev archi", title="Dev architecture"]
-
-== Unset docker machine
-Do <<aliases>>
-`unset-machine`
-
+== Launch docker-compose locally
+`fab local_docker_compose:$version_git_tag_name`
 
 == Launch tests
 `python manage.py test`
