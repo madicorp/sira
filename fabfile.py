@@ -297,7 +297,8 @@ def install_docker_images():
     Load docker images to deployment environment
     """
     images = {'nginx': 'tutum/nginx:latest', 'postgres': 'postgres:9.6.0', 'python': 'python:3.4.5',
-              'redis': 'redis:3.0.7', 'elasticsearch': 'elasticsearch:1.7.5'}
+              'redis': 'redis:3.0.7', 'elasticsearch': 'elasticsearch:1.7.5', 'prometheus': 'latest',
+              'node-exporter': 'latest', 'alertmanager': 'latest', 'cadvisor': 'latest', 'grafana': 'latest'}
     for image_name in images:
         docker_image = '{}.docker'.format(image_name)
         docker_image_name_with_tag = images[image_name]
