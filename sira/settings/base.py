@@ -166,4 +166,6 @@ WAGTAILSEARCH_BACKENDS = {
 PUPUT_AS_PLUGIN = True
 PUPUT_USERNAME_FIELD = 'userprofile'
 
+# WAGTAILMEDIA_MEDIA_MODEL = 'sira.Media'
+
 # Custom settings

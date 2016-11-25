@@ -2,6 +2,7 @@ import os
 
 from django.urls import reverse
 from django.utils.html import escape
+from moviepy.editor import *
 from rest_framework.decorators import api_view
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
@@ -15,7 +16,6 @@ from wagtail.wagtailimages.api.v2.serializers import ImageSerializer
 from wagtail.wagtailimages.models import Image
 from wagtail.wagtailimages.views.serve import generate_signature
 from wagtailmedia.models import Media
-from moviepy.editor import *
 
 
 class DocumentAbsoluteDownloadUrlField(DocumentDownloadUrlField):
@@ -169,18 +169,11 @@ def get_file_field_ext(file_field):
 
 
 def _get_video_view(video):
-    thumbnail = None
-    clip = VideoFileClip(os.path.realpath('media/' + video.file.name))
-    m, s = divmod(clip.duration, 60)
+    if not video.thumbnail:
+        _set_video_duration_and_thumbnail(video)
+    m, s = divmod(video.duration, 60)
     h, m = divmod(m, 60)
     duration = "%d:%02d:%02d" % (h, m, s)
-    if video.thumbnail:
-        thumbnail = '/media/images/' + str(video.thumbnail)
-    else:
-        thumbnail = os.path.realpath("media/images/" + str(video.title).lower() + str(video.id) + ".jpg")
-        if not os.path.exists(thumbnail):
-            clip.save_frame(thumbnail)
-        thumbnail = "/media/images/" + str(video.title).lower() + str(video.id) + ".jpg"
     # This should be refactored if too slow.
     # If that's the case, we can get the tags in bulk for a whole page of videos and then link them in memory
     # on the python side.
@@ -193,7 +186,7 @@ def _get_video_view(video):
     return {
         'id': video.id,
         'meta': {
-            'thumbnail': thumbnail,
+            'thumbnail': video.thumbnail,
             'download_url': '/media/' + str(video.file),
             'extension': get_file_field_ext(video.file),
             'duration': duration,
@@ -201,6 +194,16 @@ def _get_video_view(video):
         },
         'title': video.title,
     }
+
+
+def _set_video_duration_and_thumbnail(video):
+    thumbnail = "media/images/thumbnail_{}{}.jpg".format(str(video.title).replace(" ", "_").lower(), str(video.id))
+    clip = VideoFileClip(os.path.realpath("media/" + video.file.name))
+    video.duration = clip.duration
+    print("duration", video.duration, os.path.realpath(thumbnail), clip.size)
+    clip.save_frame(os.path.realpath(thumbnail))
+    video.thumbnail = "/" + thumbnail
+    video.save()
 
 
 class VideoPagination(LimitOffsetPagination):
