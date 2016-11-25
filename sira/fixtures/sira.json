@@ -1,877 +1,353 @@
 [
-{
-  "model": "wagtailsearch.query",
-  "pk": 1,
-  "fields": {
-    "query_string": "centrale"
+  {
+    "model": "wagtailcore.site",
+    "pk": 1,
+    "fields": {
+      "hostname": "localhost",
+      "port": 80,
+      "site_name": "",
+      "root_page": 3,
+      "is_default_site": true
+    }
+  },
+  {
+    "model": "wagtailcore.collection",
+    "pk": 1,
+    "fields": {
+      "path": "0001",
+      "depth": 1,
+      "numchild": 0,
+      "name": "Root"
+    }
+  },
+  {
+    "model": "sira.homepage",
+    "pk": 3,
+    "fields": {}
+  },
+  {
+    "model": "sira.documentpage",
+    "pk": 5,
+    "fields": {}
+  },
+  {
+    "model": "sira.videopage",
+    "pk": 7,
+    "fields": {}
+  },
+  {
+    "model": "sira.imagepage",
+    "pk": 6,
+    "fields": {}
+  },
+  {
+    "model": "puput.blogpage",
+    "pk": 4,
+    "fields": {
+      "description": "",
+      "header_image": null,
+      "display_comments": false,
+      "display_categories": true,
+      "display_tags": true,
+      "display_popular_entries": true,
+      "display_last_entries": true,
+      "display_archive": true,
+      "disqus_api_secret": "",
+      "disqus_shortname": "",
+      "num_entries_page": 6,
+      "num_last_entries": 3,
+      "num_popular_entries": 3,
+      "num_tags_entry_header": 5
+    }
+  },
+  {
+    "model": "wagtailcore.pagerevision",
+    "pk": 1,
+    "fields": {
+      "page": 3,
+      "submitted_for_moderation": false,
+      "created_at": "2016-11-24T21:01:46.382Z",
+      "user": [
+        "admin"
+      ],
+      "content_json": "{\"show_in_menus\": false, \"slug\": \"accueil\", \"has_unpublished_changes\": false, \"url_path\": \"/accueil/\", \"search_description\": \"\", \"path\": \"00010002\", \"locked\": false, \"title\": \"Accueil\", \"expired\": false, \"live\": true, \"content_type\": 39, \"owner\": 1, \"first_published_at\": null, \"pk\": 3, \"numchild\": 0, \"expire_at\": null, \"latest_revision_created_at\": null, \"seo_title\": \"\", \"depth\": 2, \"go_live_at\": null}",
+      "approved_go_live_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.pagerevision",
+    "pk": 3,
+    "fields": {
+      "page": 3,
+      "submitted_for_moderation": false,
+      "created_at": "2016-11-24T21:02:11.029Z",
+      "user": [
+        "admin"
+      ],
+      "content_json": "{\"show_in_menus\": false, \"slug\": \"home\", \"has_unpublished_changes\": false, \"url_path\": \"/accueil/\", \"search_description\": \"\", \"path\": \"00010002\", \"locked\": false, \"title\": \"Accueil\", \"expired\": false, \"live\": true, \"content_type\": 39, \"owner\": 1, \"first_published_at\": \"2016-11-24T21:01:46.430Z\", \"pk\": 3, \"numchild\": 0, \"expire_at\": null, \"latest_revision_created_at\": \"2016-11-24T21:01:46.382Z\", \"seo_title\": \"\", \"depth\": 2, \"go_live_at\": null}",
+      "approved_go_live_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.pagerevision",
+    "pk": 4,
+    "fields": {
+      "page": 4,
+      "submitted_for_moderation": false,
+      "created_at": "2016-11-24T21:06:45.206Z",
+      "user": [
+        "admin"
+      ],
+      "content_json": "{\"expired\": false, \"has_unpublished_changes\": false, \"header_image\": null, \"search_description\": \"\", \"first_published_at\": null, \"num_tags_entry_header\": 5, \"display_categories\": true, \"title\": \"Actualit\\u00e9s\", \"content_type\": 25, \"owner\": 1, \"num_last_entries\": 3, \"pk\": 4, \"display_popular_entries\": true, \"num_entries_page\": 6, \"disqus_api_secret\": \"\", \"depth\": 3, \"num_popular_entries\": 3, \"display_archive\": true, \"description\": \"\", \"show_in_menus\": false, \"slug\": \"news\", \"live\": false, \"url_path\": \"/home/news/\", \"locked\": false, \"go_live_at\": null, \"seo_title\": \"\", \"latest_revision_created_at\": null, \"path\": \"000100020001\", \"numchild\": 0, \"display_last_entries\": true, \"display_tags\": true, \"display_comments\": false, \"disqus_shortname\": \"\", \"expire_at\": null}",
+      "approved_go_live_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.pagerevision",
+    "pk": 5,
+    "fields": {
+      "page": 4,
+      "submitted_for_moderation": false,
+      "created_at": "2016-11-24T21:06:48.304Z",
+      "user": [
+        "admin"
+      ],
+      "content_json": "{\"expired\": false, \"has_unpublished_changes\": true, \"header_image\": null, \"search_description\": \"\", \"first_published_at\": null, \"num_tags_entry_header\": 5, \"display_categories\": true, \"title\": \"Actualit\\u00e9s\", \"content_type\": 25, \"owner\": 1, \"num_last_entries\": 3, \"pk\": 4, \"display_popular_entries\": true, \"num_entries_page\": 6, \"disqus_api_secret\": \"\", \"depth\": 3, \"num_popular_entries\": 3, \"display_archive\": true, \"description\": \"\", \"show_in_menus\": false, \"slug\": \"news\", \"live\": false, \"url_path\": \"/home/news/\", \"locked\": false, \"go_live_at\": null, \"seo_title\": \"\", \"latest_revision_created_at\": \"2016-11-24T21:06:45.206Z\", \"path\": \"000100020001\", \"numchild\": 0, \"display_last_entries\": true, \"display_tags\": true, \"display_comments\": false, \"disqus_shortname\": \"\", \"expire_at\": null}",
+      "approved_go_live_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.pagerevision",
+    "pk": 6,
+    "fields": {
+      "page": 5,
+      "submitted_for_moderation": false,
+      "created_at": "2016-11-24T21:07:14.419Z",
+      "user": [
+        "admin"
+      ],
+      "content_json": "{\"show_in_menus\": false, \"slug\": \"documents\", \"has_unpublished_changes\": false, \"url_path\": \"/home/documents/\", \"search_description\": \"\", \"path\": \"000100020002\", \"locked\": false, \"title\": \"Documents\", \"expired\": false, \"live\": true, \"content_type\": 37, \"owner\": 1, \"first_published_at\": null, \"pk\": 5, \"numchild\": 0, \"expire_at\": null, \"latest_revision_created_at\": null, \"seo_title\": \"\", \"depth\": 3, \"go_live_at\": null}",
+      "approved_go_live_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.pagerevision",
+    "pk": 7,
+    "fields": {
+      "page": 6,
+      "submitted_for_moderation": false,
+      "created_at": "2016-11-24T21:07:28.795Z",
+      "user": [
+        "admin"
+      ],
+      "content_json": "{\"show_in_menus\": false, \"slug\": \"images\", \"has_unpublished_changes\": false, \"url_path\": \"/home/images/\", \"search_description\": \"\", \"path\": \"000100020003\", \"locked\": false, \"title\": \"Images\", \"expired\": false, \"live\": false, \"content_type\": 36, \"owner\": 1, \"first_published_at\": null, \"pk\": 6, \"numchild\": 0, \"expire_at\": null, \"latest_revision_created_at\": null, \"seo_title\": \"\", \"depth\": 3, \"go_live_at\": null}",
+      "approved_go_live_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.pagerevision",
+    "pk": 8,
+    "fields": {
+      "page": 6,
+      "submitted_for_moderation": false,
+      "created_at": "2016-11-24T21:07:42.277Z",
+      "user": [
+        "admin"
+      ],
+      "content_json": "{\"show_in_menus\": false, \"slug\": \"images\", \"has_unpublished_changes\": true, \"url_path\": \"/home/images/\", \"search_description\": \"\", \"path\": \"000100020003\", \"locked\": false, \"title\": \"Images\", \"expired\": false, \"live\": false, \"content_type\": 36, \"owner\": 1, \"first_published_at\": null, \"pk\": 6, \"numchild\": 0, \"expire_at\": null, \"latest_revision_created_at\": \"2016-11-24T21:07:28.795Z\", \"seo_title\": \"\", \"depth\": 3, \"go_live_at\": null}",
+      "approved_go_live_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.pagerevision",
+    "pk": 9,
+    "fields": {
+      "page": 7,
+      "submitted_for_moderation": false,
+      "created_at": "2016-11-24T21:08:00.789Z",
+      "user": [
+        "admin"
+      ],
+      "content_json": "{\"show_in_menus\": false, \"slug\": \"videos\", \"has_unpublished_changes\": false, \"url_path\": \"/home/videos/\", \"search_description\": \"\", \"path\": \"000100020004\", \"locked\": false, \"title\": \"Vid\\u00e9os\", \"expired\": false, \"live\": true, \"content_type\": 38, \"owner\": 1, \"first_published_at\": null, \"pk\": 7, \"numchild\": 0, \"expire_at\": null, \"latest_revision_created_at\": null, \"seo_title\": \"\", \"depth\": 3, \"go_live_at\": null}",
+      "approved_go_live_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.page",
+    "pk": 1,
+    "fields": {
+      "path": "0001",
+      "depth": 1,
+      "numchild": 1,
+      "title": "Root",
+      "slug": "root",
+      "content_type": [
+        "wagtailcore",
+        "page"
+      ],
+      "live": true,
+      "has_unpublished_changes": false,
+      "url_path": "/",
+      "owner": null,
+      "seo_title": "",
+      "show_in_menus": false,
+      "search_description": "",
+      "go_live_at": null,
+      "expire_at": null,
+      "expired": false,
+      "locked": false,
+      "first_published_at": null,
+      "latest_revision_created_at": null
+    }
+  },
+  {
+    "model": "wagtailcore.page",
+    "pk": 3,
+    "fields": {
+      "path": "00010002",
+      "depth": 2,
+      "numchild": 4,
+      "title": "Accueil",
+      "slug": "home",
+      "content_type": [
+        "sira",
+        "homepage"
+      ],
+      "live": true,
+      "has_unpublished_changes": false,
+      "url_path": "/home/",
+      "owner": [
+        "admin"
+      ],
+      "seo_title": "",
+      "show_in_menus": false,
+      "search_description": "",
+      "go_live_at": null,
+      "expire_at": null,
+      "expired": false,
+      "locked": false,
+      "first_published_at": "2016-11-24T21:01:46.430Z",
+      "latest_revision_created_at": "2016-11-24T21:02:11.029Z"
+    }
+  },
+  {
+    "model": "wagtailcore.page",
+    "pk": 4,
+    "fields": {
+      "path": "000100020001",
+      "depth": 3,
+      "numchild": 0,
+      "title": "Actualit\u00e9s",
+      "slug": "news",
+      "content_type": [
+        "puput",
+        "blogpage"
+      ],
+      "live": true,
+      "has_unpublished_changes": false,
+      "url_path": "/home/news/",
+      "owner": [
+        "admin"
+      ],
+      "seo_title": "",
+      "show_in_menus": false,
+      "search_description": "",
+      "go_live_at": null,
+      "expire_at": null,
+      "expired": false,
+      "locked": false,
+      "first_published_at": "2016-11-24T21:06:48.332Z",
+      "latest_revision_created_at": "2016-11-24T21:06:48.304Z"
+    }
+  },
+  {
+    "model": "wagtailcore.page",
+    "pk": 5,
+    "fields": {
+      "path": "000100020002",
+      "depth": 3,
+      "numchild": 0,
+      "title": "Documents",
+      "slug": "documents",
+      "content_type": [
+        "sira",
+        "documentpage"
+      ],
+      "live": true,
+      "has_unpublished_changes": false,
+      "url_path": "/home/documents/",
+      "owner": [
+        "admin"
+      ],
+      "seo_title": "",
+      "show_in_menus": false,
+      "search_description": "",
+      "go_live_at": null,
+      "expire_at": null,
+      "expired": false,
+      "locked": false,
+      "first_published_at": "2016-11-24T21:07:14.447Z",
+      "latest_revision_created_at": "2016-11-24T21:07:14.419Z"
+    }
+  },
+  {
+    "model": "wagtailcore.page",
+    "pk": 6,
+    "fields": {
+      "path": "000100020003",
+      "depth": 3,
+      "numchild": 0,
+      "title": "Images",
+      "slug": "images",
+      "content_type": [
+        "sira",
+        "imagepage"
+      ],
+      "live": true,
+      "has_unpublished_changes": false,
+      "url_path": "/home/images/",
+      "owner": [
+        "admin"
+      ],
+      "seo_title": "",
+      "show_in_menus": false,
+      "search_description": "",
+      "go_live_at": null,
+      "expire_at": null,
+      "expired": false,
+      "locked": false,
+      "first_published_at": "2016-11-24T21:07:42.320Z",
+      "latest_revision_created_at": "2016-11-24T21:07:42.277Z"
+    }
+  },
+  {
+    "model": "wagtailcore.page",
+    "pk": 7,
+    "fields": {
+      "path": "000100020004",
+      "depth": 3,
+      "numchild": 0,
+      "title": "Vid\u00e9os",
+      "slug": "videos",
+      "content_type": [
+        "sira",
+        "videopage"
+      ],
+      "live": true,
+      "has_unpublished_changes": false,
+      "url_path": "/home/videos/",
+      "owner": [
+        "admin"
+      ],
+      "seo_title": "",
+      "show_in_menus": false,
+      "search_description": "",
+      "go_live_at": null,
+      "expire_at": null,
+      "expired": false,
+      "locked": false,
+      "first_published_at": "2016-11-24T21:08:00.831Z",
+      "latest_revision_created_at": "2016-11-24T21:08:00.789Z"
+    }
   }
-},
-{
-  "model": "wagtailsearch.querydailyhits",
-  "pk": 1,
-  "fields": {
-    "query": 1,
-    "date": "2016-10-27",
-    "hits": 20
-  }
-},
-{
-  "model": "wagtailcore.site",
-  "pk": 1,
-  "fields": {
-    "hostname": "localhost",
-    "port": 80,
-    "site_name": "",
-    "root_page": 3,
-    "is_default_site": true
-  }
-},
-{
-  "model": "wagtailcore.collection",
-  "pk": 1,
-  "fields": {
-    "path": "0001",
-    "depth": 1,
-    "numchild": 0,
-    "name": "Root"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 1,
-  "fields": {
-    "name": "07",
-    "slug": "07"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 2,
-  "fields": {
-    "name": "2016",
-    "slug": "2016"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 3,
-  "fields": {
-    "name": "lettre",
-    "slug": "lettre"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 4,
-  "fields": {
-    "name": "sedhiou",
-    "slug": "sedhiou"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 5,
-  "fields": {
-    "name": "juillet",
-    "slug": "juillet"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 6,
-  "fields": {
-    "name": "kedougou",
-    "slug": "kedougou"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 7,
-  "fields": {
-    "name": "AG",
-    "slug": "ag"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 8,
-  "fields": {
-    "name": "diourbel",
-    "slug": "diourbel"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 9,
-  "fields": {
-    "name": "PV",
-    "slug": "pv"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 10,
-  "fields": {
-    "name": "kaffrine",
-    "slug": "kaffrine"
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 1,
-  "fields": {
-    "tag": 1,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 1
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 2,
-  "fields": {
-    "tag": 2,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 1
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 3,
-  "fields": {
-    "tag": 3,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 1
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 4,
-  "fields": {
-    "tag": 4,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 1
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 5,
-  "fields": {
-    "tag": 5,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 1
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 6,
-  "fields": {
-    "tag": 1,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 2
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 7,
-  "fields": {
-    "tag": 2,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 2
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 8,
-  "fields": {
-    "tag": 5,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 2
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 9,
-  "fields": {
-    "tag": 6,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 2
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 10,
-  "fields": {
-    "tag": 7,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 2
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 11,
-  "fields": {
-    "tag": 8,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 3
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 12,
-  "fields": {
-    "tag": 1,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 3
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 13,
-  "fields": {
-    "tag": 2,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 3
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 14,
-  "fields": {
-    "tag": 9,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 3
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 15,
-  "fields": {
-    "tag": 5,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 3
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 16,
-  "fields": {
-    "tag": 1,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 4
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 17,
-  "fields": {
-    "tag": 2,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 4
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 18,
-  "fields": {
-    "tag": 5,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 4
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 19,
-  "fields": {
-    "tag": 7,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 4
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 20,
-  "fields": {
-    "tag": 9,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 4
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 21,
-  "fields": {
-    "tag": 10,
-    "content_type": [
-      "wagtaildocs",
-      "document"
-    ],
-    "object_id": 4
-  }
-},
-{
-  "model": "sira.homepage",
-  "pk": 3,
-  "fields": {}
-},
-{
-  "model": "sira.documentpage",
-  "pk": 4,
-  "fields": {}
-},
-{
-  "model": "puput.entrypage",
-  "pk": 7,
-  "fields": {
-    "body": "<h2>Bokhol, situ\u00e9 dans d\u00e9partement de Dagana (Nord du pays) se distingue de par l\u2019intensit\u00e9 de ses raillons solaires. Ce qui justifie le choix de ce village pour y implanter la premi\u00e8re centrale solaire du S\u00e9n\u00e9gal mais aussi de toute l\u2019Afrique de l\u2019Ouest.</h2><p><p>Ce programme qui sera pilot\u00e9 par Senergy 2 est le fruit d\u2019une collaboration entre le Soci\u00e9t\u00e9 Nationale d\u2019Electricit\u00e9 du S\u00e9n\u00e9gal (Senelec) et GreenWish Partners, une soci\u00e9t\u00e9 fran\u00e7aise de d\u00e9veloppement et d\u2019investissement sp\u00e9cialis\u00e9e dans les infrastructures d\u2019\u00e9nergies renouvelables.</p><p></p><p>Cette centrale d\u2019une puissance de 20 m\u00e9gawatts va fournir de l\u2019\u00e9lectricit\u00e9 \u00e0 180.000 personnes. Par comparaison, la nouvelle centrale marocaine Noor 1, inaugur\u00e9e en f\u00e9vrier par Mohamed VI, a une puissance de 160 MW.</p><p>Le projet a \u00e9t\u00e9 lanc\u00e9 ce lundi 17 octobre \u00e0 Bokhol pour \u00eatre inaugur\u00e9 par le Pr\u00e9sident Macky Sall le samedi 22 octobre prochain.</p><p>A noter que la station solaire Senergy 2 devrait apporter \u00e0 partir de ce mois d\u2019octobre de l\u2019\u00e9lectricit\u00e9 \u00e0 160 000 personnes dans le nord du pays.</p><p>Le directeur g\u00e9n\u00e9ral de la Senelec, Mouhamadou Makhtar Ciss\u00e9, s\u2019\u00e9tait f\u00e9licit\u00e9 du projet \u00e0 son lancement en d\u00e9clarant qu\u2019il cr\u00e9era 150 emplois directs et indirects.</p><p>A terme, expliquait-t-il, 25 emplois locaux seront cr\u00e9\u00e9s. Cette installation, qui s\u2019\u00e9tend sur 50 hectares (ha), doit permettre \u00e9galement d\u2019\u00e9viter 25 000 tonnes d\u2019\u00e9mission de CO2 chaque ann\u00e9e. M. Ciss\u00e9 percevait \u00e0 travers ce projet une traduction des engagements pris lors de la COP21 qui s\u2019est tenue \u00e0 Paris en d\u00e9cembre 2015 avec le d\u00e9sir d\u2019accro\u00eetre la part des \u00e9nergies renouvelables dans le mix \u00e9nerg\u00e9tique.</p></p>",
-    "date": "2016-10-23T21:09:00Z",
-    "header_image": null,
-    "excerpt": "",
-    "num_comments": 0
-  }
-},
-{
-  "model": "puput.entrypage",
-  "pk": 8,
-  "fields": {
-    "body": "<h2>Lors du 4\u00e9me congr\u00e8s ordinaire du rassemblement pour le Mali, le secr\u00e9taire g\u00e9n\u00e9ral du Parti socialiste, Ousmane Tanor Dieng qui \u00e9tait l\u2019invit\u00e9 d\u2019Ibrahim Boucar Keita a demand\u00e9 aux deux chefs d\u2019Etats du S\u00e9n\u00e9gal et du Mali \u00e0 serrer les coudes pour vaincre le terrorisme.</h2><p></p><p>Le Mali \u00e9tant un pays fr\u00e8re et qui partage une fronti\u00e8re commune avec le S\u00e9n\u00e9gal, traverse une crise actuellement. Ce pays fut partag\u00e9 en deux Etats pendant un bon moment. Cette crise peut \u00eatre analys\u00e9 sous angles diff\u00e9rents, mais le plus important c\u2019est la d\u00e9fiance entre les fronti\u00e8res.</p><p></p><p>D\u2019apr\u00e8s le secr\u00e9taire g\u00e9n\u00e9ral du Parti social Ousmane Tanor Dieng, la question s\u00e9curitaire nous incombe tous.</p><p>\u00ab\u00a0La question s\u00e9curitaire notamment la lutte contre le terrorisme nous interpelle. Le peuple malien traverse une p\u00e9riode difficile de son histoire et la pr\u00e9sence de contingent s\u00e9n\u00e9galais dans le dispositif de la MINUSMA est symbole des relations entre les deux pays. La situation dans votre pays interpelle le S\u00e9n\u00e9gal parce qu\u2019elle touche \u00e0 un pays fr\u00e8re avec qui nous partageons une fronti\u00e8re. \u00a0Cette situation et plus globalement celle du sahel, montrent que le terrorisme n\u2019a pas de fronti\u00e8re. Son \u00e9volution et ses effets collat\u00e9raux renseignent, si besoin en Etat encore, sur la vuln\u00e9rabilit\u00e9 de nos \u00e9tats face \u00e0 la menace terroriste\u00bb, \u00a0 t il prononc\u00e9</p><p>Il incite les deux peuples \u00e0 vaincre le terrorisme qui menace ses Etats fr\u00e8res. \u00abFace \u00e0 une menace globale, la mutualisation des moyens de lutte s\u2019impose. Le terrorisme doit \u00eatre trait\u00e9 par une strat\u00e9gie globale et une coop\u00e9ration multilat\u00e9rale bas\u00e9e sur un syst\u00e8me d\u2019\u00e9changes d\u2019informations et de coordination des actions entre les Etats du nord et les Etats du sud\u00bb, a-t-il poursuit</p><p>En tant que secr\u00e9taire du parti socialiste il n\u2019a pas oubli\u00e9 de remercier le peuple Malin notamment le Pr\u00e9sident Ibrahima Boubacar Keita.\u00a0\u00ab\u00a0Mais lorsqu\u2019il s\u2019agit \u00a0en particulier d\u2019un rassemblement pour le Mali, c\u2019est avec un plaisir fond\u00e9 sur les relations exemplaires d\u2019amiti\u00e9 et de fraternit\u00e9 entre nos deux partis que je viens vous apporter le soutien du parti socialiste du S\u00e9n\u00e9gal.\u00a0Cela porte aussi l\u2019empreinte de son Excellence \u00a0\u00a0Monsieur le Pr\u00e9sident d\u2019Ibrahima Boubacar KEITA p\u00e8re fondateur du Rassemblement pour le Mali, qui a jou\u00e9 un r\u00f4le \u00e9minent \u00a0dans le combat des socialistes d\u2019Afrique et du monde\u00bb, d\u00e9clare t-il</p><p>Il donne un espoir au peuple Malien qui a souffert pendant cette p\u00e9riode de r\u00e9bellion. Le Mali est en train de faire sa r\u00e9conciliation malgr\u00e9 ces pires moments de souffrance depuis son ind\u00e9pendance \u00a0caus\u00e9 par le\u00a0\u00ab\u00a0 boko Haram\u00a0\u00bb.</p><p>\u00ab\u00a0Il n\u2019est plus loin le jour ou par la force de nos valeurs socialistes, vous serez les architectes d\u2019un Malin r\u00e9concili\u00e9 avec lui-m\u00eame et engag\u00e9 dans la voie de la d\u00e9mocratie, de la libert\u00e9, de la prosp\u00e9rit\u00e9, de la justice sociale et de la solidarit\u00e9.\u00bb A conclu le secr\u00e9taire g\u00e9n\u00e9rale du Ps, Ousmane Tanor Dieng.</p><p></p>",
-    "date": "2016-10-25T21:43:00Z",
-    "header_image": null,
-    "excerpt": "",
-    "num_comments": 0
-  }
-},
-{
-  "model": "puput.blogpage",
-  "pk": 6,
-  "fields": {
-    "description": "Les actualit\u00e9s de l'artisanat s\u00e9n\u00e9galais",
-    "header_image": null,
-    "display_comments": false,
-    "display_categories": true,
-    "display_tags": true,
-    "display_popular_entries": true,
-    "display_last_entries": true,
-    "display_archive": true,
-    "disqus_api_secret": "",
-    "disqus_shortname": "",
-    "num_entries_page": 1,
-    "num_last_entries": 3,
-    "num_popular_entries": 3,
-    "num_tags_entry_header": 5
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 1,
-  "fields": {
-    "page": 3,
-    "submitted_for_moderation": false,
-    "created_at": "2016-09-25T11:00:33.103Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"title\": \"SIRA\", \"numchild\": 0, \"path\": \"00010002\", \"content_type\": 28, \"owner\": 1, \"pk\": 3, \"first_published_at\": null, \"url_path\": \"/sira/\", \"show_in_menus\": false, \"has_unpublished_changes\": false, \"live\": true, \"slug\": \"sira\", \"search_description\": \"\", \"latest_revision_created_at\": null, \"depth\": 2, \"expire_at\": null, \"locked\": false, \"expired\": false, \"go_live_at\": null, \"seo_title\": \"\"}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 2,
-  "fields": {
-    "page": 4,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-18T22:36:11.925Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"title\": \"Documents\", \"search_description\": \"\", \"latest_revision_created_at\": null, \"live\": true, \"content_type\": 28, \"expire_at\": null, \"show_in_menus\": false, \"first_published_at\": null, \"locked\": false, \"depth\": 3, \"url_path\": \"/sira/documents/\", \"go_live_at\": null, \"has_unpublished_changes\": false, \"slug\": \"documents\", \"expired\": false, \"owner\": 1, \"numchild\": 0, \"seo_title\": \"\", \"pk\": 4, \"path\": \"000100020001\"}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 4,
-  "fields": {
-    "page": 6,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-23T20:21:32.048Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"numchild\": 0, \"url_path\": \"/sira/actualit\\u00e9s/\", \"display_categories\": true, \"go_live_at\": null, \"search_description\": \"\", \"display_tags\": true, \"expire_at\": null, \"live\": true, \"num_popular_entries\": 3, \"latest_revision_created_at\": null, \"depth\": 3, \"locked\": false, \"has_unpublished_changes\": false, \"display_popular_entries\": true, \"disqus_shortname\": \"\", \"expired\": false, \"display_archive\": true, \"slug\": \"actualit\\u00e9s\", \"num_tags_entry_header\": 5, \"disqus_api_secret\": \"\", \"num_entries_page\": 5, \"display_last_entries\": true, \"num_last_entries\": 3, \"first_published_at\": null, \"display_comments\": false, \"show_in_menus\": false, \"owner\": 1, \"path\": \"000100020002\", \"seo_title\": \"\", \"header_image\": null, \"title\": \"Actualit\\u00e9s\", \"description\": \"Les actualit\\u00e9s de l'artisanat s\\u00e9n\\u00e9galais\", \"pk\": 6, \"content_type\": 23}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 5,
-  "fields": {
-    "page": 6,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-23T20:21:53.379Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"numchild\": 0, \"url_path\": \"/sira/actualit\\u00e9s/\", \"display_categories\": true, \"go_live_at\": null, \"search_description\": \"\", \"display_tags\": true, \"expire_at\": null, \"live\": true, \"num_popular_entries\": 3, \"latest_revision_created_at\": \"2016-10-23T20:21:32.048Z\", \"depth\": 3, \"locked\": false, \"has_unpublished_changes\": false, \"display_popular_entries\": true, \"disqus_shortname\": \"\", \"expired\": false, \"display_archive\": true, \"slug\": \"news\", \"num_tags_entry_header\": 5, \"disqus_api_secret\": \"\", \"num_entries_page\": 5, \"display_last_entries\": true, \"num_last_entries\": 3, \"first_published_at\": \"2016-10-23T20:21:32.066Z\", \"display_comments\": false, \"show_in_menus\": false, \"owner\": 1, \"path\": \"000100020002\", \"seo_title\": \"\", \"header_image\": null, \"title\": \"Actualit\\u00e9s\", \"description\": \"Les actualit\\u00e9s de l'artisanat s\\u00e9n\\u00e9galais\", \"pk\": 6, \"content_type\": 23}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 6,
-  "fields": {
-    "page": 7,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-23T21:09:21.779Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"header_image\": null, \"first_published_at\": null, \"slug\": \"test\", \"date\": \"2016-10-23T21:09:00Z\", \"excerpt\": \"\", \"related_entrypage_to\": [], \"pk\": 7, \"locked\": false, \"numchild\": 0, \"search_description\": \"\", \"seo_title\": \"\", \"entry_tags\": [], \"latest_revision_created_at\": null, \"title\": \"Test\", \"expired\": false, \"live\": true, \"has_unpublished_changes\": false, \"owner\": 1, \"url_path\": \"/sira/news/test/\", \"related_entrypage_from\": [], \"content_type\": 25, \"expire_at\": null, \"show_in_menus\": false, \"go_live_at\": null, \"path\": \"0001000200020001\", \"body\": \"<p>Test</p>\", \"entry_categories\": [], \"depth\": 4, \"num_comments\": 0}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 7,
-  "fields": {
-    "page": 6,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-25T20:32:12.561Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"num_last_entries\": 3, \"display_popular_entries\": true, \"seo_title\": \"\", \"pk\": 6, \"locked\": false, \"description\": \"Les actualit\\u00e9s de l'artisanat s\\u00e9n\\u00e9galais\", \"search_description\": \"\", \"disqus_shortname\": \"\", \"show_in_menus\": true, \"expired\": false, \"url_path\": \"/sira/news/\", \"depth\": 3, \"num_entries_page\": 5, \"display_last_entries\": true, \"num_popular_entries\": 3, \"go_live_at\": null, \"has_unpublished_changes\": false, \"display_tags\": true, \"live\": true, \"path\": \"000100020002\", \"slug\": \"news\", \"display_categories\": true, \"num_tags_entry_header\": 5, \"expire_at\": null, \"disqus_api_secret\": \"\", \"content_type\": 23, \"display_comments\": false, \"display_archive\": true, \"owner\": 1, \"numchild\": 1, \"title\": \"Actualit\\u00e9s\", \"latest_revision_created_at\": \"2016-10-23T20:21:53.379Z\", \"first_published_at\": \"2016-10-23T20:21:32.066Z\", \"header_image\": null}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 8,
-  "fields": {
-    "page": 7,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-25T21:42:08.643Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"show_in_menus\": false, \"header_image\": null, \"excerpt\": \"\", \"go_live_at\": null, \"expired\": false, \"related_entrypage_to\": [], \"content_type\": 25, \"date\": \"2016-10-23T21:09:00Z\", \"path\": \"0001000200020001\", \"url_path\": \"/sira/news/test/\", \"body\": \"<h2>Bokhol, situ\\u00e9 dans d\\u00e9partement de Dagana (Nord du pays) se distingue de par l\\u2019intensit\\u00e9 de ses raillons solaires. Ce qui justifie le choix de ce village pour y implanter la premi\\u00e8re centrale solaire du S\\u00e9n\\u00e9gal mais aussi de toute l\\u2019Afrique de l\\u2019Ouest.</h2><p><p>Ce programme qui sera pilot\\u00e9 par Senergy 2 est le fruit d\\u2019une collaboration entre le Soci\\u00e9t\\u00e9 Nationale d\\u2019Electricit\\u00e9 du S\\u00e9n\\u00e9gal (Senelec) et GreenWish Partners, une soci\\u00e9t\\u00e9 fran\\u00e7aise de d\\u00e9veloppement et d\\u2019investissement sp\\u00e9cialis\\u00e9e dans les infrastructures d\\u2019\\u00e9nergies renouvelables.</p><p></p><p>Cette centrale d\\u2019une puissance de 20 m\\u00e9gawatts va fournir de l\\u2019\\u00e9lectricit\\u00e9 \\u00e0 180.000 personnes. Par comparaison, la nouvelle centrale marocaine Noor 1, inaugur\\u00e9e en f\\u00e9vrier par Mohamed VI, a une puissance de 160 MW.</p><p>Le projet a \\u00e9t\\u00e9 lanc\\u00e9 ce lundi 17 octobre \\u00e0 Bokhol pour \\u00eatre inaugur\\u00e9 par le Pr\\u00e9sident Macky Sall le samedi 22 octobre prochain.</p><p>A noter que la station solaire Senergy 2 devrait apporter \\u00e0 partir de ce mois d\\u2019octobre de l\\u2019\\u00e9lectricit\\u00e9 \\u00e0 160 000 personnes dans le nord du pays.</p><p>Le directeur g\\u00e9n\\u00e9ral de la Senelec, Mouhamadou Makhtar Ciss\\u00e9, s\\u2019\\u00e9tait f\\u00e9licit\\u00e9 du projet \\u00e0 son lancement en d\\u00e9clarant qu\\u2019il cr\\u00e9era 150 emplois directs et indirects.</p><p>A terme, expliquait-t-il, 25 emplois locaux seront cr\\u00e9\\u00e9s. Cette installation, qui s\\u2019\\u00e9tend sur 50 hectares (ha), doit permettre \\u00e9galement d\\u2019\\u00e9viter 25 000 tonnes d\\u2019\\u00e9mission de CO2 chaque ann\\u00e9e. M. Ciss\\u00e9 percevait \\u00e0 travers ce projet une traduction des engagements pris lors de la COP21 qui s\\u2019est tenue \\u00e0 Paris en d\\u00e9cembre 2015 avec le d\\u00e9sir d\\u2019accro\\u00eetre la part des \\u00e9nergies renouvelables dans le mix \\u00e9nerg\\u00e9tique.</p></p>\", \"first_published_at\": \"2016-10-23T21:09:21.800Z\", \"expire_at\": null, \"pk\": 7, \"latest_revision_created_at\": \"2016-10-23T21:09:21.779Z\", \"search_description\": \"\", \"seo_title\": \"\", \"entry_tags\": [], \"entry_categories\": [], \"title\": \"Centrale solaire \\u00e0 Bokhol au S\\u00e9n\\u00e9gal : une grande premi\\u00e8re en Afrique de l\\u2019ouest\", \"live\": true, \"numchild\": 0, \"slug\": \"test\", \"owner\": 1, \"depth\": 4, \"locked\": false, \"num_comments\": 0, \"related_entrypage_from\": [], \"has_unpublished_changes\": false}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 9,
-  "fields": {
-    "page": 8,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-25T21:44:19.312Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"show_in_menus\": false, \"header_image\": null, \"excerpt\": \"\", \"go_live_at\": null, \"expired\": false, \"related_entrypage_to\": [], \"content_type\": 25, \"date\": \"2016-10-25T21:43:00Z\", \"path\": \"0001000200020002\", \"url_path\": \"/sira/news/terrorisme-tanor-dieng-demande-aux-chefs-detats-du-s\\u00e9n\\u00e9gal-et-du-mali-de-serrer-les-coudes/\", \"body\": \"<h2>Lors du 4\\u00e9me congr\\u00e8s ordinaire du rassemblement pour le Mali, le secr\\u00e9taire g\\u00e9n\\u00e9ral du Parti socialiste, Ousmane Tanor Dieng qui \\u00e9tait l\\u2019invit\\u00e9 d\\u2019Ibrahim Boucar Keita a demand\\u00e9 aux deux chefs d\\u2019Etats du S\\u00e9n\\u00e9gal et du Mali \\u00e0 serrer les coudes pour vaincre le terrorisme.</h2><p><p>Le Mali \\u00e9tant un pays fr\\u00e8re et qui partage une fronti\\u00e8re commune avec le S\\u00e9n\\u00e9gal, traverse une crise actuellement. Ce pays fut partag\\u00e9 en deux Etats pendant un bon moment. Cette crise peut \\u00eatre analys\\u00e9 sous angles diff\\u00e9rents, mais le plus important c\\u2019est la d\\u00e9fiance entre les fronti\\u00e8res.</p><p></p><p>D\\u2019apr\\u00e8s le secr\\u00e9taire g\\u00e9n\\u00e9ral du Parti social Ousmane Tanor Dieng, la question s\\u00e9curitaire nous incombe tous.</p><p>\\u00ab\\u00a0La question s\\u00e9curitaire notamment la lutte contre le terrorisme nous interpelle. Le peuple malien traverse une p\\u00e9riode difficile de son histoire et la pr\\u00e9sence de contingent s\\u00e9n\\u00e9galais dans le dispositif de la MINUSMA est symbole des relations entre les deux pays. La situation dans votre pays interpelle le S\\u00e9n\\u00e9gal parce qu\\u2019elle touche \\u00e0 un pays fr\\u00e8re avec qui nous partageons une fronti\\u00e8re. \\u00a0Cette situation et plus globalement celle du sahel, montrent que le terrorisme n\\u2019a pas de fronti\\u00e8re. Son \\u00e9volution et ses effets collat\\u00e9raux renseignent, si besoin en Etat encore, sur la vuln\\u00e9rabilit\\u00e9 de nos \\u00e9tats face \\u00e0 la menace terroriste\\u00bb, \\u00a0 t il prononc\\u00e9</p><p>Il incite les deux peuples \\u00e0 vaincre le terrorisme qui menace ses Etats fr\\u00e8res. \\u00abFace \\u00e0 une menace globale, la mutualisation des moyens de lutte s\\u2019impose. Le terrorisme doit \\u00eatre trait\\u00e9 par une strat\\u00e9gie globale et une coop\\u00e9ration multilat\\u00e9rale bas\\u00e9e sur un syst\\u00e8me d\\u2019\\u00e9changes d\\u2019informations et de coordination des actions entre les Etats du nord et les Etats du sud\\u00bb, a-t-il poursuit</p><p>En tant que secr\\u00e9taire du parti socialiste il n\\u2019a pas oubli\\u00e9 de remercier le peuple Malin notamment le Pr\\u00e9sident Ibrahima Boubacar Keita.\\u00a0\\u00ab\\u00a0Mais lorsqu\\u2019il s\\u2019agit \\u00a0en particulier d\\u2019un rassemblement pour le Mali, c\\u2019est avec un plaisir fond\\u00e9 sur les relations exemplaires d\\u2019amiti\\u00e9 et de fraternit\\u00e9 entre nos deux partis que je viens vous apporter le soutien du parti socialiste du S\\u00e9n\\u00e9gal.\\u00a0Cela porte aussi l\\u2019empreinte de son Excellence \\u00a0\\u00a0Monsieur le Pr\\u00e9sident d\\u2019Ibrahima Boubacar KEITA p\\u00e8re fondateur du Rassemblement pour le Mali, qui a jou\\u00e9 un r\\u00f4le \\u00e9minent \\u00a0dans le combat des socialistes d\\u2019Afrique et du monde\\u00bb, d\\u00e9clare t-il</p><p>Il donne un espoir au peuple Malien qui a souffert pendant cette p\\u00e9riode de r\\u00e9bellion. Le Mali est en train de faire sa r\\u00e9conciliation malgr\\u00e9 ces pires moments de souffrance depuis son ind\\u00e9pendance \\u00a0caus\\u00e9 par le\\u00a0\\u00ab\\u00a0 boko Haram\\u00a0\\u00bb.</p><p>\\u00ab\\u00a0Il n\\u2019est plus loin le jour ou par la force de nos valeurs socialistes, vous serez les architectes d\\u2019un Malin r\\u00e9concili\\u00e9 avec lui-m\\u00eame et engag\\u00e9 dans la voie de la d\\u00e9mocratie, de la libert\\u00e9, de la prosp\\u00e9rit\\u00e9, de la justice sociale et de la solidarit\\u00e9.\\u00bb A conclu le secr\\u00e9taire g\\u00e9n\\u00e9rale du Ps, Ousmane Tanor Dieng.</p></p>\", \"first_published_at\": null, \"expire_at\": null, \"pk\": 8, \"latest_revision_created_at\": null, \"search_description\": \"\", \"seo_title\": \"\", \"entry_tags\": [], \"entry_categories\": [], \"title\": \"Terrorisme: Tanor Dieng demande aux chefs d\\u2019Etats du S\\u00e9n\\u00e9gal et du Mali de serrer les coudes\", \"live\": true, \"numchild\": 0, \"slug\": \"terrorisme-tanor-dieng-demande-aux-chefs-detats-du-s\\u00e9n\\u00e9gal-et-du-mali-de-serrer-les-coudes\", \"owner\": 1, \"depth\": 4, \"locked\": false, \"num_comments\": 0, \"related_entrypage_from\": [], \"has_unpublished_changes\": false}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 10,
-  "fields": {
-    "page": 8,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-25T21:48:01.976Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"show_in_menus\": false, \"header_image\": null, \"excerpt\": \"\", \"go_live_at\": null, \"expired\": false, \"related_entrypage_to\": [], \"content_type\": 25, \"date\": \"2016-10-25T21:43:00Z\", \"path\": \"0001000200020002\", \"url_path\": \"/sira/news/terrorisme-tanor-dieng-demande-aux-chefs-detats-du-s\\u00e9n\\u00e9gal-et-du-mali-de-serrer-les-coudes/\", \"body\": \"<h2>Lors du 4\\u00e9me congr\\u00e8s ordinaire du rassemblement pour le Mali, le secr\\u00e9taire g\\u00e9n\\u00e9ral du Parti socialiste, Ousmane Tanor Dieng qui \\u00e9tait l\\u2019invit\\u00e9 d\\u2019Ibrahim Boucar Keita a demand\\u00e9 aux deux chefs d\\u2019Etats du S\\u00e9n\\u00e9gal et du Mali \\u00e0 serrer les coudes pour vaincre le terrorisme.</h2><p></p><p>Le Mali \\u00e9tant un pays fr\\u00e8re et qui partage une fronti\\u00e8re commune avec le S\\u00e9n\\u00e9gal, traverse une crise actuellement. Ce pays fut partag\\u00e9 en deux Etats pendant un bon moment. Cette crise peut \\u00eatre analys\\u00e9 sous angles diff\\u00e9rents, mais le plus important c\\u2019est la d\\u00e9fiance entre les fronti\\u00e8res.</p><p></p><p>D\\u2019apr\\u00e8s le secr\\u00e9taire g\\u00e9n\\u00e9ral du Parti social Ousmane Tanor Dieng, la question s\\u00e9curitaire nous incombe tous.</p><p>\\u00ab\\u00a0La question s\\u00e9curitaire notamment la lutte contre le terrorisme nous interpelle. Le peuple malien traverse une p\\u00e9riode difficile de son histoire et la pr\\u00e9sence de contingent s\\u00e9n\\u00e9galais dans le dispositif de la MINUSMA est symbole des relations entre les deux pays. La situation dans votre pays interpelle le S\\u00e9n\\u00e9gal parce qu\\u2019elle touche \\u00e0 un pays fr\\u00e8re avec qui nous partageons une fronti\\u00e8re. \\u00a0Cette situation et plus globalement celle du sahel, montrent que le terrorisme n\\u2019a pas de fronti\\u00e8re. Son \\u00e9volution et ses effets collat\\u00e9raux renseignent, si besoin en Etat encore, sur la vuln\\u00e9rabilit\\u00e9 de nos \\u00e9tats face \\u00e0 la menace terroriste\\u00bb, \\u00a0 t il prononc\\u00e9</p><p>Il incite les deux peuples \\u00e0 vaincre le terrorisme qui menace ses Etats fr\\u00e8res. \\u00abFace \\u00e0 une menace globale, la mutualisation des moyens de lutte s\\u2019impose. Le terrorisme doit \\u00eatre trait\\u00e9 par une strat\\u00e9gie globale et une coop\\u00e9ration multilat\\u00e9rale bas\\u00e9e sur un syst\\u00e8me d\\u2019\\u00e9changes d\\u2019informations et de coordination des actions entre les Etats du nord et les Etats du sud\\u00bb, a-t-il poursuit</p><p>En tant que secr\\u00e9taire du parti socialiste il n\\u2019a pas oubli\\u00e9 de remercier le peuple Malin notamment le Pr\\u00e9sident Ibrahima Boubacar Keita.\\u00a0\\u00ab\\u00a0Mais lorsqu\\u2019il s\\u2019agit \\u00a0en particulier d\\u2019un rassemblement pour le Mali, c\\u2019est avec un plaisir fond\\u00e9 sur les relations exemplaires d\\u2019amiti\\u00e9 et de fraternit\\u00e9 entre nos deux partis que je viens vous apporter le soutien du parti socialiste du S\\u00e9n\\u00e9gal.\\u00a0Cela porte aussi l\\u2019empreinte de son Excellence \\u00a0\\u00a0Monsieur le Pr\\u00e9sident d\\u2019Ibrahima Boubacar KEITA p\\u00e8re fondateur du Rassemblement pour le Mali, qui a jou\\u00e9 un r\\u00f4le \\u00e9minent \\u00a0dans le combat des socialistes d\\u2019Afrique et du monde\\u00bb, d\\u00e9clare t-il</p><p>Il donne un espoir au peuple Malien qui a souffert pendant cette p\\u00e9riode de r\\u00e9bellion. Le Mali est en train de faire sa r\\u00e9conciliation malgr\\u00e9 ces pires moments de souffrance depuis son ind\\u00e9pendance \\u00a0caus\\u00e9 par le\\u00a0\\u00ab\\u00a0 boko Haram\\u00a0\\u00bb.</p><p>\\u00ab\\u00a0Il n\\u2019est plus loin le jour ou par la force de nos valeurs socialistes, vous serez les architectes d\\u2019un Malin r\\u00e9concili\\u00e9 avec lui-m\\u00eame et engag\\u00e9 dans la voie de la d\\u00e9mocratie, de la libert\\u00e9, de la prosp\\u00e9rit\\u00e9, de la justice sociale et de la solidarit\\u00e9.\\u00bb A conclu le secr\\u00e9taire g\\u00e9n\\u00e9rale du Ps, Ousmane Tanor Dieng.</p><p></p>\", \"first_published_at\": \"2016-10-25T21:44:19.348Z\", \"expire_at\": null, \"pk\": 8, \"latest_revision_created_at\": \"2016-10-25T21:44:19.312Z\", \"search_description\": \"\", \"seo_title\": \"\", \"entry_tags\": [], \"entry_categories\": [], \"title\": \"Terrorisme: Tanor Dieng demande aux chefs d\\u2019Etats\", \"live\": true, \"numchild\": 0, \"slug\": \"terrorisme-tanor-dieng-demande-aux-chefs-detats-du-s\\u00e9n\\u00e9gal-et-du-mali-de-serrer-les-coudes\", \"owner\": 1, \"depth\": 4, \"locked\": false, \"num_comments\": 0, \"related_entrypage_from\": [], \"has_unpublished_changes\": false}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 11,
-  "fields": {
-    "page": 6,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-25T22:33:12.813Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"show_in_menus\": true, \"header_image\": null, \"num_last_entries\": 3, \"go_live_at\": null, \"expired\": false, \"num_entries_page\": 1, \"content_type\": 23, \"disqus_api_secret\": \"\", \"display_categories\": true, \"path\": \"000100020002\", \"url_path\": \"/sira/news/\", \"display_last_entries\": true, \"num_tags_entry_header\": 5, \"first_published_at\": \"2016-10-23T20:21:32.066Z\", \"expire_at\": null, \"display_tags\": true, \"num_popular_entries\": 3, \"pk\": 6, \"latest_revision_created_at\": \"2016-10-25T20:32:12.561Z\", \"search_description\": \"\", \"display_popular_entries\": true, \"seo_title\": \"\", \"description\": \"Les actualit\\u00e9s de l'artisanat s\\u00e9n\\u00e9galais\", \"title\": \"Actualit\\u00e9s\", \"live\": true, \"display_comments\": false, \"numchild\": 2, \"slug\": \"news\", \"owner\": 1, \"depth\": 3, \"locked\": false, \"display_archive\": true, \"has_unpublished_changes\": false, \"disqus_shortname\": \"\"}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 12,
-  "fields": {
-    "page": 6,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-25T23:04:47.608Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"show_in_menus\": true, \"header_image\": null, \"num_last_entries\": 3, \"go_live_at\": null, \"expired\": false, \"num_entries_page\": 6, \"content_type\": 23, \"disqus_api_secret\": \"\", \"display_categories\": true, \"path\": \"000100020002\", \"url_path\": \"/sira/news/\", \"display_last_entries\": true, \"num_tags_entry_header\": 5, \"first_published_at\": \"2016-10-23T20:21:32.066Z\", \"expire_at\": null, \"display_tags\": true, \"num_popular_entries\": 3, \"pk\": 6, \"latest_revision_created_at\": \"2016-10-25T22:33:12.813Z\", \"search_description\": \"\", \"display_popular_entries\": true, \"seo_title\": \"\", \"description\": \"Les actualit\\u00e9s de l'artisanat s\\u00e9n\\u00e9galais\", \"title\": \"Actualit\\u00e9s\", \"live\": true, \"display_comments\": false, \"numchild\": 2, \"slug\": \"news\", \"owner\": 1, \"depth\": 3, \"locked\": false, \"display_archive\": true, \"has_unpublished_changes\": false, \"disqus_shortname\": \"\"}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 13,
-  "fields": {
-    "page": 6,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-25T23:06:52.987Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"show_in_menus\": true, \"header_image\": null, \"num_last_entries\": 3, \"go_live_at\": null, \"expired\": false, \"num_entries_page\": 1, \"content_type\": 23, \"disqus_api_secret\": \"\", \"display_categories\": true, \"path\": \"000100020002\", \"url_path\": \"/sira/news/\", \"display_last_entries\": true, \"num_tags_entry_header\": 5, \"first_published_at\": \"2016-10-23T20:21:32.066Z\", \"expire_at\": null, \"display_tags\": true, \"num_popular_entries\": 3, \"pk\": 6, \"latest_revision_created_at\": \"2016-10-25T23:04:47.608Z\", \"search_description\": \"\", \"display_popular_entries\": true, \"seo_title\": \"\", \"description\": \"Les actualit\\u00e9s de l'artisanat s\\u00e9n\\u00e9galais\", \"title\": \"Actualit\\u00e9s\", \"live\": true, \"display_comments\": false, \"numchild\": 2, \"slug\": \"news\", \"owner\": 1, \"depth\": 3, \"locked\": false, \"display_archive\": true, \"has_unpublished_changes\": false, \"disqus_shortname\": \"\"}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 14,
-  "fields": {
-    "page": 6,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-25T23:07:30.925Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"show_in_menus\": true, \"header_image\": null, \"num_last_entries\": 3, \"go_live_at\": null, \"expired\": false, \"num_entries_page\": 6, \"content_type\": 23, \"disqus_api_secret\": \"\", \"display_categories\": true, \"path\": \"000100020002\", \"url_path\": \"/sira/news/\", \"display_last_entries\": true, \"num_tags_entry_header\": 5, \"first_published_at\": \"2016-10-23T20:21:32.066Z\", \"expire_at\": null, \"display_tags\": true, \"num_popular_entries\": 3, \"pk\": 6, \"latest_revision_created_at\": \"2016-10-25T23:06:52.987Z\", \"search_description\": \"\", \"display_popular_entries\": true, \"seo_title\": \"\", \"description\": \"Les actualit\\u00e9s de l'artisanat s\\u00e9n\\u00e9galais\", \"title\": \"Actualit\\u00e9s\", \"live\": true, \"display_comments\": false, \"numchild\": 2, \"slug\": \"news\", \"owner\": 1, \"depth\": 3, \"locked\": false, \"display_archive\": true, \"has_unpublished_changes\": false, \"disqus_shortname\": \"\"}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.pagerevision",
-  "pk": 15,
-  "fields": {
-    "page": 6,
-    "submitted_for_moderation": false,
-    "created_at": "2016-10-27T14:26:11.631Z",
-    "user": [
-      "admin"
-    ],
-    "content_json": "{\"seo_title\": \"\", \"disqus_shortname\": \"\", \"owner\": 1, \"go_live_at\": null, \"content_type\": 23, \"display_archive\": true, \"display_popular_entries\": true, \"display_comments\": false, \"expire_at\": null, \"show_in_menus\": true, \"num_last_entries\": 3, \"url_path\": \"/sira/news/\", \"description\": \"Les actualit\\u00e9s de l'artisanat s\\u00e9n\\u00e9galais\", \"search_description\": \"\", \"numchild\": 2, \"first_published_at\": \"2016-10-23T20:21:32.066Z\", \"display_last_entries\": true, \"header_image\": null, \"display_categories\": true, \"path\": \"000100020002\", \"disqus_api_secret\": \"\", \"live\": true, \"title\": \"Actualit\\u00e9s\", \"locked\": false, \"pk\": 6, \"display_tags\": true, \"latest_revision_created_at\": \"2016-10-25T23:07:30.925Z\", \"depth\": 3, \"num_entries_page\": 1, \"num_tags_entry_header\": 5, \"num_popular_entries\": 3, \"slug\": \"news\", \"expired\": false, \"has_unpublished_changes\": false}",
-    "approved_go_live_at": null
-  }
-},
-{
-  "model": "wagtailcore.page",
-  "pk": 1,
-  "fields": {
-    "path": "0001",
-    "depth": 1,
-    "numchild": 1,
-    "title": "Root",
-    "slug": "root",
-    "content_type": [
-      "wagtailcore",
-      "page"
-    ],
-    "live": true,
-    "has_unpublished_changes": false,
-    "url_path": "/",
-    "owner": null,
-    "seo_title": "",
-    "show_in_menus": false,
-    "search_description": "",
-    "go_live_at": null,
-    "expire_at": null,
-    "expired": false,
-    "locked": false,
-    "first_published_at": null,
-    "latest_revision_created_at": null
-  }
-},
-{
-  "model": "wagtailcore.page",
-  "pk": 2,
-  "fields": {
-    "path": "00010001",
-    "depth": 2,
-    "numchild": 0,
-    "title": "Welcome to your new Wagtail site!",
-    "slug": "home",
-    "content_type": [
-      "wagtailcore",
-      "page"
-    ],
-    "live": true,
-    "has_unpublished_changes": false,
-    "url_path": "/home/",
-    "owner": null,
-    "seo_title": "",
-    "show_in_menus": false,
-    "search_description": "",
-    "go_live_at": null,
-    "expire_at": null,
-    "expired": false,
-    "locked": false,
-    "first_published_at": null,
-    "latest_revision_created_at": null
-  }
-},
-{
-  "model": "wagtailcore.page",
-  "pk": 3,
-  "fields": {
-    "path": "00010002",
-    "depth": 2,
-    "numchild": 2,
-    "title": "SIRA",
-    "slug": "sira",
-    "content_type": [
-      "sira",
-      "homepage"
-    ],
-    "live": true,
-    "has_unpublished_changes": false,
-    "url_path": "/sira/",
-    "owner": [
-      "admin"
-    ],
-    "seo_title": "",
-    "show_in_menus": false,
-    "search_description": "",
-    "go_live_at": null,
-    "expire_at": null,
-    "expired": false,
-    "locked": false,
-    "first_published_at": "2016-09-25T11:00:33.137Z",
-    "latest_revision_created_at": "2016-09-25T11:00:33.103Z"
-  }
-},
-{
-  "model": "wagtailcore.page",
-  "pk": 4,
-  "fields": {
-    "path": "000100020001",
-    "depth": 3,
-    "numchild": 0,
-    "title": "Documents",
-    "slug": "documents",
-    "content_type": [
-      "sira",
-      "documentpage"
-    ],
-    "live": true,
-    "has_unpublished_changes": false,
-    "url_path": "/sira/documents/",
-    "owner": [
-      "admin"
-    ],
-    "seo_title": "",
-    "show_in_menus": false,
-    "search_description": "",
-    "go_live_at": null,
-    "expire_at": null,
-    "expired": false,
-    "locked": false,
-    "first_published_at": "2016-10-18T22:36:11.952Z",
-    "latest_revision_created_at": "2016-10-18T22:36:11.925Z"
-  }
-},
-{
-  "model": "wagtailcore.page",
-  "pk": 6,
-  "fields": {
-    "path": "000100020002",
-    "depth": 3,
-    "numchild": 2,
-    "title": "Actualit\u00e9s",
-    "slug": "news",
-    "content_type": [
-      "puput",
-      "blogpage"
-    ],
-    "live": true,
-    "has_unpublished_changes": false,
-    "url_path": "/sira/news/",
-    "owner": [
-      "admin"
-    ],
-    "seo_title": "",
-    "show_in_menus": true,
-    "search_description": "",
-    "go_live_at": null,
-    "expire_at": null,
-    "expired": false,
-    "locked": false,
-    "first_published_at": "2016-10-23T20:21:32.066Z",
-    "latest_revision_created_at": "2016-10-27T14:26:11.631Z"
-  }
-},
-{
-  "model": "wagtailcore.page",
-  "pk": 7,
-  "fields": {
-    "path": "0001000200020001",
-    "depth": 4,
-    "numchild": 0,
-    "title": "Centrale solaire \u00e0 Bokhol au S\u00e9n\u00e9gal : une grande premi\u00e8re en Afrique de l\u2019ouest",
-    "slug": "test",
-    "content_type": [
-      "puput",
-      "entrypage"
-    ],
-    "live": true,
-    "has_unpublished_changes": false,
-    "url_path": "/sira/news/test/",
-    "owner": [
-      "admin"
-    ],
-    "seo_title": "",
-    "show_in_menus": false,
-    "search_description": "",
-    "go_live_at": null,
-    "expire_at": null,
-    "expired": false,
-    "locked": false,
-    "first_published_at": "2016-10-23T21:09:21.800Z",
-    "latest_revision_created_at": "2016-10-25T21:42:08.643Z"
-  }
-},
-{
-  "model": "wagtailcore.page",
-  "pk": 8,
-  "fields": {
-    "path": "0001000200020002",
-    "depth": 4,
-    "numchild": 0,
-    "title": "Terrorisme: Tanor Dieng demande aux chefs d\u2019Etats",
-    "slug": "terrorisme-tanor-dieng-demande-aux-chefs-detats-du-s\u00e9n\u00e9gal-et-du-mali-de-serrer-les-coudes",
-    "content_type": [
-      "puput",
-      "entrypage"
-    ],
-    "live": true,
-    "has_unpublished_changes": false,
-    "url_path": "/sira/news/terrorisme-tanor-dieng-demande-aux-chefs-detats-du-s\u00e9n\u00e9gal-et-du-mali-de-serrer-les-coudes/",
-    "owner": [
-      "admin"
-    ],
-    "seo_title": "",
-    "show_in_menus": false,
-    "search_description": "",
-    "go_live_at": null,
-    "expire_at": null,
-    "expired": false,
-    "locked": false,
-    "first_published_at": "2016-10-25T21:44:19.348Z",
-    "latest_revision_created_at": "2016-10-25T21:48:01.976Z"
-  }
-},
-{
-  "model": "wagtaildocs.document",
-  "pk": 1,
-  "fields": {
-    "collection": 1,
-    "title": "Installation des membres du bureau de la chambre des m\u00e9tiers de S\u00e9dhiou",
-    "file": "documents/lettre_1219_GR_SDH_AA_05_07_2016_DiUHuVX.pdf",
-    "created_at": "2016-10-06T15:41:05.292Z",
-    "uploaded_by_user": [
-      "admin"
-    ]
-  }
-},
-{
-  "model": "wagtaildocs.document",
-  "pk": 2,
-  "fields": {
-    "collection": 1,
-    "title": "Installation des membres du bureau des AG des Chambres des m\u00e9tiers",
-    "file": "documents/lettre_129_GR_KDG_14_07_2016_3sjzGIU.pdf",
-    "created_at": "2016-10-06T15:43:56.637Z",
-    "uploaded_by_user": [
-      "admin"
-    ]
-  }
-},
-{
-  "model": "wagtaildocs.document",
-  "pk": 3,
-  "fields": {
-    "collection": 1,
-    "title": "Proc\u00e8s verbal d'\u00e9lections des membres du bureau de la Chambre des m\u00e9tiers",
-    "file": "documents/lettre_1646_GRD_AD_11_07_2016_Jthdi0G.pdf",
-    "created_at": "2016-10-06T15:45:43.649Z",
-    "uploaded_by_user": [
-      "admin"
-    ]
-  }
-},
-{
-  "model": "wagtaildocs.document",
-  "pk": 4,
-  "fields": {
-    "collection": 1,
-    "title": "PV assembl\u00e9e g\u00e9n\u00e9rale d'\u00e9lection des membres du bureau",
-    "file": "documents/pv_ag_N01_02_07_2016_PnDZUrP.pdf",
-    "created_at": "2016-10-06T15:48:02.762Z",
-    "uploaded_by_user": [
-      "admin"
-    ]
-  }
-}
 ]
