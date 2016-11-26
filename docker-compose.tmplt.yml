@@ -44,8 +44,12 @@ services:
       - $LOG_DIR/nginx:/var/log/nginx
     volumes_from:
       - sira
+    depends_on:
+      - sira
+      - grafana
     links:
       - sira:web
+      - grafana:monitoring
     networks:
       - back-tier
       - front-tier
@@ -156,6 +160,8 @@ services:
     image: grafana/grafana
     depends_on:
       - prometheus
+    expose:
+      - 3000
     ports:
       - 3000:3000
     volumes:
@@ -165,4 +171,3 @@ services:
       - GF_USERS_ALLOW_SIGN_UP
     networks:
       - back-tier
-      - front-tier
