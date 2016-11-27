@@ -6,5 +6,6 @@
         'render-height': 300
     };
     _package("com.botilab.components.list").genericListComponentInit("images", "/api/v2/images", "image", "items",
-                                                                     thumbnailComponent, 3, 9, renderParams, listElementsComponent,6);
+                                                                     thumbnailComponent, 3, 9, renderParams,
+                                                                     listElementsComponent,6);
 })();

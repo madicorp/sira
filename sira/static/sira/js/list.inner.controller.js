@@ -21,6 +21,7 @@
         this.next = next;
         this.prev = prev;
         this.filter = filter;
+        this.reset = reset;
         this.setTagState = setTagState;
         this.getTagState = getTagState;
         this.nullNorUndefined = nullOrUndefined;
@@ -61,8 +62,13 @@
             to(vm.currentPage() - 1, vm.filterValue())
         }
 
-        function filter(value) {
-            to(0, value);
+        function filter(value, activeTags) {
+            to(0, value, activeTags);
+        }
+
+        function reset() {
+            vm.tagActiveStates({});
+            to(0, undefined);
         }
 
         function nullOrUndefined(obj) {

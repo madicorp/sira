@@ -157,6 +157,8 @@
 
 .post-title h4 {
     height: 6em;
+    overflow: auto;
+    word-wrap: break-word;
 }
 
 .disabled {
@@ -389,4 +391,12 @@ section:nth-of-type(even) {
 
 .hover-state .align-vertical {
     padding-top: 100px;
+}
+
+.comment-form .input-group-btn button {
+    min-width: 4em;
+}
+
+.comment-form .input-group-btn button i.glyphicon {
+    padding-left: 3px;
 }

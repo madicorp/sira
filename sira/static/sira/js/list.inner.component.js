@@ -51,16 +51,13 @@
                             m(".sidebar-widget", [
                                 m("h5.widget-title"),
                                 m("form.comment-form", {
-                                    onsubmit: function (e) {
-                                        var query = e.target.querySelector('#search').value;
-                                        ctrl.filter(query || "");
-                                        return false;
-                                    }
+                                    onsubmit: filterResults
                                 }, [
                                       m(".input-group", [
                                           filterItem(),
-                                          m(".input-group-addon", [
-                                              m("i.glyphicon.glyphicon-search")
+                                          m("span.input-group-btn", [
+                                              actionButtonItem("glyphicon-search", filterResults),
+                                              actionButtonItem("glyphicon-remove", ctrl.reset),
                                           ])
                                       ])
                                   ])
@@ -71,6 +68,12 @@
             ];
         }
 
+        function filterResults() {
+            var query = document.querySelector('#search').value;
+            ctrl.filter(query || "");
+            return false;
+        }
+
         function filterItem() {
             var filterInputSelector = "input.form-control[id=search][type=text][placeholder='Recherche...']";
             var filterValue = ctrl.vm.filterValue();
@@ -78,6 +81,16 @@
                 filterInputSelector += "[value='" + filterValue + "']";
             }
             return m(filterInputSelector);
+        }
+
+        function actionButtonItem(iconClass, onClick) {
+
+            return m("button.btn.btn-default", {
+                type: "button",
+                onclick: onClick,
+            }, [
+                         m("i.glyphicon." + iconClass)
+                     ])
         }
 
 
