@@ -18,7 +18,7 @@ from wagtail.wagtailimages.models import Image
 from wagtail.wagtailimages.views.serve import generate_signature
 from wagtailmedia.models import Media
 from django.utils.decorators import decorator_from_middleware
-from logger.apiLogger import ApiLoggerMiddleware
+from sira.logger.apiLogger import ApiLoggerMiddleware
 
 
 class DocumentAbsoluteDownloadUrlField(DocumentDownloadUrlField):
