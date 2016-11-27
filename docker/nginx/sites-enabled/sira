@@ -1,40 +1,23 @@
 server {
-    listen 80;
-    listen [::]:80;
-
     server_name localhost;
-    charset utf-8;
 
-    location /static {
-        alias /usr/src/sira/static;
-    }
-
-    location /media {
-        alias /www/media;
-    }
-
-    location / {
-        proxy_pass http://web:8000;
-        client_max_body_size 20M;
-        proxy_set_header Host sira.gouv.sn;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        access_log /var/log/nginx/proxy-access.log upstreamlog;
-    }
+    include /etc/nginx/shared_conf/sira_proxy.conf;
 }
 
 server {
-    listen 80;
-    listen [::]:80;
+    server_name sira.gouv.sn;
 
+    include /etc/nginx/shared_conf/sira_proxy.conf;
+}
+
+server {
     server_name monitoring.localhost;
-    charset utf-8;
 
-    location / {
-        proxy_pass http://monitoring:3000/;
-        proxy_set_header Host monitoring.sira.gouv.sn;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        access_log /var/log/nginx/proxy-access.log upstreamlog;
-    }
+    include /etc/nginx/shared_conf/monitoring_sira_proxy.conf;
+}
+
+server {
+    server_name monitoring.sira.gouv.sn;
+
+    include /etc/nginx/shared_conf/monitoring_sira_proxy.conf;
 }
