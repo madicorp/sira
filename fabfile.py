@@ -253,13 +253,13 @@ def _push_deployment_assets(version, force_image_build, include_media, push_loca
 
 
 def _launch_app(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
-                contact_email_password, env, push_local_image, log_dir):
+                contact_email_password, sira_admin_pwd, env, push_local_image, log_dir):
     with shell_env(VERSION=version, POSTGRES_USER=postgres_user, POSTGRES_PASSWORD=postgres_password,
                    SECRET_KEY=secret_key, DJANGO_SETTINGS_MODULE=_get_django_settings_module(env),
                    GF_USERS_ALLOW_SIGN_UP='false', GF_SECURITY_ADMIN_PASSWORD=monitor_admin_pwd,
                    SMTP_ENABLED='true', SMTP_TO=contact_email, SMTP_FROM=contact_email,
                    SMTP_AUTH_USERNAME=contact_email, SMTP_AUTH_PASSWORD=contact_email_password,
-                   LOG_DIR=log_dir):
+                   LOG_DIR=log_dir, ADMIN_PASSWORD=sira_admin_pwd, ADMIN_EMAIL=contact_email):
         mv_to_sira_app_dir = 'cd {}'.format(_remote_sira_app_dir)
         build_app_cmd = 'docker-compose build'
         launch_app_cmd = 'docker-compose up -d'
@@ -314,10 +314,11 @@ def install_docker_images():
 
 # TODO ADMIN_EMAIL, ADMIN_PASSWORD
 def deploy(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
-           contact_email_password, env='prod', force_image_build=False, include_media=False, push_local_image=True,
-           log_dir='/var/log'):
+           contact_email_password, sira_admin_pwd, env='prod', force_image_build=False, include_media=False,
+           push_local_image=True, log_dir='/var/log'):
     """
     create tag and deploy application to server
+    :param sira_admin_pwd: The application admin password
     :param log_dir: the dir to use for logs
     :param monitor_admin_pwd: the admin pwd for grafana
     :param contact_email: the email address used for alerts
@@ -339,7 +340,7 @@ def deploy(version, postgres_user, postgres_password, secret_key, monitor_admin_
     _push_deployment_assets(version, force_image_build, include_media, push_local_image)
 
     _launch_app(version, postgres_user, postgres_password, secret_key, monitor_admin_pwd, contact_email,
-                contact_email_password, env, push_local_image, log_dir)
+                contact_email_password, sira_admin_pwd, env, push_local_image, log_dir)
 
 
 def local_docker_compose(version, postgres_user='admin', postgres_password='changeme', secret_key='secret_key',
