@@ -61,4 +61,6 @@ Media.admin_form_fields = [
 
 @receiver(signal=pre_save, sender=Media, dispatch_uid="set_default_duration_id")
 def set_default_duration_id(sender, **kwargs):
-    kwargs.get("instance").duration = 0
+    media = kwargs.get("instance")
+    if not media.duration:
+        media.duration = 0

@@ -206,6 +206,7 @@ def _set_video_duration_and_thumbnail(video):
     video.duration = clip.duration
     clip.save_frame(os.path.join(settings.MEDIA_ROOT, thumbnail))
     video.thumbnail = thumbnail
+    print('duration', video.duration)
     video.save()
 
 
