@@ -36,8 +36,17 @@
                     <form name="search_form" method="get" action="{% routablepageurl blog_page "entries_search" %}"
                           class="comment-form">
                         <div class="input-group">
-                            <input type="text" name="q" placeholder="Rechercher" class="form-control">
-                            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+                            <input id="search" name="q" type="text" placeholder="Recherche..." class="form-control">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    <span class="text">Recherche</span>
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                    <span class="text">Effacer</span>
+                                </button>
+                            </span>
                         </div>
                     </form>
                 </div>
@@ -78,3 +87,6 @@
         {% include "sira/includes/news_pagination.html" %}
     {% endwith %}
 {% endblock content %}
+{% block extra_js %}
+    <script type="text/javascript" src="{% static "sira/js/newsPage.js" %}"></script>
+{% endblock extra_js%}

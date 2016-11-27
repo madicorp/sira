@@ -11,10 +11,10 @@
 
     <title>
         {% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}{% endblock %}
-        {% block title_postfix %} - SIRA{% endblock %}</title>
-
+        {% block title_postfix %} - SIRA{% endblock %}
+    </title>
     <meta name="description" content="{% if self.search_description %}{{ self.search_description }}{% endif %}">
-
+    {% block social_share %}{% endblock %}
     {# External stylesheets #}
     <link rel="stylesheet" href="{% static "sira/css/vendor/bootstrap.3.3.2.min.css" %}"/>
     <link rel="stylesheet" href="{% static "sira/css/vendor/magnific-popup.css" %}"/>

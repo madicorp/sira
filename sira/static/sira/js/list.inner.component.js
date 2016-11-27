@@ -53,14 +53,14 @@
                                 m("form.comment-form", {
                                     onsubmit: filterResults
                                 }, [
-                                      m(".input-group", [
-                                          filterItem(),
-                                          m("span.input-group-btn", [
-                                              actionButtonItem("glyphicon-search", filterResults),
-                                              actionButtonItem("glyphicon-remove", ctrl.reset),
-                                          ])
-                                      ])
-                                  ])
+                                    m(".input-group", [
+                                        filterItem(),
+                                        m("span.input-group-btn", [
+                                            actionButtonItem("glyphicon-search", filterResults, "Recherche"),
+                                            actionButtonItem("glyphicon-remove", ctrl.reset, "Effacer")
+                                        ])
+                                    ])
+                                ])
                             ])
                         ])
                     ])
@@ -83,14 +83,16 @@
             return m(filterInputSelector);
         }
 
-        function actionButtonItem(iconClass, onClick) {
+        function actionButtonItem(iconClass, onClick, text) {
 
             return m("button.btn.btn-default", {
                 type: "button",
-                onclick: onClick,
+                onclick: onClick
             }, [
-                         m("i.glyphicon." + iconClass)
-                     ])
+
+                m("i.glyphicon." + iconClass),
+                m("span.text", text)
+            ])
         }
 
 
@@ -124,12 +126,12 @@
                 nextItemElt += ".disabled";
             }
             return m(nextItemElt, {
-                         onclick: noScrollAnchorCurry(ctrl.prev)
-                     },
-                     m("a[href='#']", [
-                           "<"
-                       ]
-                     )
+                    onclick: noScrollAnchorCurry(ctrl.prev)
+                },
+                m("a[href='#']", [
+                        "<"
+                    ]
+                )
             );
         }
 
@@ -139,12 +141,12 @@
                 nextItemElt += ".disabled";
             }
             return m(nextItemElt, {
-                         onclick: noScrollAnchorCurry(ctrl.next)
-                     },
-                     m("a[href='#']", [
-                           ">"
-                       ]
-                     )
+                    onclick: noScrollAnchorCurry(ctrl.next)
+                },
+                m("a[href='#']", [
+                        ">"
+                    ]
+                )
             );
         }
 
@@ -158,11 +160,11 @@
                 paginationElt += ".active";
             }
             return m(paginationElt, {
-                         onclick: noScrollAnchorCurry(function () {
-                             ctrl.to(pageIdx, ctrl.vm.filterValue());
-                         })
-                     },
-                     m("a[href='#']", "" + (pageIdx + 1))
+                    onclick: noScrollAnchorCurry(function () {
+                        ctrl.to(pageIdx, ctrl.vm.filterValue());
+                    })
+                },
+                m("a[href='#']", "" + (pageIdx + 1))
             );
         }
     }

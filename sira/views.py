@@ -17,6 +17,8 @@ from wagtail.wagtailimages.api.v2.serializers import ImageSerializer
 from wagtail.wagtailimages.models import Image
 from wagtail.wagtailimages.views.serve import generate_signature
 from wagtailmedia.models import Media
+from django.utils.decorators import decorator_from_middleware
+from logger.apiLogger import ApiLoggerMiddleware
 
 
 class DocumentAbsoluteDownloadUrlField(DocumentDownloadUrlField):
@@ -99,6 +101,7 @@ class ImagesExtraFieldsAPIEndpoint(ImagesAPIEndpoint):
     ]
 
 
+@decorator_from_middleware(ApiLoggerMiddleware)
 @api_view(['GET'])
 def tags_endpoint(request):
     if 'GET' == request.method:
@@ -120,6 +123,7 @@ def get_tags(type=None):
     return [tag.name for tag in query_set]
 
 
+@decorator_from_middleware(ApiLoggerMiddleware)
 @api_view(['GET'])
 def videos_endpoint(request):
     if 'GET' == request.method:
@@ -182,7 +186,7 @@ def _get_video_view(video):
         'SELECT DISTINCT tag.* FROM taggit_tag AS tag ' \
         'INNER JOIN taggit_taggeditem AS tti ON tag.id = tti.tag_id AND tti.object_id={} ' \
         'INNER JOIN django_content_type AS ct on tti.content_type_id = ct.id AND app_label=\'{}\' AND ct.model=\'{}\'' \
-        .format(video.id, 'wagtailmedia', 'media')
+            .format(video.id, 'wagtailmedia', 'media')
     video_tags = [tag.name for tag in Tag.objects.raw(query)]
     return {
         'id': video.id,

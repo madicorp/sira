@@ -77,7 +77,7 @@
 }
 
 .item-inner .sidebar-widget .tags li {
-    margin: 15px 8px 8px 0;
+    margin: 0 8px 8px 0;
 }
 
 .item-inner .sidebar-widget {
@@ -157,7 +157,7 @@
 
 .post-title h4 {
     height: 6em;
-    overflow: auto;
+    overflow: hidden;
     word-wrap: break-word;
 }
 
@@ -278,34 +278,37 @@ section.pagination-block, .search-box {
 }
 
 .item-inner .thumbnail {
-    height: 70px;
+    height: 10%;
     line-height: 70px;
 }
 
+/*
 @media (min-width: 768px) {
-    /* sm device */
-    .item-inner .thumbnail {
-        height: 100px;
-        line-height: 100px;
-    }
+ sm device
+  .item-inner .thumbnail {
+      height: 100px;
+      line-height: 100px;
+  }
 }
-
+*/
+/*
 @media (min-width: 992px) {
-    /* md device */
+     md device
     .item-inner .thumbnail {
         height: 120px;
         line-height: 120px;
     }
 }
-
+*/
+/*
 @media (min-width: 1200px) {
-    /* md device */
+     md device
     .item-inner .thumbnail {
         height: 180px;
         line-height: 180px;
     }
 }
-
+*/
 .page-header {
     padding: 100px 0;
 }
@@ -399,4 +402,28 @@ section:nth-of-type(even) {
 
 .comment-form .input-group-btn button i.glyphicon {
     padding-left: 3px;
+    padding-right: 5px;
+}
+
+.comment-form .input-group-btn button span.text {
+    display: none;
+    -webkit-transition: all  .35s ease;
+    -moz-transition: all  .35s ease;
+    -ms-transition: all  .35s ease;
+    -o-transition: all  355s ease;
+    transition: all  .35s ease;
+    color: #ffffff;
+}
+
+.comment-form .input-group-btn button:hover span.text {
+    display: inherit;
+    color: #ffffff;
+}
+
+.comment-form .input-group{
+    display: flex;
+}
+footer {
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
