@@ -146,7 +146,7 @@
             }
             return m(paginationElt, {
                          onclick: noScrollAnchorCurry(function () {
-                             ctrl.to(pageIdx);
+                             ctrl.to(pageIdx, ctrl.vm.filterValue());
                          })
                      },
                      m("a[href='#']", "" + (pageIdx + 1))

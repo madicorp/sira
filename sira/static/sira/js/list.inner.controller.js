@@ -51,14 +51,14 @@
             if (!hasNext()) {
                 return;
             }
-            to(vm.currentPage() + 1)
+            to(vm.currentPage() + 1, vm.filterValue())
         }
 
         function prev() {
             if (!hasPrev()) {
                 return;
             }
-            to(vm.currentPage() - 1)
+            to(vm.currentPage() - 1, vm.filterValue())
         }
 
         function filter(value) {
@@ -94,8 +94,6 @@
             if (fromBrowserHistory) {
                 // reinit tag active states
                 vm.tagActiveStates({});
-            } else {
-                filterValue = filterValue || vm.filterValue();
             }
             if (_nonEmptyArray(activeTags)) {
                 activeTags.forEach(function activateTag(tagName) {
