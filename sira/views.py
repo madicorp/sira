@@ -1,5 +1,6 @@
 import os
 
+from django.conf import settings
 from django.urls import reverse
 from django.utils.html import escape
 from moviepy.editor import *
@@ -181,12 +182,12 @@ def _get_video_view(video):
         'SELECT DISTINCT tag.* FROM taggit_tag AS tag ' \
         'INNER JOIN taggit_taggeditem AS tti ON tag.id = tti.tag_id AND tti.object_id={} ' \
         'INNER JOIN django_content_type AS ct on tti.content_type_id = ct.id AND app_label=\'{}\' AND ct.model=\'{}\'' \
-            .format(video.id, 'wagtailmedia', 'media')
+        .format(video.id, 'wagtailmedia', 'media')
     video_tags = [tag.name for tag in Tag.objects.raw(query)]
     return {
         'id': video.id,
         'meta': {
-            'thumbnail': video.thumbnail,
+            'thumbnail': '/media/' + str(video.thumbnail),
             'download_url': '/media/' + str(video.file),
             'extension': get_file_field_ext(video.file),
             'duration': duration,
@@ -197,12 +198,14 @@ def _get_video_view(video):
 
 
 def _set_video_duration_and_thumbnail(video):
-    thumbnail = "media/images/thumbnail_{}{}.jpg".format(str(video.title).replace(" ", "_").lower(), str(video.id))
-    clip = VideoFileClip(os.path.realpath("media/" + video.file.name))
+    images_dir = os.path.join(settings.MEDIA_ROOT, "images")
+    if not os.path.exists(images_dir):
+        os.makedirs(os.path.join(images_dir))
+    thumbnail = "images/thumbnail_{}{}.jpg".format(str(video.title).replace(" ", "_").lower(), str(video.id))
+    clip = VideoFileClip(os.path.join(settings.MEDIA_ROOT, video.file.name))
     video.duration = clip.duration
-    print("duration", video.duration, os.path.realpath(thumbnail), clip.size)
-    clip.save_frame(os.path.realpath(thumbnail))
-    video.thumbnail = "/" + thumbnail
+    clip.save_frame(os.path.join(settings.MEDIA_ROOT, thumbnail))
+    video.thumbnail = thumbnail
     video.save()
 
 
